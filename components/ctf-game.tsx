@@ -1,214 +1,232 @@
 "use client"
 
 import { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { Shield, Flag, Eye, EyeOff } from "lucide-react"
+import { Label } from "@/components/ui/label"
 
-export default function CTFGame({ isDark }) {
-  const [currentChallenge, setCurrentChallenge] = useState(0)
+interface CTFGameProps {
+  isDark: boolean
+}
+
+interface Challenge {
+  id: number
+  title: string
+  description: string
+  hint: string
+  flag: string
+  points: number
+  solved: boolean
+}
+
+export default function CTFGame({ isDark }: CTFGameProps) {
+  const [selectedChallenge, setSelectedChallenge] = useState<number>(1)
   const [userInput, setUserInput] = useState("")
-  const [showHint, setShowHint] = useState(false)
-  const [completedChallenges, setCompletedChallenges] = useState([])
-  const [gameComplete, setGameComplete] = useState(false)
+  const [score, setScore] = useState(0)
+  const [message, setMessage] = useState("")
 
-  const challenges = [
+  const [challenges, setChallenges] = useState<Challenge[]>([
     {
       id: 1,
       title: "Base64 Decoder",
-      description: "Decode this message: TjFjaHQgaXMgYXdlc29tZQ==",
-      answer: "n1cht is awesome",
-      hint: "This looks like Base64 encoding. Try decoding it!",
+      description: "Decode this Base64 string: TjFjaHRfSXNfQXdlc29tZQ==",
+      hint: "Use any Base64 decoder or command line tool",
+      flag: "N1cht_Is_Awesome",
       points: 100,
+      solved: false,
     },
     {
       id: 2,
       title: "Caesar Cipher",
-      description: "Shift this message by 13: NPUUG JBEYQ",
-      answer: "achraf lemrani",
-      hint: "ROT13 cipher - each letter is shifted by 13 positions in the alphabet.",
+      description: "Decrypt this Caesar cipher (shift 13): Npugs_Vf_Gur_Orfg",
+      hint: "ROT13 is a common Caesar cipher variant",
+      flag: "Achraf_Is_The_Best",
       points: 150,
+      solved: false,
     },
     {
       id: 3,
-      title: "Hidden in Plain Sight",
-      description: "Find the flag in this text: 'The N1cht{h4ck3r_m1nd} portfolio is amazing!'",
-      answer: "N1cht{h4ck3r_m1nd}",
-      hint: "Look for text between curly braces with the N1cht prefix.",
+      title: "Hidden Message",
+      description: "Find the hidden flag in this HTML comment: <!-- ZmxhZ3tIaWRkZW5fSW5fUGxhaW5fU2lnaHR9 -->",
+      hint: "The comment contains Base64 encoded text",
+      flag: "flag{Hidden_In_Plain_Sight}",
       points: 200,
+      solved: false,
     },
     {
       id: 4,
-      title: "Binary Message",
-      description: "Convert from binary: 01001000 01100001 01100011 01101011",
-      answer: "hack",
-      hint: "Each group of 8 bits represents one ASCII character.",
+      title: "Binary Challenge",
+      description: "Convert this binary to text: 01001000 01100001 01100011 01101011 01100101 01110010",
+      hint: "Each group of 8 bits represents one ASCII character",
+      flag: "Hacker",
       points: 250,
+      solved: false,
     },
     {
       id: 5,
-      title: "Final Challenge",
-      description: "What's the admin password for this portfolio? (Hint: It's in German)",
-      answer: "nacht faust",
-      hint: "Think about N1cht's alias and what it means in German...",
+      title: "Reverse Engineering",
+      description: "What does this JavaScript code output? btoa('N1cht_Portfolio')",
+      hint: "btoa() is a JavaScript function for encoding",
+      flag: "TjFjaHRfUG9ydGZvbGlv",
       points: 300,
+      solved: false,
     },
-  ]
+  ])
 
   const handleSubmit = () => {
-    const challenge = challenges[currentChallenge]
-    if (userInput.toLowerCase().trim() === challenge.answer.toLowerCase()) {
-      setCompletedChallenges((prev) => [...prev, challenge.id])
+    const challenge = challenges.find((c) => c.id === selectedChallenge)
+    if (!challenge) return
 
-      if (currentChallenge === challenges.length - 1) {
-        setGameComplete(true)
+    if (userInput.trim().toLowerCase() === challenge.flag.toLowerCase()) {
+      if (!challenge.solved) {
+        const updatedChallenges = challenges.map((c) => (c.id === selectedChallenge ? { ...c, solved: true } : c))
+        setChallenges(updatedChallenges)
+        setScore(score + challenge.points)
+        setMessage(`🎉 Correct! You earned ${challenge.points} points!`)
       } else {
-        setCurrentChallenge((prev) => prev + 1)
+        setMessage("✅ Already solved!")
       }
-
-      setUserInput("")
-      setShowHint(false)
     } else {
-      alert("Incorrect! Try again or check the hint.")
+      setMessage("❌ Incorrect flag. Try again!")
     }
-  }
-
-  const resetGame = () => {
-    setCurrentChallenge(0)
     setUserInput("")
-    setShowHint(false)
-    setCompletedChallenges([])
-    setGameComplete(false)
   }
 
-  const totalPoints = completedChallenges.reduce((sum, id) => {
-    const challenge = challenges.find((c) => c.id === id)
-    return sum + (challenge?.points || 0)
-  }, 0)
-
-  if (gameComplete) {
-    return (
-      <Card
-        className={`max-w-2xl mx-auto ${isDark ? "bg-black/50 border-purple-500/30" : "bg-white/50 border-cyan-500/30"}`}
-      >
-        <CardHeader>
-          <CardTitle className={`text-center ${isDark ? "text-purple-300" : "text-cyan-600"}`}>
-            🎉 Congratulations, Hacker! 🎉
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="text-center space-y-4">
-          <div className={`text-6xl mb-4 ${isDark ? "text-purple-400" : "text-cyan-500"}`}>
-            <Flag className="h-16 w-16 mx-auto" />
-          </div>
-          <h3 className={`text-2xl font-bold ${isDark ? "text-purple-300" : "text-cyan-600"}`}>Mission Complete!</h3>
-          <p className="text-lg">
-            You've successfully completed all challenges and earned{" "}
-            <span className="font-bold text-green-400">{totalPoints} points</span>!
-          </p>
-          <p className="text-sm text-gray-400">
-            You've proven your hacking skills worthy of N1cht's respect. Welcome to the elite circle! 🔥
-          </p>
-          <Button
-            onClick={resetGame}
-            className={`${isDark ? "bg-purple-500 hover:bg-purple-600" : "bg-cyan-500 hover:bg-cyan-600"}`}
-          >
-            Play Again
-          </Button>
-        </CardContent>
-      </Card>
-    )
-  }
-
-  const challenge = challenges[currentChallenge]
+  const currentChallenge = challenges.find((c) => c.id === selectedChallenge)
+  const totalSolved = challenges.filter((c) => c.solved).length
 
   return (
-    <Card
-      className={`max-w-2xl mx-auto ${isDark ? "bg-black/50 border-purple-500/30" : "bg-white/50 border-cyan-500/30"}`}
-    >
-      <CardHeader>
-        <CardTitle className={`flex items-center gap-2 ${isDark ? "text-purple-300" : "text-cyan-600"}`}>
-          <Shield className="h-6 w-6" />
-          Hack Me - Mini CTF Challenge
-        </CardTitle>
-        <div className="flex justify-between text-sm text-gray-400">
-          <span>
-            Challenge {currentChallenge + 1} of {challenges.length}
-          </span>
-          <span>Points: {totalPoints}</span>
-        </div>
-      </CardHeader>
-      <CardContent className="space-y-4">
-        {/* Progress Bar */}
-        <div className={`w-full bg-gray-700 rounded-full h-2 ${isDark ? "bg-purple-900/30" : "bg-cyan-900/30"}`}>
-          <div
-            className={`h-2 rounded-full transition-all duration-300 ${isDark ? "bg-purple-500" : "bg-cyan-500"}`}
-            style={{ width: `${((currentChallenge + 1) / challenges.length) * 100}%` }}
-          />
-        </div>
-
-        {/* Challenge */}
-        <div className={`p-4 rounded-lg ${isDark ? "bg-purple-900/20" : "bg-cyan-900/20"}`}>
-          <h3 className={`text-lg font-bold mb-2 ${isDark ? "text-purple-300" : "text-cyan-600"}`}>
-            {challenge.title}
-          </h3>
-          <p className="text-gray-300 mb-4">{challenge.description}</p>
-          <div className="flex gap-2">
-            <Input
-              value={userInput}
-              onChange={(e) => setUserInput(e.target.value)}
-              placeholder="Enter your answer..."
-              className={`flex-1 ${isDark ? "border-purple-500/50" : "border-cyan-500/50"}`}
-              onKeyPress={(e) => e.key === "Enter" && handleSubmit()}
-            />
-            <Button
-              onClick={handleSubmit}
-              className={`${isDark ? "bg-purple-500 hover:bg-purple-600" : "bg-cyan-500 hover:bg-cyan-600"}`}
-            >
-              Submit
-            </Button>
-          </div>
-        </div>
-
-        {/* Hint */}
-        <div className="flex items-center gap-2">
-          <Button
-            onClick={() => setShowHint(!showHint)}
-            variant="outline"
-            size="sm"
-            className={`${isDark ? "border-purple-500/50 hover:bg-purple-500/20" : "border-cyan-500/50 hover:bg-cyan-500/20"}`}
-          >
-            {showHint ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-            {showHint ? "Hide Hint" : "Show Hint"}
-          </Button>
-          <span className="text-sm text-gray-400">Worth {challenge.points} points</span>
-        </div>
-
-        {showHint && (
-          <div
-            className={`p-3 rounded-lg border-l-4 ${isDark ? "bg-yellow-900/20 border-yellow-500" : "bg-yellow-100/20 border-yellow-600"}`}
-          >
-            <p className="text-sm text-yellow-300">{challenge.hint}</p>
-          </div>
-        )}
-
-        {/* Completed Challenges */}
-        {completedChallenges.length > 0 && (
-          <div className={`p-3 rounded-lg ${isDark ? "bg-green-900/20" : "bg-green-100/20"}`}>
-            <h4 className="text-sm font-bold text-green-400 mb-2">Completed Challenges:</h4>
-            <div className="flex flex-wrap gap-2">
-              {completedChallenges.map((id) => {
-                const completedChallenge = challenges.find((c) => c.id === id)
-                return (
-                  <span key={id} className="px-2 py-1 bg-green-500/20 text-green-300 rounded text-xs">
-                    {completedChallenge?.title} (+{completedChallenge?.points}pts)
-                  </span>
-                )
-              })}
+    <div className="w-full max-w-4xl mx-auto space-y-6">
+      {/* Score Board */}
+      <Card className={`${isDark ? "bg-black/50 border-purple-500/30" : "bg-white/50 border-cyan-500/30"}`}>
+        <CardContent className="p-4">
+          <div className="flex justify-between items-center">
+            <div className={`font-rajdhani text-lg ${isDark ? "text-purple-300" : "text-cyan-600"}`}>
+              Score: {score} points
+            </div>
+            <div className={`font-rajdhani text-lg ${isDark ? "text-purple-300" : "text-cyan-600"}`}>
+              Solved: {totalSolved}/{challenges.length}
             </div>
           </div>
-        )}
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+
+      <div className="grid md:grid-cols-2 gap-6">
+        {/* Challenge List */}
+        <Card className={`${isDark ? "bg-black/50 border-purple-500/30" : "bg-white/50 border-cyan-500/30"}`}>
+          <CardHeader>
+            <CardTitle className={`font-rajdhani ${isDark ? "text-purple-300" : "text-cyan-600"}`}>
+              Challenges
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-2">
+            {challenges.map((challenge) => (
+              <Button
+                key={challenge.id}
+                onClick={() => setSelectedChallenge(challenge.id)}
+                variant={selectedChallenge === challenge.id ? "default" : "outline"}
+                className={`w-full justify-between ${
+                  selectedChallenge === challenge.id
+                    ? isDark
+                      ? "bg-purple-500 hover:bg-purple-600"
+                      : "bg-cyan-500 hover:bg-cyan-600"
+                    : isDark
+                      ? "border-purple-500/50 hover:bg-purple-500/20"
+                      : "border-cyan-500/50 hover:bg-cyan-500/20"
+                }`}
+              >
+                <span className={`${challenge.solved ? "line-through" : ""}`}>{challenge.title}</span>
+                <div className="flex items-center gap-2">
+                  {challenge.solved && <span>✅</span>}
+                  <span className="text-sm">{challenge.points}pts</span>
+                </div>
+              </Button>
+            ))}
+          </CardContent>
+        </Card>
+
+        {/* Challenge Details */}
+        <Card className={`${isDark ? "bg-black/50 border-purple-500/30" : "bg-white/50 border-cyan-500/30"}`}>
+          <CardHeader>
+            <CardTitle className={`font-rajdhani ${isDark ? "text-purple-300" : "text-cyan-600"}`}>
+              {currentChallenge?.title}
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div>
+              <Label className="font-exo font-semibold">Description:</Label>
+              <p className="font-exo text-sm mt-1 p-3 rounded bg-gray-100 dark:bg-gray-800">
+                {currentChallenge?.description}
+              </p>
+            </div>
+
+            <div>
+              <Label className="font-exo font-semibold">Hint:</Label>
+              <p
+                className={`font-exo text-sm mt-1 p-3 rounded ${isDark ? "bg-purple-900/20 text-purple-200" : "bg-cyan-900/20 text-cyan-700"}`}
+              >
+                💡 {currentChallenge?.hint}
+              </p>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="flag-input" className="font-exo font-semibold">
+                Enter Flag:
+              </Label>
+              <div className="flex gap-2">
+                <Input
+                  id="flag-input"
+                  value={userInput}
+                  onChange={(e) => setUserInput(e.target.value)}
+                  placeholder="Enter your answer here..."
+                  className={`${isDark ? "border-purple-500/50" : "border-cyan-500/50"}`}
+                  onKeyPress={(e) => {
+                    if (e.key === "Enter") {
+                      handleSubmit()
+                    }
+                  }}
+                />
+                <Button
+                  onClick={handleSubmit}
+                  className={`${isDark ? "bg-purple-500 hover:bg-purple-600" : "bg-cyan-500 hover:bg-cyan-600"}`}
+                >
+                  Submit
+                </Button>
+              </div>
+            </div>
+
+            {message && (
+              <div
+                className={`p-3 rounded font-exo text-sm ${
+                  message.includes("Correct") || message.includes("solved")
+                    ? "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-300"
+                    : "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-300"
+                }`}
+              >
+                {message}
+              </div>
+            )}
+
+            <div className={`text-right font-exo text-sm ${isDark ? "text-purple-300" : "text-cyan-600"}`}>
+              Points: {currentChallenge?.points}
+              {currentChallenge?.solved && " ✅ Solved"}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Progress */}
+      {totalSolved === challenges.length && (
+        <Card className={`${isDark ? "bg-green-900/20 border-green-500/30" : "bg-green-100 border-green-500/30"}`}>
+          <CardContent className="p-6 text-center">
+            <h3 className="text-2xl font-bold font-rajdhani text-green-600 mb-2">🎉 Congratulations! 🎉</h3>
+            <p className="font-exo text-green-700 dark:text-green-300">
+              You've completed all challenges with a total score of {score} points!
+            </p>
+          </CardContent>
+        </Card>
+      )}
+    </div>
   )
 }

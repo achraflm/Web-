@@ -6,78 +6,83 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 
-export default function Chatbot({ isDark }) {
+interface Message {
+  id: number
+  text: string
+  isUser: boolean
+  timestamp: Date
+}
+
+interface ChatbotProps {
+  isDark: boolean
+}
+
+export default function Chatbot({ isDark }: ChatbotProps) {
   const [isOpen, setIsOpen] = useState(false)
-  const [messages, setMessages] = useState([
+  const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
-      text: "Hello! I'm N1cht's AI assistant. Ask me anything about his skills, projects, or experience!",
-      isBot: true,
+      text: "Hello! I'm N1cht's AI assistant. How can I help you today?",
+      isUser: false,
+      timestamp: new Date(),
     },
   ])
   const [inputMessage, setInputMessage] = useState("")
 
-  const botResponses = {
-    skills:
-      "N1cht is proficient in Python, JavaScript/TypeScript, React/Next.js, Machine Learning, Cybersecurity, Algorithmic Trading, and Video Editing with After Effects!",
-    projects:
-      "Some of N1cht's notable projects include an AI-Powered Trading Bot, Cybersecurity Dashboard, Data Science Platform, and Video Content Studio.",
-    experience:
-      "N1cht has expertise in multiple domains including algorithmic trading, cybersecurity, data science, and creative design with a focus on innovative solutions.",
-    contact:
-      "You can reach N1cht at achraf.lemrani@gmail.com or through his social media links on GitHub, LinkedIn, and Instagram.",
-    trading:
-      "N1cht specializes in algorithmic trading with advanced machine learning predictions, risk management, and portfolio optimization strategies.",
-    cybersecurity:
-      "N1cht's cybersecurity expertise includes penetration testing, network security, incident response, and compliance with industry standards.",
-    default:
-      "That's an interesting question! N1cht is always exploring new technologies and creative solutions. Feel free to ask about his skills, projects, or experience!",
+  const handleSendMessage = () => {
+    if (inputMessage.trim()) {
+      const newMessage: Message = {
+        id: messages.length + 1,
+        text: inputMessage,
+        isUser: true,
+        timestamp: new Date(),
+      }
+
+      setMessages([...messages, newMessage])
+      setInputMessage("")
+
+      // Simulate AI response
+      setTimeout(() => {
+        const aiResponse: Message = {
+          id: messages.length + 2,
+          text: getAIResponse(inputMessage),
+          isUser: false,
+          timestamp: new Date(),
+        }
+        setMessages((prev) => [...prev, aiResponse])
+      }, 1000)
+    }
   }
 
-  const handleSendMessage = () => {
-    if (!inputMessage.trim()) return
+  const getAIResponse = (message: string): string => {
+    const lowerMessage = message.toLowerCase()
 
-    const userMessage = {
-      id: messages.length + 1,
-      text: inputMessage,
-      isBot: false,
+    if (lowerMessage.includes("skills") || lowerMessage.includes("programming")) {
+      return "N1cht specializes in Python, JavaScript/TypeScript, React/Next.js, machine learning, cybersecurity, and algorithmic trading. He's also skilled in creative design with After Effects and video editing!"
     }
 
-    setMessages((prev) => [...prev, userMessage])
-
-    // Simple keyword-based response
-    const lowerInput = inputMessage.toLowerCase()
-    let response = botResponses.default
-
-    if (lowerInput.includes("skill") || lowerInput.includes("technology")) {
-      response = botResponses.skills
-    } else if (lowerInput.includes("project")) {
-      response = botResponses.projects
-    } else if (lowerInput.includes("experience") || lowerInput.includes("background")) {
-      response = botResponses.experience
-    } else if (lowerInput.includes("contact") || lowerInput.includes("email")) {
-      response = botResponses.contact
-    } else if (lowerInput.includes("trading") || lowerInput.includes("finance")) {
-      response = botResponses.trading
-    } else if (lowerInput.includes("security") || lowerInput.includes("cyber")) {
-      response = botResponses.cybersecurity
+    if (lowerMessage.includes("projects") || lowerMessage.includes("work")) {
+      return "N1cht has worked on various projects including AI-powered trading bots, cybersecurity dashboards, data science platforms, and video content studios. Each project combines technical expertise with creative vision!"
     }
 
-    setTimeout(() => {
-      const botMessage = {
-        id: messages.length + 2,
-        text: response,
-        isBot: true,
-      }
-      setMessages((prev) => [...prev, botMessage])
-    }, 1000)
+    if (lowerMessage.includes("contact") || lowerMessage.includes("email")) {
+      return "You can reach N1cht at achraf.lemrani@gmail.com or connect through his social media links on GitHub, LinkedIn, and Instagram!"
+    }
 
-    setInputMessage("")
+    if (lowerMessage.includes("chess") || lowerMessage.includes("game")) {
+      return "N1cht has built an interactive chess game with AI opponent and a CTF hacking challenge! You can find them in the Games section. Try challenging the AI!"
+    }
+
+    if (lowerMessage.includes("hello") || lowerMessage.includes("hi")) {
+      return "Hello! Welcome to N1cht's portfolio. I'm here to help you learn more about his skills, projects, and experience. What would you like to know?"
+    }
+
+    return "That's an interesting question! N1cht is passionate about combining technology with creativity. Feel free to explore his portfolio sections or ask me about his skills, projects, or how to get in touch!"
   }
 
   return (
     <>
-      {/* Chatbot Toggle Button */}
+      {/* Chat Toggle Button */}
       <Button
         onClick={() => setIsOpen(!isOpen)}
         className={`fixed bottom-6 right-6 z-50 rounded-full w-14 h-14 shadow-lg transition-all duration-300 ${
@@ -89,32 +94,34 @@ export default function Chatbot({ isDark }) {
         {isOpen ? <X className="h-6 w-6" /> : <MessageCircle className="h-6 w-6" />}
       </Button>
 
-      {/* Chatbot Window */}
+      {/* Chat Window */}
       {isOpen && (
         <Card
           className={`fixed bottom-24 right-6 z-50 w-80 h-96 shadow-2xl transition-all duration-300 ${
-            isDark ? "bg-black/90 border-purple-500/50" : "bg-white/90 border-cyan-500/50"
+            isDark
+              ? "bg-black/90 border-purple-500/50 backdrop-blur-sm"
+              : "bg-white/90 border-cyan-500/50 backdrop-blur-sm"
           }`}
         >
           <CardHeader className="pb-2">
-            <CardTitle className={`text-sm ${isDark ? "text-purple-300" : "text-cyan-600"}`}>
-              N1cht's AI Assistant
+            <CardTitle className={`text-lg font-rajdhani ${isDark ? "text-purple-300" : "text-cyan-600"}`}>
+              N1cht Assistant
             </CardTitle>
           </CardHeader>
-          <CardContent className="flex flex-col h-full p-4">
+          <CardContent className="flex flex-col h-full">
             {/* Messages */}
-            <div className="flex-1 overflow-y-auto space-y-2 mb-4">
+            <div className="flex-1 overflow-y-auto space-y-3 mb-4">
               {messages.map((message) => (
-                <div key={message.id} className={`flex ${message.isBot ? "justify-start" : "justify-end"}`}>
+                <div key={message.id} className={`flex ${message.isUser ? "justify-end" : "justify-start"}`}>
                   <div
-                    className={`max-w-[80%] p-2 rounded-lg text-sm ${
-                      message.isBot
+                    className={`max-w-[80%] p-3 rounded-lg text-sm font-exo ${
+                      message.isUser
                         ? isDark
-                          ? "bg-purple-500/20 text-purple-100"
-                          : "bg-cyan-500/20 text-cyan-800"
+                          ? "bg-purple-500 text-white"
+                          : "bg-cyan-500 text-white"
                         : isDark
-                          ? "bg-gray-700 text-white"
-                          : "bg-gray-200 text-gray-800"
+                          ? "bg-gray-800 text-gray-200"
+                          : "bg-gray-100 text-gray-800"
                     }`}
                   >
                     {message.text}
@@ -129,10 +136,12 @@ export default function Chatbot({ isDark }) {
                 value={inputMessage}
                 onChange={(e) => setInputMessage(e.target.value)}
                 placeholder="Ask me anything..."
-                className={`flex-1 text-sm ${
-                  isDark ? "border-purple-500/50 bg-black/50" : "border-cyan-500/50 bg-white/50"
-                }`}
-                onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
+                className={`flex-1 ${isDark ? "border-purple-500/50" : "border-cyan-500/50"}`}
+                onKeyPress={(e) => {
+                  if (e.key === "Enter") {
+                    handleSendMessage()
+                  }
+                }}
               />
               <Button
                 onClick={handleSendMessage}

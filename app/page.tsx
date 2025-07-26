@@ -15,7 +15,6 @@ import {
   Video,
   Edit3,
   FileText,
-  Download,
   Lock,
   Unlock,
   GamepadIcon,
@@ -51,8 +50,10 @@ export default function Portfolio() {
   const [newSkillLevel, setNewSkillLevel] = useState(50)
   const [selectedCategory, setSelectedCategory] = useState(0)
   const [activeGame, setActiveGame] = useState("chess")
+  const [uploadedCV, setUploadedCV] = useState(null)
 
   const particleRef = useRef(null)
+  const fileInputRef = useRef(null)
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", isDark)
@@ -105,22 +106,30 @@ export default function Portfolio() {
       setIsAdmin(true)
       setShowAdminLogin(false)
       setAdminCode("")
+      setActiveTab("admin") // Automatically switch to admin tab
     } else {
       alert("Invalid admin code!")
     }
   }
 
-  const handleCVDownload = () => {
+  const handleCVUpload = () => {
     if (adminCode.toLowerCase() === "nacht faust") {
-      // Simulate CV download
-      const link = document.createElement("a")
-      link.href = "/placeholder.pdf"
-      link.download = "N1cht_CV.pdf"
-      link.click()
+      // Trigger file input
+      fileInputRef.current?.click()
       setShowAdminLogin(false)
       setAdminCode("")
     } else {
       alert("Invalid password!")
+    }
+  }
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0]
+    if (file && file.type === "application/pdf") {
+      setUploadedCV(file)
+      alert(`CV "${file.name}" uploaded successfully!`)
+    } else {
+      alert("Please upload a PDF file only.")
     }
   }
 
@@ -259,6 +268,9 @@ export default function Portfolio() {
     <div
       className={`min-h-screen transition-all duration-500 relative overflow-hidden ${isDark ? "bg-[#0a0a0a] text-white" : "bg-white text-gray-900"}`}
     >
+      {/* Hidden file input for CV upload */}
+      <input type="file" ref={fileInputRef} onChange={handleFileChange} accept=".pdf" style={{ display: "none" }} />
+
       {/* Background Particles */}
       <div className="fixed inset-0 pointer-events-none z-0">
         {particles.map((particle) => (
@@ -285,9 +297,9 @@ export default function Portfolio() {
 
       {/* Top Navigation */}
       <div className="fixed top-6 right-6 z-50 flex gap-2">
-        {/* CV Download */}
+        {/* CV Upload */}
         <Button
-          onClick={() => setShowAdminLogin(true)}
+          onClick={() => setShowAdminLogin("cv")}
           variant="outline"
           size="icon"
           className={`rounded-full border-2 transition-all duration-300 ${
@@ -296,12 +308,12 @@ export default function Portfolio() {
               : "border-cyan-500 bg-white/50 hover:bg-cyan-500/20"
           }`}
         >
-          <FileText className={`h-5 w-5 ${isDark ? "text-purple-400" : "text-cyan-500"}`} />
+          <Upload className={`h-5 w-5 ${isDark ? "text-purple-400" : "text-cyan-500"}`} />
         </Button>
 
         {/* Admin Toggle */}
         <Button
-          onClick={() => setShowAdminLogin(!showAdminLogin)}
+          onClick={() => setShowAdminLogin(isAdmin ? false : "admin")}
           variant="outline"
           size="icon"
           className={`rounded-full border-2 transition-all duration-300 ${
@@ -332,34 +344,59 @@ export default function Portfolio() {
         </Button>
       </div>
 
-      {/* CV Download Modal */}
+      {/* CV Upload / Admin Login Modal */}
       {showAdminLogin && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <Card className={`w-96 ${isDark ? "bg-black border-purple-500" : "bg-white border-cyan-500"}`}>
             <CardHeader>
               <CardTitle className={`text-center ${isDark ? "text-purple-400" : "text-cyan-500"}`}>
-                Download CV
+                {showAdminLogin === "cv" ? "Upload CV" : "Admin Login"}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
-                <Label htmlFor="cvPassword">Enter Password</Label>
+                <Label htmlFor="adminPassword">Enter Password</Label>
                 <Input
-                  id="cvPassword"
+                  id="adminPassword"
                   type="password"
                   value={adminCode}
                   onChange={(e) => setAdminCode(e.target.value)}
                   placeholder="Enter password..."
                   className={`${isDark ? "border-purple-500/50" : "border-cyan-500/50"}`}
+                  onKeyPress={(e) => {
+                    if (e.key === "Enter") {
+                      if (showAdminLogin === "cv") {
+                        handleCVUpload()
+                      } else {
+                        handleAdminLogin()
+                      }
+                    }
+                  }}
                 />
               </div>
+              {uploadedCV && showAdminLogin === "cv" && (
+                <div
+                  className={`p-3 rounded-lg ${isDark ? "bg-purple-900/20 border border-purple-500/30" : "bg-cyan-900/20 border border-cyan-500/30"}`}
+                >
+                  <p className="text-sm">Current CV: {uploadedCV.name}</p>
+                </div>
+              )}
               <div className="flex gap-2">
                 <Button
-                  onClick={handleCVDownload}
+                  onClick={showAdminLogin === "cv" ? handleCVUpload : handleAdminLogin}
                   className={`flex-1 ${isDark ? "bg-purple-500 hover:bg-purple-600" : "bg-cyan-500 hover:bg-cyan-600"}`}
                 >
-                  <Download className="h-4 w-4 mr-2" />
-                  Download
+                  {showAdminLogin === "cv" ? (
+                    <>
+                      <Upload className="h-4 w-4 mr-2" />
+                      Upload CV
+                    </>
+                  ) : (
+                    <>
+                      <Unlock className="h-4 w-4 mr-2" />
+                      Login
+                    </>
+                  )}
                 </Button>
                 <Button onClick={() => setShowAdminLogin(false)} variant="outline" className="flex-1">
                   Cancel
@@ -405,9 +442,9 @@ export default function Portfolio() {
             className={`text-6xl md:text-8xl font-bold mb-4 font-orbitron glitch-text ${
               isDark ? "text-purple-400" : "text-cyan-500"
             }`}
-            data-text="N1CHT"
+            data-text="Achraf"
           >
-            N1CHT
+            Achraf
           </h1>
 
           <h2 className={`text-2xl md:text-3xl mb-6 font-rajdhani ${isDark ? "text-purple-300" : "text-cyan-600"}`}>
@@ -829,28 +866,153 @@ export default function Portfolio() {
                   >
                     Admin Control Panel
                   </h2>
-                  <div className="max-w-4xl mx-auto space-y-6">
-                    {/* Skills Management */}
+                  <div className="max-w-6xl mx-auto space-y-8">
+                    {/* CV Management */}
                     <Card
                       className={`p-6 ${isDark ? "bg-black/50 border-purple-500/30" : "bg-white/50 border-cyan-500/30"}`}
                     >
                       <CardHeader>
-                        <CardTitle className={`${isDark ? "text-purple-300" : "text-cyan-600"}`}>
+                        <CardTitle className={`text-2xl ${isDark ? "text-purple-300" : "text-cyan-600"}`}>
+                          CV Management
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="flex justify-between items-center mb-4">
+                          <p className="font-exo">
+                            {uploadedCV ? `Current CV: ${uploadedCV.name}` : "No CV uploaded yet"}
+                          </p>
+                          <Button
+                            onClick={() => fileInputRef.current?.click()}
+                            className={`${isDark ? "bg-purple-500 hover:bg-purple-600" : "bg-cyan-500 hover:bg-cyan-600"}`}
+                          >
+                            <Upload className="h-4 w-4 mr-2" />
+                            {uploadedCV ? "Replace CV" : "Upload CV"}
+                          </Button>
+                        </div>
+                        {uploadedCV && (
+                          <div
+                            className={`p-4 rounded-lg ${isDark ? "bg-purple-900/20 border border-purple-500/30" : "bg-cyan-900/20 border border-cyan-500/30"}`}
+                          >
+                            <div className="flex items-center justify-between">
+                              <div>
+                                <p className="font-semibold">{uploadedCV.name}</p>
+                                <p className="text-sm text-gray-400">
+                                  Size: {(uploadedCV.size / 1024 / 1024).toFixed(2)} MB
+                                </p>
+                              </div>
+                              <FileText className={`h-8 w-8 ${isDark ? "text-purple-400" : "text-cyan-500"}`} />
+                            </div>
+                          </div>
+                        )}
+                      </CardContent>
+                    </Card>
+
+                    {/* Direct Skills Management */}
+                    <Card
+                      className={`p-6 ${isDark ? "bg-black/50 border-purple-500/30" : "bg-white/50 border-cyan-500/30"}`}
+                    >
+                      <CardHeader>
+                        <CardTitle className={`text-2xl ${isDark ? "text-purple-300" : "text-cyan-600"}`}>
                           Skills Management
                         </CardTitle>
                       </CardHeader>
                       <CardContent>
-                        <p className="font-exo mb-4">
-                          Go to the Skills tab and click "Edit Skills" to modify mastery levels with interactive
-                          sliders.
-                        </p>
-                        <Button
-                          onClick={() => setActiveTab("skills")}
-                          className={`${isDark ? "bg-purple-500 hover:bg-purple-600" : "bg-cyan-500 hover:bg-cyan-600"}`}
-                        >
-                          <Target className="h-4 w-4 mr-2" />
-                          Manage Skills
-                        </Button>
+                        <div className="flex justify-between items-center mb-6">
+                          <p className="font-exo">Manage skill levels and add new skills directly from here.</p>
+                          <Button
+                            onClick={() => setEditingSkills(!editingSkills)}
+                            className={`${isDark ? "bg-purple-500 hover:bg-purple-600" : "bg-cyan-500 hover:bg-cyan-600"}`}
+                          >
+                            <Edit3 className="h-4 w-4 mr-2" />
+                            {editingSkills ? "Save Changes" : "Edit Skills"}
+                          </Button>
+                        </div>
+
+                        {/* Skills Grid in Admin */}
+                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                          {skills.map((category, categoryIndex) => (
+                            <Card
+                              key={categoryIndex}
+                              className={`p-4 ${isDark ? "bg-black/30 border-purple-500/20" : "bg-white/30 border-cyan-500/20"}`}
+                            >
+                              <CardHeader className="pb-2">
+                                <CardTitle
+                                  className={`text-lg font-rajdhani ${isDark ? "text-purple-300" : "text-cyan-600"}`}
+                                >
+                                  {category.category}
+                                </CardTitle>
+                              </CardHeader>
+                              <CardContent className="space-y-3">
+                                {category.skills.map((skill, skillIndex) => (
+                                  <div key={skillIndex} className="space-y-2">
+                                    <div className="flex justify-between items-center">
+                                      <span className="font-exo text-sm">{skill.name}</span>
+                                      <div className="flex items-center gap-2">
+                                        <span className="text-sm text-gray-400">{skill.level}%</span>
+                                        {editingSkills && (
+                                          <Button
+                                            onClick={() => deleteSkill(categoryIndex, skillIndex)}
+                                            variant="outline"
+                                            size="sm"
+                                            className="h-6 w-6 p-0 text-red-400 hover:bg-red-500/20"
+                                          >
+                                            ×
+                                          </Button>
+                                        )}
+                                      </div>
+                                    </div>
+                                    {editingSkills ? (
+                                      <Slider
+                                        value={[skill.level]}
+                                        onValueChange={(value) => updateSkillLevel(categoryIndex, skillIndex, value)}
+                                        max={100}
+                                        step={1}
+                                        className={`${isDark ? "accent-purple-500" : "accent-cyan-500"}`}
+                                      />
+                                    ) : (
+                                      <Progress
+                                        value={skill.level}
+                                        className={`h-2 ${isDark ? "bg-purple-900/30" : "bg-cyan-900/30"}`}
+                                      />
+                                    )}
+                                  </div>
+                                ))}
+
+                                {/* Add New Skill Form */}
+                                {editingSkills && (
+                                  <div className="mt-4 p-3 border-t border-gray-600 space-y-2">
+                                    <Input
+                                      placeholder="New skill name"
+                                      value={newSkillName}
+                                      onChange={(e) => setNewSkillName(e.target.value)}
+                                      className="text-sm"
+                                    />
+                                    <div className="flex items-center gap-2">
+                                      <Slider
+                                        value={[newSkillLevel]}
+                                        onValueChange={(value) => setNewSkillLevel(value[0])}
+                                        max={100}
+                                        step={1}
+                                        className="flex-1"
+                                      />
+                                      <span className="text-xs text-gray-400 w-8">{newSkillLevel}%</span>
+                                    </div>
+                                    <Button
+                                      onClick={() => {
+                                        setSelectedCategory(categoryIndex)
+                                        addSkill()
+                                      }}
+                                      size="sm"
+                                      className={`w-full text-xs ${isDark ? "bg-purple-500 hover:bg-purple-600" : "bg-cyan-500 hover:bg-cyan-600"}`}
+                                    >
+                                      Add Skill
+                                    </Button>
+                                  </div>
+                                )}
+                              </CardContent>
+                            </Card>
+                          ))}
+                        </div>
                       </CardContent>
                     </Card>
 
@@ -859,7 +1021,7 @@ export default function Portfolio() {
                       className={`p-6 ${isDark ? "bg-black/50 border-purple-500/30" : "bg-white/50 border-cyan-500/30"}`}
                     >
                       <CardHeader>
-                        <CardTitle className={`${isDark ? "text-purple-300" : "text-cyan-600"}`}>
+                        <CardTitle className={`text-2xl ${isDark ? "text-purple-300" : "text-cyan-600"}`}>
                           Media Upload Center
                         </CardTitle>
                       </CardHeader>
@@ -867,64 +1029,132 @@ export default function Portfolio() {
                         <p className="font-exo mb-4">
                           Upload videos, images, and audio files to the Design & Video section.
                         </p>
-                        <Button
-                          onClick={() => setActiveTab("media")}
-                          className={`${isDark ? "bg-purple-500 hover:bg-purple-600" : "bg-cyan-500 hover:bg-cyan-600"}`}
-                        >
-                          <Upload className="h-4 w-4 mr-2" />
-                          Go to Media Upload
-                        </Button>
+                        <div className="grid md:grid-cols-3 gap-4">
+                          <Button
+                            size="lg"
+                            className={`rounded-full px-8 py-4 font-semibold transition-all duration-300 hover:scale-105 ${isDark ? "bg-purple-500 hover:bg-purple-600 hover:shadow-[0_0_30px_rgba(155,89,182,0.8)]" : "bg-cyan-500 hover:bg-cyan-600 hover:shadow-[0_0_30px_rgba(0,255,255,0.8)]"}`}
+                          >
+                            <Video className="h-5 w-5 mr-2" />
+                            Upload Video
+                          </Button>
+                          <Button
+                            size="lg"
+                            variant="outline"
+                            className={`rounded-full px-8 py-4 font-semibold transition-all duration-300 hover:scale-105 ${isDark ? "border-purple-500 hover:bg-purple-500/20" : "border-cyan-500 hover:bg-cyan-500/20"}`}
+                          >
+                            <ImageIcon className="h-5 w-5 mr-2" />
+                            Upload Image
+                          </Button>
+                          <Button
+                            size="lg"
+                            variant="outline"
+                            className={`rounded-full px-8 py-4 font-semibold transition-all duration-300 hover:scale-105 ${isDark ? "border-purple-500 hover:bg-purple-500/20" : "border-cyan-500 hover:bg-cyan-500/20"}`}
+                          >
+                            <Music className="h-5 w-5 mr-2" />
+                            Upload Audio
+                          </Button>
+                        </div>
                       </CardContent>
                     </Card>
 
                     {/* Project Management */}
-                    <div className="space-y-4">
-                      <h3 className={`text-xl font-bold font-rajdhani ${isDark ? "text-purple-300" : "text-cyan-600"}`}>
-                        Project Management
-                      </h3>
-                      {projects.map((project) => (
-                        <Card
-                          key={project.id}
-                          className={`p-4 ${isDark ? "bg-black/30 border-purple-500/20" : "bg-white/30 border-cyan-500/20"}`}
-                        >
-                          <CardContent className="flex items-center justify-between">
-                            <div className="flex items-center space-x-4">
-                              <Image
-                                src={project.image || "/placeholder.svg"}
-                                alt={project.title}
-                                width={60}
-                                height={40}
-                                className="rounded object-cover"
-                              />
-                              <div className="text-left">
-                                <h4
-                                  className={`font-bold font-rajdhani ${isDark ? "text-purple-300" : "text-cyan-600"}`}
-                                >
-                                  {project.title}
-                                </h4>
-                                <p className="text-sm text-gray-400 font-exo">{project.status}</p>
-                              </div>
-                            </div>
-                            <div className="flex space-x-2">
-                              <Button
-                                variant="outline"
-                                size="sm"
-                                className={`${isDark ? "border-purple-500/50 hover:bg-purple-500/20" : "border-cyan-500/50 hover:bg-cyan-500/20"}`}
-                              >
-                                <Edit3 className="h-4 w-4" />
-                              </Button>
-                              <Button
-                                variant="outline"
-                                size="sm"
-                                className={`${isDark ? "border-purple-500/50 hover:bg-purple-500/20" : "border-cyan-500/50 hover:bg-cyan-500/20"}`}
-                              >
-                                <ExternalLink className="h-4 w-4" />
-                              </Button>
-                            </div>
-                          </CardContent>
-                        </Card>
-                      ))}
-                    </div>
+                    <Card
+                      className={`p-6 ${isDark ? "bg-black/50 border-purple-500/30" : "bg-white/50 border-cyan-500/30"}`}
+                    >
+                      <CardHeader>
+                        <CardTitle className={`text-2xl ${isDark ? "text-purple-300" : "text-cyan-600"}`}>
+                          Project Management
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="space-y-4">
+                          {projects.map((project) => (
+                            <Card
+                              key={project.id}
+                              className={`p-4 ${isDark ? "bg-black/30 border-purple-500/20" : "bg-white/30 border-cyan-500/20"}`}
+                            >
+                              <CardContent className="flex items-center justify-between">
+                                <div className="flex items-center space-x-4">
+                                  <Image
+                                    src={project.image || "/placeholder.svg"}
+                                    alt={project.title}
+                                    width={60}
+                                    height={40}
+                                    className="rounded object-cover"
+                                  />
+                                  <div className="text-left">
+                                    <h4
+                                      className={`font-bold font-rajdhani ${isDark ? "text-purple-300" : "text-cyan-600"}`}
+                                    >
+                                      {project.title}
+                                    </h4>
+                                    <p className="text-sm text-gray-400 font-exo">{project.status}</p>
+                                  </div>
+                                </div>
+                                <div className="flex space-x-2">
+                                  <Button
+                                    variant="outline"
+                                    size="sm"
+                                    className={`${isDark ? "border-purple-500/50 hover:bg-purple-500/20" : "border-cyan-500/50 hover:bg-cyan-500/20"}`}
+                                  >
+                                    <Edit3 className="h-4 w-4" />
+                                  </Button>
+                                  <Button
+                                    variant="outline"
+                                    size="sm"
+                                    className={`${isDark ? "border-purple-500/50 hover:bg-purple-500/20" : "border-cyan-500/50 hover:bg-cyan-500/20"}`}
+                                  >
+                                    <ExternalLink className="h-4 w-4" />
+                                  </Button>
+                                </div>
+                              </CardContent>
+                            </Card>
+                          ))}
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    {/* Admin Actions */}
+                    <Card
+                      className={`p-6 ${isDark ? "bg-black/50 border-purple-500/30" : "bg-white/50 border-cyan-500/30"}`}
+                    >
+                      <CardHeader>
+                        <CardTitle className={`text-2xl ${isDark ? "text-purple-300" : "text-cyan-600"}`}>
+                          Admin Actions
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="flex gap-4 justify-center">
+                          <Button
+                            onClick={() => setActiveTab("skills")}
+                            variant="outline"
+                            className={`${isDark ? "border-purple-500/50 hover:bg-purple-500/20" : "border-cyan-500/50 hover:bg-cyan-500/20"}`}
+                          >
+                            <Target className="h-4 w-4 mr-2" />
+                            Go to Skills Tab
+                          </Button>
+                          <Button
+                            onClick={() => setActiveTab("media")}
+                            variant="outline"
+                            className={`${isDark ? "border-purple-500/50 hover:bg-purple-500/20" : "border-cyan-500/50 hover:bg-cyan-500/20"}`}
+                          >
+                            <Upload className="h-4 w-4 mr-2" />
+                            Go to Media Tab
+                          </Button>
+                          <Button
+                            onClick={() => {
+                              setIsAdmin(false)
+                              setActiveTab("about")
+                            }}
+                            variant="outline"
+                            className="border-red-500/50 hover:bg-red-500/20 text-red-400"
+                          >
+                            <Lock className="h-4 w-4 mr-2" />
+                            Logout
+                          </Button>
+                        </div>
+                      </CardContent>
+                    </Card>
                   </div>
                 </div>
               </TabsContent>
