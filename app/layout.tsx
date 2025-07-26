@@ -1,11 +1,11 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Orbitron, Rajdhani, Exo } from "next/font/google"
+import { Orbitron, Rajdhani, Exo_2 } from "next/font/google"
 import "./globals.css"
+import { ThemeProvider } from "@/components/theme-provider"
 
 const orbitron = Orbitron({
   subsets: ["latin"],
-  weight: ["400", "700", "900"],
   variable: "--font-orbitron",
 })
 
@@ -15,15 +15,14 @@ const rajdhani = Rajdhani({
   variable: "--font-rajdhani",
 })
 
-const exo = Exo({
+const exo = Exo_2({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
   variable: "--font-exo",
 })
 
 export const metadata: Metadata = {
-  title: "Alex Chen - Developer & Content Editor",
-  description: "Portfolio of Alex Chen - Full Stack Developer and Content Editor",
+  title: "N1cht - Developer Portfolio",
+  description: "Personal portfolio of N1cht (Achraf Lemrani) - Developer & Content Editor",
     generator: 'v0.dev'
 }
 
@@ -33,8 +32,12 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={`${orbitron.variable} ${rajdhani.variable} ${exo.variable}`}>
-      <body>{children}</body>
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${orbitron.variable} ${rajdhani.variable} ${exo.variable} antialiased`}>
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
+          {children}
+        </ThemeProvider>
+      </body>
     </html>
   )
 }

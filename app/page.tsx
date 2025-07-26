@@ -58,7 +58,7 @@ export default function Portfolio() {
     document.documentElement.classList.toggle("dark", isDark)
   }, [isDark])
 
-  // Custom cursor and particle effects
+  // Particle effects only (no custom cursor)
   useEffect(() => {
     const handleMouseMove = (e) => {
       setMousePosition({ x: e.clientX, y: e.clientY })
