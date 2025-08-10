@@ -1,14 +1,23 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Badge } from "@/components/ui/badge"
 import { Trophy, RotateCcw, Users, Bot, Star, Zap, Brain, Target } from "lucide-react"
 
+type PieceChar = "p" | "r" | "n" | "b" | "q" | "k" | "P" | "R" | "N" | "B" | "Q" | "K"
+type Board = (PieceChar | null)[][]
+type Square = [number, number]
+type Move = { from: Square; to: Square; piece: PieceChar; capture: PieceChar | null }
+type Personality = "balanced" | "aggressive" | "positional" | "defensive" | "hikaru" | "random"
+
 // Enhanced chess engine with multiple AI personalities
 class ChessEngine {
+  pieceValues: Record<PieceChar, number>
+  pawnTable: number[][]
+  knightTable: number[][]
   constructor() {
     this.pieceValues = {
       p: 100,
@@ -48,7 +57,7 @@ class ChessEngine {
     ]
   }
 
-  evaluateBoard(board, personality = "balanced") {
+  evaluateBoard(board: Board, personality: Personality = "balanced") {
     let score = 0
     for (let row = 0; row < 8; row++) {
       for (let col = 0; col < 8; col++) {
@@ -82,19 +91,20 @@ class ChessEngine {
     return score
   }
 
-  getAllMoves(board, isWhite) {
-    const moves = []
+  getAllMoves(board: Board, isWhite: boolean): Move[] {
+    const moves: Move[] = []
     for (let row = 0; row < 8; row++) {
       for (let col = 0; col < 8; col++) {
         const piece = board[row][col]
         if (piece && ((isWhite && piece === piece.toUpperCase()) || (!isWhite && piece === piece.toLowerCase()))) {
-          const pieceMoves = this.getPieceMoves(board, row, col, piece)
+          const pieceMoves = this.getPieceMoves(board, row, col, piece as PieceChar)
+          const fromSq: Square = [row, col]
           moves.push(
-            ...pieceMoves.map((move) => ({
-              from: [row, col],
+            ...pieceMoves.map((move: Square): Move => ({
+              from: fromSq,
               to: move,
-              piece: piece,
-              capture: board[move[0]][move[1]],
+              piece: piece as PieceChar,
+              capture: board[move[0]][move[1]] as PieceChar | null,
             })),
           )
         }
@@ -103,7 +113,7 @@ class ChessEngine {
     return moves
   }
 
-  getPieceMoves(board, row, col, piece) {
+  getPieceMoves(board: Board, row: number, col: number, piece: PieceChar): Square[] {
     const pieceType = piece.toLowerCase()
     const isWhite = piece === piece.toUpperCase()
 
@@ -125,8 +135,8 @@ class ChessEngine {
     }
   }
 
-  getPawnMoves(board, row, col, isWhite) {
-    const moves = []
+  getPawnMoves(board: Board, row: number, col: number, isWhite: boolean) {
+    const moves: Square[] = []
     const direction = isWhite ? -1 : 1
     const startRow = isWhite ? 6 : 1
 
@@ -150,8 +160,8 @@ class ChessEngine {
     return moves
   }
 
-  getRookMoves(board, row, col, isWhite) {
-    const moves = []
+  getRookMoves(board: Board, row: number, col: number, isWhite: boolean) {
+    const moves: Square[] = []
     const directions = [
       [0, 1],
       [0, -1],
@@ -179,8 +189,8 @@ class ChessEngine {
     return moves
   }
 
-  getKnightMoves(board, row, col, isWhite) {
-    const moves = []
+  getKnightMoves(board: Board, row: number, col: number, isWhite: boolean) {
+    const moves: Square[] = []
     const knightMoves = [
       [-2, -1],
       [-2, 1],
@@ -205,8 +215,8 @@ class ChessEngine {
     return moves
   }
 
-  getBishopMoves(board, row, col, isWhite) {
-    const moves = []
+  getBishopMoves(board: Board, row: number, col: number, isWhite: boolean) {
+    const moves: Square[] = []
     const directions = [
       [1, 1],
       [1, -1],
@@ -234,12 +244,12 @@ class ChessEngine {
     return moves
   }
 
-  getQueenMoves(board, row, col, isWhite) {
+  getQueenMoves(board: Board, row: number, col: number, isWhite: boolean) {
     return [...this.getRookMoves(board, row, col, isWhite), ...this.getBishopMoves(board, row, col, isWhite)]
   }
 
-  getKingMoves(board, row, col, isWhite) {
-    const moves = []
+  getKingMoves(board: Board, row: number, col: number, isWhite: boolean) {
+    const moves: Square[] = []
     const directions = [
       [-1, -1],
       [-1, 0],
@@ -261,11 +271,48 @@ class ChessEngine {
         }
       }
     }
+
+    // Simplified castling rules: allow if king and rook are on initial squares, path clear, and not in check through path
+    const startRow = isWhite ? 7 : 0
+    const kingSymbol: PieceChar = isWhite ? "K" : "k"
+    const rookSymbol: PieceChar = isWhite ? "R" : "r"
+    if (row === startRow && col === 4 && board[startRow][4] === kingSymbol) {
+      // King side
+      if (
+        board[startRow][5] === null &&
+        board[startRow][6] === null &&
+        board[startRow][7] === rookSymbol
+      ) {
+        // ensure squares not in check while passing
+        const boardStep = this.makeMove(board, [row, col], [startRow, 5])
+        if (!this.isInCheck(boardStep, isWhite)) {
+          const boardStep2 = this.makeMove(boardStep, [startRow, 5], [startRow, 6])
+          if (!this.isInCheck(boardStep2, isWhite)) {
+            moves.push([startRow, 6])
+          }
+        }
+      }
+      // Queen side
+      if (
+        board[startRow][3] === null &&
+        board[startRow][2] === null &&
+        board[startRow][1] === null &&
+        board[startRow][0] === rookSymbol
+      ) {
+        const boardStep = this.makeMove(board, [row, col], [startRow, 3])
+        if (!this.isInCheck(boardStep, isWhite)) {
+          const boardStep2 = this.makeMove(boardStep, [startRow, 3], [startRow, 2])
+          if (!this.isInCheck(boardStep2, isWhite)) {
+            moves.push([startRow, 2])
+          }
+        }
+      }
+    }
     return moves
   }
 
-  isInCheck(board, isWhite) {
-    let kingPos = null
+  isInCheck(board: Board, isWhite: boolean) {
+    let kingPos: Square | null = null
     const kingSymbol = isWhite ? "K" : "k"
 
     for (let row = 0; row < 8; row++) {
@@ -284,7 +331,7 @@ class ChessEngine {
     return opponentMoves.some((move) => move.to[0] === kingPos[0] && move.to[1] === kingPos[1])
   }
 
-  isValidMove(board, from, to, isWhite) {
+  isValidMove(board: Board, from: Square, to: Square, isWhite: boolean) {
     const [fromRow, fromCol] = from
     const [toRow, toCol] = to
     const piece = board[fromRow][fromCol]
@@ -301,11 +348,11 @@ class ChessEngine {
     return !this.isInCheck(testBoard, isWhite)
   }
 
-  getBestMove(board, depth = 4, personality = "balanced") {
+  getBestMove(board: Board, depth = 4, personality: Personality = "balanced") {
     const moves = this.getAllMoves(board, false)
     if (moves.length === 0) return null
 
-    let bestMove = null
+    let bestMove: Move | null = null
     let bestScore = Number.POSITIVE_INFINITY
 
     if (personality === "aggressive") {
@@ -350,7 +397,14 @@ class ChessEngine {
     return bestMove
   }
 
-  minimax(board, depth, isMaximizing, alpha, beta, personality) {
+  minimax(
+    board: Board,
+    depth: number,
+    isMaximizing: boolean,
+    alpha: number,
+    beta: number,
+    personality: Personality,
+  ) {
     if (depth === 0) {
       return this.evaluateBoard(board, personality)
     }
@@ -387,67 +441,233 @@ class ChessEngine {
     }
   }
 
-  makeMove(board, from, to) {
-    const newBoard = board.map((row) => [...row])
+  makeMove(board: Board, from: Square, to: Square) {
+    const newBoard: Board = board.map((row) => [...row])
     const [fromRow, fromCol] = from
     const [toRow, toCol] = to
     newBoard[toRow][toCol] = newBoard[fromRow][fromCol]
     newBoard[fromRow][fromCol] = null
+
+    // Handle castling rook move
+    const moving = newBoard[toRow][toCol]
+    if (moving === 'K' && fromRow === 7 && fromCol === 4) {
+      // white
+      if (toCol === 6) {
+        // king side
+        newBoard[7][5] = newBoard[7][7]
+        newBoard[7][7] = null
+      } else if (toCol === 2) {
+        // queen side
+        newBoard[7][3] = newBoard[7][0]
+        newBoard[7][0] = null
+      }
+    } else if (moving === 'k' && fromRow === 0 && fromCol === 4) {
+      // black
+      if (toCol === 6) {
+        newBoard[0][5] = newBoard[0][7]
+        newBoard[0][7] = null
+      } else if (toCol === 2) {
+        newBoard[0][3] = newBoard[0][0]
+        newBoard[0][0] = null
+      }
+    }
+
+    // Handle pawn promotion (auto to queen)
+    if (moving === 'P' && toRow === 0) {
+      newBoard[toRow][toCol] = 'Q'
+    } else if (moving === 'p' && toRow === 7) {
+      newBoard[toRow][toCol] = 'q'
+    }
     return newBoard
   }
 }
 
-// Chess.com style piece component
-const ChessPiece = ({ piece, isSelected, isCheckmate }) => {
+// Custom Purple vs Cyan glowing SVG piece set
+const ChessPiece: React.FC<{ piece: PieceChar; isSelected: boolean; isCheckmate: boolean }> = ({
+  piece,
+  isSelected,
+  isCheckmate,
+}) => {
   if (!piece) return null
 
   const isWhite = piece === piece.toUpperCase()
   const pieceType = piece.toLowerCase()
+  const fill = isWhite ? "#06b6d4" : "#7c3aed"
+  const stroke = isWhite ? "#0891b2" : "#6d28d9"
+  const accent = isWhite ? "#22d3ee" : "#a78bfa"
 
-  // Chess.com style piece styling
-  const pieceStyle = {
-    width: "85%",
-    height: "85%",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    fontSize: "2.5rem",
-    fontWeight: "bold",
-    textShadow: isWhite
-      ? "0 2px 4px rgba(0,0,0,0.8), 0 0 8px rgba(255,255,255,0.3)"
-      : "0 2px 4px rgba(0,0,0,0.6), 0 0 4px rgba(255,255,255,0.8)",
-    filter: isWhite
-      ? "drop-shadow(0 3px 6px rgba(0,0,0,0.7)) brightness(1.1)"
-      : "drop-shadow(0 2px 4px rgba(0,0,0,0.5)) brightness(0.9)",
-    color: isWhite ? "#f8f8f8" : "#2d2d2d",
-    transition: "all 0.2s ease",
-    transform: isSelected ? "scale(1.1)" : "scale(1)",
-    animation: isCheckmate ? "shake 0.5s ease-in-out infinite" : "none",
-  }
+  const Base = () => (
+    <g>
+      <rect x="16" y="48" width="32" height="6" rx="3" fill={fill} stroke={stroke} strokeWidth="2" />
+      <rect x="12" y="42" width="40" height="6" rx="3" fill={fill} stroke={stroke} strokeWidth="2" />
+    </g>
+  )
 
-  const pieceSymbols = {
-    k: "♚",
-    q: "♛",
-    r: "♜",
-    b: "♝",
-    n: "♞",
-    p: "♟",
-    K: "♔",
-    Q: "♕",
-    R: "♖",
-    B: "♗",
-    N: "♘",
-    P: "♙",
+  const AngelBody = () => (
+    <g>
+      {/* Wings */}
+      <path d="M8,40 C10,28 18,22 24,22 C18,28 18,36 16,40 Z" fill={fill} stroke={stroke} strokeWidth="2" opacity="0.9" />
+      <path d="M56,40 C54,28 46,22 40,22 C46,28 46,36 48,40 Z" fill={fill} stroke={stroke} strokeWidth="2" opacity="0.9" />
+      {/* Halo */}
+      <ellipse cx="32" cy="12" rx="9" ry="3" fill={accent} stroke={stroke} strokeWidth="2" />
+      {/* Head */}
+      <circle cx="32" cy="20" r="6" fill={fill} stroke={stroke} strokeWidth="2" />
+      {/* Robe */}
+      <path d="M24,26 L40,26 L46,44 L18,44 Z" fill={fill} stroke={stroke} strokeWidth="2" />
+    </g>
+  )
+
+  const DemonBody = () => (
+    <g>
+      {/* Horns */}
+      <path d="M24,16 C22,12 22,10 24,8 C26,10 26,12 25,16 Z" fill={fill} stroke={stroke} strokeWidth="2" />
+      <path d="M40,16 C42,12 42,10 40,8 C38,10 38,12 39,16 Z" fill={fill} stroke={stroke} strokeWidth="2" />
+      {/* Head */}
+      <circle cx="32" cy="20" r="6" fill={fill} stroke={stroke} strokeWidth="2" />
+      {/* Bat wings */}
+      <path d="M8,36 C14,26 22,24 24,28 C18,30 14,34 12,40 Z" fill={fill} stroke={stroke} strokeWidth="2" />
+      <path d="M56,36 C50,26 42,24 40,28 C46,30 50,34 52,40 Z" fill={fill} stroke={stroke} strokeWidth="2" />
+      {/* Torso */}
+      <path d="M24,26 L40,26 L44,44 L20,44 Z" fill={fill} stroke={stroke} strokeWidth="2" />
+    </g>
+  )
+
+  const renderByType = () => {
+    switch (pieceType) {
+      case "k":
+        return (
+          <g>
+            {isWhite ? <AngelBody /> : <DemonBody />}
+            {/* Crown / Spikes */}
+            {isWhite ? (
+              <path d="M24,26 L28,18 L32,24 L36,18 L40,26 Z" fill={accent} stroke={stroke} strokeWidth="2" />
+            ) : (
+              <path d="M24,26 L28,18 L32,22 L36,18 L40,26 Z" fill={accent} stroke={stroke} strokeWidth="2" />
+            )}
+          </g>
+        )
+      case "q":
+        return (
+          <g>
+            {isWhite ? <AngelBody /> : <DemonBody />}
+            <circle cx="32" cy="16" r="3" fill={accent} stroke={stroke} strokeWidth="2" />
+            <circle cx="26" cy="18" r="2" fill={accent} stroke={stroke} strokeWidth="2" />
+            <circle cx="38" cy="18" r="2" fill={accent} stroke={stroke} strokeWidth="2" />
+          </g>
+        )
+      case "r":
+        return (
+          <g>
+            {isWhite ? <AngelBody /> : <DemonBody />}
+            {/* Rook fortified wings and battlements */}
+            <rect x="22" y="22" width="20" height="8" fill={accent} stroke={stroke} strokeWidth="2" />
+            <rect x="24" y="20" width="4" height="4" fill={stroke} />
+            <rect x="30" y="20" width="4" height="4" fill={stroke} />
+            <rect x="36" y="20" width="4" height="4" fill={stroke} />
+          </g>
+        )
+      case "b":
+        return (
+          <g>
+            {isWhite ? <AngelBody /> : <DemonBody />}
+            {/* Curved crosier (angel) or inverted wand (demon) */}
+            {isWhite ? (
+              <path d="M32,18 C38,18 38,26 32,26" fill="none" stroke={accent} strokeWidth="3" />
+            ) : (
+              <path d="M32,18 C26,18 26,26 32,26" fill="none" stroke={accent} strokeWidth="3" />
+            )}
+            <line x1="32" y1="26" x2="32" y2="38" stroke={accent} strokeWidth="3" />
+          </g>
+        )
+      case "n":
+        return (
+          <g>
+            {isWhite ? <AngelBody /> : <DemonBody />}
+            {/* Knight stylized winged steed / drake */}
+            <path d="M24,20 C28,14 40,14 40,24 C36,22 30,24 28,28 C28,24 26,22 24,20 Z" fill={accent} stroke={stroke} strokeWidth="2" />
+          </g>
+        )
+      case "p":
+        return (
+          <g>
+            {/* Simple pawn with halo/horns */}
+            {isWhite ? (
+              <ellipse cx="32" cy="12" rx="7" ry="2.5" fill={accent} stroke={stroke} strokeWidth="2" />
+            ) : (
+              <g>
+                <path d="M28,12 C26,10 26,8 28,8" stroke={stroke} strokeWidth="2" />
+                <path d="M36,12 C38,10 38,8 36,8" stroke={stroke} strokeWidth="2" />
+              </g>
+            )}
+            <circle cx="32" cy="20" r="6" fill={fill} stroke={stroke} strokeWidth="2" />
+            <path d="M24,26 L40,26 L38,40 L26,40 Z" fill={fill} stroke={stroke} strokeWidth="2" />
+          </g>
+        )
+      default:
+        return null
+    }
   }
 
   return (
-    <div style={pieceStyle} className="select-none">
-      {pieceSymbols[piece]}
+    <div
+      className="select-none"
+      style={{
+        width: "85%",
+        height: "85%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        transform: isSelected ? "scale(1.08)" : "scale(1)",
+        transition: "transform 0.15s ease",
+        animation: isCheckmate ? "shake 0.5s ease-in-out infinite" : "none",
+        filter: isWhite
+          ? "drop-shadow(0 0 8px rgba(6, 182, 212, 0.8)) drop-shadow(0 0 16px rgba(6, 182, 212, 0.4)) brightness(1.1)"
+          : "drop-shadow(0 0 8px rgba(124, 58, 237, 0.8)) drop-shadow(0 0 16px rgba(124, 58, 237, 0.4)) brightness(1.1)",
+        animation: isWhite ? "cyanGlow 2s ease-in-out infinite" : "purpleGlow 2s ease-in-out infinite",
+      }}
+    >
+      <svg viewBox="0 0 64 64" width="100%" height="100%" aria-hidden>
+        <defs>
+          {isWhite ? (
+            <filter id="cyanGlow" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+              <feMerge> 
+                <feMergeNode in="coloredBlur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          ) : (
+            <filter id="purpleGlow" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+              <feMerge> 
+                <feMergeNode in="coloredBlur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          )}
+        </defs>
+        <g filter={isWhite ? "url(#cyanGlow)" : "url(#purpleGlow)"}>
+          {renderByType()}
+          <Base />
+        </g>
+      </svg>
     </div>
   )
 }
 
-const chessBot = [
+type ChessBot = {
+  id: "beginner" | "intermediate" | "advanced" | "expert" | "hikaru"
+  name: string
+  rating: number
+  personality: Personality
+  depth: number
+  // lucide icons are React components
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>
+  color: string
+  description: string
+}
+
+const chessBot: ChessBot[] = [
   {
     id: "beginner",
     name: "Rookie Bot",
@@ -500,8 +720,8 @@ const chessBot = [
   },
 ]
 
-export default function ChessGame({ isDark }) {
-  const [gameBoard, setGameBoard] = useState([
+export default function ChessGame({ isDark }: { isDark?: boolean }) {
+  const [gameBoard, setGameBoard] = useState<Board>([
     ["r", "n", "b", "q", "k", "b", "n", "r"],
     ["p", "p", "p", "p", "p", "p", "p", "p"],
     [null, null, null, null, null, null, null, null],
@@ -512,17 +732,24 @@ export default function ChessGame({ isDark }) {
     ["R", "N", "B", "Q", "K", "B", "N", "R"],
   ])
 
-  const [selectedSquare, setSelectedSquare] = useState(null)
-  const [legalMoves, setLegalMoves] = useState([])
-  const [lastMove, setLastMove] = useState(null)
+  const [selectedSquare, setSelectedSquare] = useState<Square | null>(null)
+  const [legalMoves, setLegalMoves] = useState<Square[]>([])
+  const [lastMove, setLastMove] = useState<[Square, Square] | null>(null)
   const [isPlayerTurn, setIsPlayerTurn] = useState(true)
-  const [gameStatus, setGameStatus] = useState("playing")
-  const [capturedPieces, setCapturedPieces] = useState({ white: [], black: [] })
-  const [moveHistory, setMoveHistory] = useState([])
+  const [gameStatus, setGameStatus] = useState<
+    "playing" | "white-wins" | "black-wins" | "stalemate"
+  >("playing")
+  const [capturedPieces, setCapturedPieces] = useState<{ white: PieceChar[]; black: PieceChar[] }>({
+    white: [],
+    black: [],
+  })
+  const [moveHistory, setMoveHistory] = useState<
+    Array<{ from: Square; to: Square; piece: PieceChar; captured: PieceChar | null }>
+  >([])
   const [isThinking, setIsThinking] = useState(false)
   const [showBotSelection, setShowBotSelection] = useState(true)
-  const [selectedBot, setSelectedBot] = useState(null)
-  const [gameMode, setGameMode] = useState("ai")
+  const [selectedBot, setSelectedBot] = useState<ChessBot | null>(null)
+  const [gameMode, setGameMode] = useState<"ai" | "human">("ai")
   const [checkmateAnimation, setCheckmateAnimation] = useState(false)
 
   const engine = useRef(new ChessEngine())
@@ -549,13 +776,13 @@ export default function ChessGame({ isDark }) {
     setCheckmateAnimation(false)
   }
 
-  const startGame = (bot) => {
+  const startGame = (bot: ChessBot) => {
     setSelectedBot(bot)
     setShowBotSelection(false)
     resetGame()
   }
 
-  const handleSquareClick = (row, col) => {
+  const handleSquareClick = (row: number, col: number) => {
     if (gameStatus !== "playing") return
     if (gameMode === "ai" && !isPlayerTurn) return
 
@@ -597,7 +824,7 @@ export default function ChessGame({ isDark }) {
     }
   }
 
-  const selectPiece = (row, col, piece) => {
+  const selectPiece = (row: number, col: number, piece: PieceChar) => {
     setSelectedSquare([row, col])
     const moves = engine.current.getPieceMoves(gameBoard, row, col, piece)
     const validMoves = moves.filter(([toRow, toCol]) =>
@@ -606,12 +833,12 @@ export default function ChessGame({ isDark }) {
     setLegalMoves(validMoves)
   }
 
-  const makeMove = (from, to) => {
+  const makeMove = (from: Square, to: Square) => {
     const [fromRow, fromCol] = from
     const [toRow, toCol] = to
     const newBoard = [...gameBoard]
-    const movingPiece = newBoard[fromRow][fromCol]
-    const capturedPiece = newBoard[toRow][toCol]
+    const movingPiece = newBoard[fromRow][fromCol] as PieceChar
+    const capturedPiece = newBoard[toRow][toCol] as PieceChar | null
 
     if (capturedPiece) {
       const captureColor = capturedPiece === capturedPiece.toUpperCase() ? "white" : "black"
@@ -677,7 +904,7 @@ export default function ChessGame({ isDark }) {
     }
   }, [isPlayerTurn, gameBoard, gameStatus, gameMode, selectedBot])
 
-  const isSquareHighlighted = (row, col) => {
+  const isSquareHighlighted = (row: number, col: number) => {
     if (selectedSquare && selectedSquare[0] === row && selectedSquare[1] === col) return "selected"
     if (legalMoves.some(([r, c]) => r === row && c === col)) return "legal"
     if (
@@ -734,6 +961,24 @@ export default function ChessGame({ isDark }) {
           }
           50% {
             background-color: rgba(239, 68, 68, 0.3);
+          }
+        }
+
+        @keyframes cyanGlow {
+          0%, 100% {
+            filter: drop-shadow(0 0 8px rgba(6, 182, 212, 0.8)) drop-shadow(0 0 16px rgba(6, 182, 212, 0.4));
+          }
+          50% {
+            filter: drop-shadow(0 0 12px rgba(6, 182, 212, 1)) drop-shadow(0 0 24px rgba(6, 182, 212, 0.6));
+          }
+        }
+
+        @keyframes purpleGlow {
+          0%, 100% {
+            filter: drop-shadow(0 0 8px rgba(124, 58, 237, 0.8)) drop-shadow(0 0 16px rgba(124, 58, 237, 0.4));
+          }
+          50% {
+            filter: drop-shadow(0 0 12px rgba(124, 58, 237, 1)) drop-shadow(0 0 24px rgba(124, 58, 237, 0.6));
           }
         }
 

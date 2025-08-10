@@ -23,6 +23,16 @@ import {
   Music,
   Settings,
   Mail,
+  TrendingUp,
+  Users,
+  Eye,
+  Globe,
+  Activity,
+  Star,
+  Heart,
+  Share2,
+  Calendar,
+  MapPin,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -31,10 +41,12 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Progress } from "@/components/ui/progress"
 import { Slider } from "@/components/ui/slider"
+import { Badge } from "@/components/ui/badge"
 import Image from "next/image"
 import ChessGame from "@/components/chess-game"
 import Chatbot from "@/components/chatbot"
 import CTFGame from "@/components/ctf-game"
+import DigitalClock from "@/components/digital-clock"
 
 export default function Portfolio() {
   const [isDark, setIsDark] = useState(true)
@@ -51,6 +63,9 @@ export default function Portfolio() {
   const [selectedCategory, setSelectedCategory] = useState(0)
   const [activeGame, setActiveGame] = useState("chess")
   const [uploadedCV, setUploadedCV] = useState(null)
+  const [visitorCount, setVisitorCount] = useState(12847)
+  const [pageViews, setPageViews] = useState(45623)
+  const [onlineUsers, setOnlineUsers] = useState(23)
 
   const particleRef = useRef(null)
   const fileInputRef = useRef(null)
@@ -59,12 +74,22 @@ export default function Portfolio() {
     document.documentElement.classList.toggle("dark", isDark)
   }, [isDark])
 
-  // Particle effects only (no custom cursor)
+  // Simulate real-time statistics
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setVisitorCount((prev) => prev + Math.floor(Math.random() * 3))
+      setPageViews((prev) => prev + Math.floor(Math.random() * 5))
+      setOnlineUsers((prev) => Math.max(1, prev + Math.floor(Math.random() * 3) - 1))
+    }, 30000) // Update every 30 seconds
+
+    return () => clearInterval(interval)
+  }, [])
+
+  // Particle effects
   useEffect(() => {
     const handleMouseMove = (e) => {
       setMousePosition({ x: e.clientX, y: e.clientY })
 
-      // Create particles occasionally
       if (Math.random() < 0.1) {
         const newParticle = {
           id: Math.random(),
@@ -106,7 +131,7 @@ export default function Portfolio() {
       setIsAdmin(true)
       setShowAdminLogin(false)
       setAdminCode("")
-      setActiveTab("admin") // Automatically switch to admin tab
+      setActiveTab("admin")
     } else {
       alert("Invalid admin code!")
     }
@@ -114,7 +139,6 @@ export default function Portfolio() {
 
   const handleCVUpload = () => {
     if (adminCode.toLowerCase() === "nacht faust") {
-      // Trigger file input
       fileInputRef.current?.click()
       setShowAdminLogin(false)
       setAdminCode("")
@@ -141,6 +165,9 @@ export default function Portfolio() {
       tech: ["Python", "TensorFlow", "Finance APIs"],
       image: "/placeholder.svg?height=200&width=300",
       status: "completed",
+      stars: 234,
+      forks: 45,
+      views: 1250,
     },
     {
       id: 2,
@@ -149,6 +176,9 @@ export default function Portfolio() {
       tech: ["React", "Node.js", "Security APIs"],
       image: "/placeholder.svg?height=200&width=300",
       status: "in-progress",
+      stars: 189,
+      forks: 32,
+      views: 890,
     },
     {
       id: 3,
@@ -157,6 +187,9 @@ export default function Portfolio() {
       tech: ["Python", "Pandas", "D3.js"],
       image: "/placeholder.svg?height=200&width=300",
       status: "completed",
+      stars: 156,
+      forks: 28,
+      views: 675,
     },
     {
       id: 4,
@@ -165,6 +198,9 @@ export default function Portfolio() {
       tech: ["After Effects", "React", "FFmpeg"],
       image: "/placeholder.svg?height=200&width=300",
       status: "planning",
+      stars: 98,
+      forks: 15,
+      views: 432,
     },
   ]
 
@@ -232,16 +268,22 @@ export default function Portfolio() {
       title: "Trading Algorithm Walkthrough",
       thumbnail: "/placeholder.svg?height=180&width=320",
       duration: "15:30",
+      views: 12500,
+      likes: 890,
     },
     {
       title: "Cybersecurity Best Practices",
       thumbnail: "/placeholder.svg?height=180&width=320",
       duration: "22:45",
+      views: 8750,
+      likes: 654,
     },
     {
       title: "Data Science Tutorial Series",
       thumbnail: "/placeholder.svg?height=180&width=320",
       duration: "8:12",
+      views: 15200,
+      likes: 1120,
     },
   ]
 
@@ -264,12 +306,49 @@ export default function Portfolio() {
     setSkills(newSkills)
   }
 
+  // Website statistics data
+  const websiteStats = {
+    totalVisitors: visitorCount,
+    pageViews: pageViews,
+    onlineUsers: onlineUsers,
+    bounceRate: 23.5,
+    avgSessionDuration: "4:32",
+    topPages: [
+      { page: "/", views: 15420, percentage: 33.8 },
+      { page: "/projects", views: 8750, percentage: 19.2 },
+      { page: "/skills", views: 6890, percentage: 15.1 },
+      { page: "/games", views: 5670, percentage: 12.4 },
+      { page: "/media", views: 4320, percentage: 9.5 },
+    ],
+    topCountries: [
+      { country: "United States", visitors: 4250, flag: "🇺🇸" },
+      { country: "Germany", visitors: 2890, flag: "🇩🇪" },
+      { country: "United Kingdom", visitors: 2340, flag: "🇬🇧" },
+      { country: "France", visitors: 1890, flag: "🇫🇷" },
+      { country: "Canada", visitors: 1570, flag: "🇨🇦" },
+    ],
+    deviceStats: [
+      { device: "Desktop", percentage: 65.2, users: 8380 },
+      { device: "Mobile", percentage: 28.7, users: 3690 },
+      { device: "Tablet", percentage: 6.1, users: 780 },
+    ],
+    browserStats: [
+      { browser: "Chrome", percentage: 68.4, users: 8790 },
+      { browser: "Firefox", percentage: 15.2, users: 1950 },
+      { browser: "Safari", percentage: 12.1, users: 1560 },
+      { browser: "Edge", percentage: 4.3, users: 550 },
+    ],
+  }
+
   return (
     <div
       className={`min-h-screen transition-all duration-500 relative overflow-hidden ${isDark ? "bg-[#0a0a0a] text-white" : "bg-white text-gray-900"}`}
     >
       {/* Hidden file input for CV upload */}
       <input type="file" ref={fileInputRef} onChange={handleFileChange} accept=".pdf" style={{ display: "none" }} />
+
+      {/* Digital Clock */}
+      <DigitalClock isDark={isDark} />
 
       {/* Background Particles */}
       <div className="fixed inset-0 pointer-events-none z-0">
@@ -409,7 +488,7 @@ export default function Portfolio() {
 
       {/* Hero Section */}
       <section
-        className="min-h-screen flex items-center justify-center relative overflow-hidden z-10"
+        className="min-h-screen flex items-center justify-center relative overflow-hidden z-10 pt-20"
         onMouseEnter={() => setShowMatrix(true)}
         onMouseLeave={() => setShowMatrix(false)}
       >
@@ -574,17 +653,63 @@ export default function Portfolio() {
                         intuitive design.
                       </p>
 
-                      {/* Contact Email */}
-                      <div
-                        className={`flex items-center justify-center gap-2 p-4 rounded-lg ${isDark ? "bg-purple-900/20 border border-purple-500/30" : "bg-cyan-900/20 border border-cyan-500/30"}`}
-                      >
-                        <Mail className={`h-5 w-5 ${isDark ? "text-purple-400" : "text-cyan-500"}`} />
-                        <a
-                          href="mailto:achraf.lemrani@gmail.com"
-                          className={`font-exo hover:underline ${isDark ? "text-purple-300" : "text-cyan-600"}`}
+                      {/* Contact Information */}
+                      <div className="grid md:grid-cols-2 gap-4 mt-8">
+                        <div
+                          className={`flex items-center gap-3 p-4 rounded-lg ${isDark ? "bg-purple-900/20 border border-purple-500/30" : "bg-cyan-900/20 border border-cyan-500/30"}`}
                         >
-                          achraf.lemrani@gmail.com
-                        </a>
+                          <Mail className={`h-5 w-5 ${isDark ? "text-purple-400" : "text-cyan-500"}`} />
+                          <a
+                            href="mailto:achraf.lemrani@gmail.com"
+                            className={`font-exo hover:underline ${isDark ? "text-purple-300" : "text-cyan-600"}`}
+                          >
+                            achraf.lemrani@gmail.com
+                          </a>
+                        </div>
+                        <div
+                          className={`flex items-center gap-3 p-4 rounded-lg ${isDark ? "bg-purple-900/20 border border-purple-500/30" : "bg-cyan-900/20 border border-cyan-500/30"}`}
+                        >
+                          <MapPin className={`h-5 w-5 ${isDark ? "text-purple-400" : "text-cyan-500"}`} />
+                          <span className="font-exo">Morocco, Casablanca</span>
+                        </div>
+                        <div
+                          className={`flex items-center gap-3 p-4 rounded-lg ${isDark ? "bg-purple-900/20 border border-purple-500/30" : "bg-cyan-900/20 border border-cyan-500/30"}`}
+                        >
+                          <Calendar className={`h-5 w-5 ${isDark ? "text-purple-400" : "text-cyan-500"}`} />
+                          <span className="font-exo">Available for Projects</span>
+                        </div>
+                        <div
+                          className={`flex items-center gap-3 p-4 rounded-lg ${isDark ? "bg-purple-900/20 border border-purple-500/30" : "bg-cyan-900/20 border border-cyan-500/30"}`}
+                        >
+                          <Globe className={`h-5 w-5 ${isDark ? "text-purple-400" : "text-cyan-500"}`} />
+                          <span className="font-exo">Remote & On-site</span>
+                        </div>
+                      </div>
+
+                      {/* Quick Stats */}
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
+                        <div className="text-center">
+                          <div className={`text-2xl font-bold ${isDark ? "text-purple-400" : "text-cyan-500"}`}>5+</div>
+                          <div className="text-sm text-gray-400">Years Experience</div>
+                        </div>
+                        <div className="text-center">
+                          <div className={`text-2xl font-bold ${isDark ? "text-purple-400" : "text-cyan-500"}`}>
+                            50+
+                          </div>
+                          <div className="text-sm text-gray-400">Projects Completed</div>
+                        </div>
+                        <div className="text-center">
+                          <div className={`text-2xl font-bold ${isDark ? "text-purple-400" : "text-cyan-500"}`}>
+                            15+
+                          </div>
+                          <div className="text-sm text-gray-400">Technologies</div>
+                        </div>
+                        <div className="text-center">
+                          <div className={`text-2xl font-bold ${isDark ? "text-purple-400" : "text-cyan-500"}`}>
+                            24/7
+                          </div>
+                          <div className="text-sm text-gray-400">Support</div>
+                        </div>
                       </div>
                     </CardContent>
                   </Card>
@@ -738,6 +863,23 @@ export default function Portfolio() {
                             {project.title}
                           </h3>
                           <p className="text-gray-400 mb-4 font-exo">{project.description}</p>
+
+                          {/* Project Stats */}
+                          <div className="flex items-center gap-4 mb-4 text-sm text-gray-400">
+                            <div className="flex items-center gap-1">
+                              <Star className="h-4 w-4" />
+                              {project.stars}
+                            </div>
+                            <div className="flex items-center gap-1">
+                              <Share2 className="h-4 w-4" />
+                              {project.forks}
+                            </div>
+                            <div className="flex items-center gap-1">
+                              <Eye className="h-4 w-4" />
+                              {project.views}
+                            </div>
+                          </div>
+
                           <div className="flex flex-wrap gap-2">
                             {project.tech.map((tech, techIndex) => (
                               <span
@@ -789,7 +931,17 @@ export default function Portfolio() {
                           </div>
                         </div>
                         <div className="p-4">
-                          <h3 className="font-semibold text-lg font-rajdhani">{video.title}</h3>
+                          <h3 className="font-semibold text-lg font-rajdhani mb-2">{video.title}</h3>
+                          <div className="flex items-center gap-4 text-sm text-gray-400">
+                            <div className="flex items-center gap-1">
+                              <Eye className="h-4 w-4" />
+                              {video.views.toLocaleString()}
+                            </div>
+                            <div className="flex items-center gap-1">
+                              <Heart className="h-4 w-4" />
+                              {video.likes}
+                            </div>
+                          </div>
                         </div>
                       </CardContent>
                     </Card>
@@ -867,294 +1019,521 @@ export default function Portfolio() {
                     Admin Control Panel
                   </h2>
                   <div className="max-w-6xl mx-auto space-y-8">
-                    {/* CV Management */}
-                    <Card
-                      className={`p-6 ${isDark ? "bg-black/50 border-purple-500/30" : "bg-white/50 border-cyan-500/30"}`}
-                    >
-                      <CardHeader>
-                        <CardTitle className={`text-2xl ${isDark ? "text-purple-300" : "text-cyan-600"}`}>
-                          CV Management
-                        </CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <div className="flex justify-between items-center mb-4">
-                          <p className="font-exo">
-                            {uploadedCV ? `Current CV: ${uploadedCV.name}` : "No CV uploaded yet"}
-                          </p>
-                          <Button
-                            onClick={() => fileInputRef.current?.click()}
-                            className={`${isDark ? "bg-purple-500 hover:bg-purple-600" : "bg-cyan-500 hover:bg-cyan-600"}`}
-                          >
-                            <Upload className="h-4 w-4 mr-2" />
-                            {uploadedCV ? "Replace CV" : "Upload CV"}
-                          </Button>
-                        </div>
-                        {uploadedCV && (
-                          <div
-                            className={`p-4 rounded-lg ${isDark ? "bg-purple-900/20 border border-purple-500/30" : "bg-cyan-900/20 border border-cyan-500/30"}`}
+                    {/* Website Statistics Tab */}
+                    <Tabs defaultValue="overview" className="w-full">
+                      <TabsList className="grid w-full grid-cols-4">
+                        <TabsTrigger value="overview">Overview</TabsTrigger>
+                        <TabsTrigger value="analytics">Analytics</TabsTrigger>
+                        <TabsTrigger value="management">Management</TabsTrigger>
+                        <TabsTrigger value="settings">Settings</TabsTrigger>
+                      </TabsList>
+
+                      {/* Overview Tab */}
+                      <TabsContent value="overview" className="space-y-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                          <Card
+                            className={`p-6 ${isDark ? "bg-black/50 border-purple-500/30" : "bg-white/50 border-cyan-500/30"}`}
                           >
                             <div className="flex items-center justify-between">
                               <div>
-                                <p className="font-semibold">{uploadedCV.name}</p>
-                                <p className="text-sm text-gray-400">
-                                  Size: {(uploadedCV.size / 1024 / 1024).toFixed(2)} MB
+                                <p className="text-sm text-gray-400">Total Visitors</p>
+                                <p className={`text-2xl font-bold ${isDark ? "text-purple-300" : "text-cyan-600"}`}>
+                                  {websiteStats.totalVisitors.toLocaleString()}
                                 </p>
                               </div>
-                              <FileText className={`h-8 w-8 ${isDark ? "text-purple-400" : "text-cyan-500"}`} />
+                              <Users className={`h-8 w-8 ${isDark ? "text-purple-400" : "text-cyan-500"}`} />
                             </div>
-                          </div>
-                        )}
-                      </CardContent>
-                    </Card>
+                          </Card>
 
-                    {/* Direct Skills Management */}
-                    <Card
-                      className={`p-6 ${isDark ? "bg-black/50 border-purple-500/30" : "bg-white/50 border-cyan-500/30"}`}
-                    >
-                      <CardHeader>
-                        <CardTitle className={`text-2xl ${isDark ? "text-purple-300" : "text-cyan-600"}`}>
-                          Skills Management
-                        </CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <div className="flex justify-between items-center mb-6">
-                          <p className="font-exo">Manage skill levels and add new skills directly from here.</p>
-                          <Button
-                            onClick={() => setEditingSkills(!editingSkills)}
-                            className={`${isDark ? "bg-purple-500 hover:bg-purple-600" : "bg-cyan-500 hover:bg-cyan-600"}`}
+                          <Card
+                            className={`p-6 ${isDark ? "bg-black/50 border-purple-500/30" : "bg-white/50 border-cyan-500/30"}`}
                           >
-                            <Edit3 className="h-4 w-4 mr-2" />
-                            {editingSkills ? "Save Changes" : "Edit Skills"}
-                          </Button>
+                            <div className="flex items-center justify-between">
+                              <div>
+                                <p className="text-sm text-gray-400">Page Views</p>
+                                <p className={`text-2xl font-bold ${isDark ? "text-purple-300" : "text-cyan-600"}`}>
+                                  {websiteStats.pageViews.toLocaleString()}
+                                </p>
+                              </div>
+                              <Eye className={`h-8 w-8 ${isDark ? "text-purple-400" : "text-cyan-500"}`} />
+                            </div>
+                          </Card>
+
+                          <Card
+                            className={`p-6 ${isDark ? "bg-black/50 border-purple-500/30" : "bg-white/50 border-cyan-500/30"}`}
+                          >
+                            <div className="flex items-center justify-between">
+                              <div>
+                                <p className="text-sm text-gray-400">Online Users</p>
+                                <p className={`text-2xl font-bold ${isDark ? "text-purple-300" : "text-cyan-600"}`}>
+                                  {websiteStats.onlineUsers}
+                                </p>
+                              </div>
+                              <Activity className={`h-8 w-8 ${isDark ? "text-purple-400" : "text-cyan-500"}`} />
+                            </div>
+                          </Card>
+
+                          <Card
+                            className={`p-6 ${isDark ? "bg-black/50 border-purple-500/30" : "bg-white/50 border-cyan-500/30"}`}
+                          >
+                            <div className="flex items-center justify-between">
+                              <div>
+                                <p className="text-sm text-gray-400">Bounce Rate</p>
+                                <p className={`text-2xl font-bold ${isDark ? "text-purple-300" : "text-cyan-600"}`}>
+                                  {websiteStats.bounceRate}%
+                                </p>
+                              </div>
+                              <TrendingUp className={`h-8 w-8 ${isDark ? "text-purple-400" : "text-cyan-500"}`} />
+                            </div>
+                          </Card>
                         </div>
 
-                        {/* Skills Grid in Admin */}
-                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                          {skills.map((category, categoryIndex) => (
-                            <Card
-                              key={categoryIndex}
-                              className={`p-4 ${isDark ? "bg-black/30 border-purple-500/20" : "bg-white/30 border-cyan-500/20"}`}
-                            >
-                              <CardHeader className="pb-2">
-                                <CardTitle
-                                  className={`text-lg font-rajdhani ${isDark ? "text-purple-300" : "text-cyan-600"}`}
-                                >
-                                  {category.category}
-                                </CardTitle>
-                              </CardHeader>
-                              <CardContent className="space-y-3">
-                                {category.skills.map((skill, skillIndex) => (
-                                  <div key={skillIndex} className="space-y-2">
-                                    <div className="flex justify-between items-center">
-                                      <span className="font-exo text-sm">{skill.name}</span>
-                                      <div className="flex items-center gap-2">
-                                        <span className="text-sm text-gray-400">{skill.level}%</span>
-                                        {editingSkills && (
-                                          <Button
-                                            onClick={() => deleteSkill(categoryIndex, skillIndex)}
-                                            variant="outline"
-                                            size="sm"
-                                            className="h-6 w-6 p-0 text-red-400 hover:bg-red-500/20"
-                                          >
-                                            ×
-                                          </Button>
-                                        )}
-                                      </div>
+                        {/* Top Pages */}
+                        <Card
+                          className={`p-6 ${isDark ? "bg-black/50 border-purple-500/30" : "bg-white/50 border-cyan-500/30"}`}
+                        >
+                          <CardHeader>
+                            <CardTitle className={`${isDark ? "text-purple-300" : "text-cyan-600"}`}>
+                              Top Pages
+                            </CardTitle>
+                          </CardHeader>
+                          <CardContent>
+                            <div className="space-y-4">
+                              {websiteStats.topPages.map((page, index) => (
+                                <div key={index} className="flex items-center justify-between">
+                                  <div className="flex items-center gap-3">
+                                    <Badge variant="secondary">{index + 1}</Badge>
+                                    <span className="font-mono">{page.page}</span>
+                                  </div>
+                                  <div className="flex items-center gap-4">
+                                    <span className="text-sm text-gray-400">{page.views.toLocaleString()} views</span>
+                                    <div className="w-20">
+                                      <Progress value={page.percentage} className="h-2" />
                                     </div>
-                                    {editingSkills ? (
-                                      <Slider
-                                        value={[skill.level]}
-                                        onValueChange={(value) => updateSkillLevel(categoryIndex, skillIndex, value)}
-                                        max={100}
-                                        step={1}
-                                        className={`${isDark ? "accent-purple-500" : "accent-cyan-500"}`}
-                                      />
-                                    ) : (
-                                      <Progress
-                                        value={skill.level}
-                                        className={`h-2 ${isDark ? "bg-purple-900/30" : "bg-cyan-900/30"}`}
-                                      />
-                                    )}
+                                    <span className="text-sm font-semibold">{page.percentage}%</span>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </CardContent>
+                        </Card>
+
+                        {/* Top Countries */}
+                        <Card
+                          className={`p-6 ${isDark ? "bg-black/50 border-purple-500/30" : "bg-white/50 border-cyan-500/30"}`}
+                        >
+                          <CardHeader>
+                            <CardTitle className={`${isDark ? "text-purple-300" : "text-cyan-600"}`}>
+                              Top Countries
+                            </CardTitle>
+                          </CardHeader>
+                          <CardContent>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                              {websiteStats.topCountries.map((country, index) => (
+                                <div
+                                  key={index}
+                                  className="flex items-center justify-between p-3 rounded-lg bg-gray-100/10"
+                                >
+                                  <div className="flex items-center gap-3">
+                                    <span className="text-2xl">{country.flag}</span>
+                                    <span>{country.country}</span>
+                                  </div>
+                                  <span className="font-semibold">{country.visitors.toLocaleString()}</span>
+                                </div>
+                              ))}
+                            </div>
+                          </CardContent>
+                        </Card>
+                      </TabsContent>
+
+                      {/* Analytics Tab */}
+                      <TabsContent value="analytics" className="space-y-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                          {/* Device Stats */}
+                          <Card
+                            className={`p-6 ${isDark ? "bg-black/50 border-purple-500/30" : "bg-white/50 border-cyan-500/30"}`}
+                          >
+                            <CardHeader>
+                              <CardTitle className={`${isDark ? "text-purple-300" : "text-cyan-600"}`}>
+                                Device Usage
+                              </CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                              <div className="space-y-4">
+                                {websiteStats.deviceStats.map((device, index) => (
+                                  <div key={index} className="space-y-2">
+                                    <div className="flex justify-between">
+                                      <span>{device.device}</span>
+                                      <span className="font-semibold">{device.percentage}%</span>
+                                    </div>
+                                    <Progress value={device.percentage} className="h-2" />
+                                    <div className="text-sm text-gray-400">{device.users.toLocaleString()} users</div>
                                   </div>
                                 ))}
+                              </div>
+                            </CardContent>
+                          </Card>
 
-                                {/* Add New Skill Form */}
-                                {editingSkills && (
-                                  <div className="mt-4 p-3 border-t border-gray-600 space-y-2">
-                                    <Input
-                                      placeholder="New skill name"
-                                      value={newSkillName}
-                                      onChange={(e) => setNewSkillName(e.target.value)}
-                                      className="text-sm"
-                                    />
-                                    <div className="flex items-center gap-2">
-                                      <Slider
-                                        value={[newSkillLevel]}
-                                        onValueChange={(value) => setNewSkillLevel(value[0])}
-                                        max={100}
-                                        step={1}
-                                        className="flex-1"
-                                      />
-                                      <span className="text-xs text-gray-400 w-8">{newSkillLevel}%</span>
+                          {/* Browser Stats */}
+                          <Card
+                            className={`p-6 ${isDark ? "bg-black/50 border-purple-500/30" : "bg-white/50 border-cyan-500/30"}`}
+                          >
+                            <CardHeader>
+                              <CardTitle className={`${isDark ? "text-purple-300" : "text-cyan-600"}`}>
+                                Browser Usage
+                              </CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                              <div className="space-y-4">
+                                {websiteStats.browserStats.map((browser, index) => (
+                                  <div key={index} className="space-y-2">
+                                    <div className="flex justify-between">
+                                      <span>{browser.browser}</span>
+                                      <span className="font-semibold">{browser.percentage}%</span>
                                     </div>
-                                    <Button
-                                      onClick={() => {
-                                        setSelectedCategory(categoryIndex)
-                                        addSkill()
-                                      }}
-                                      size="sm"
-                                      className={`w-full text-xs ${isDark ? "bg-purple-500 hover:bg-purple-600" : "bg-cyan-500 hover:bg-cyan-600"}`}
-                                    >
-                                      Add Skill
-                                    </Button>
+                                    <Progress value={browser.percentage} className="h-2" />
+                                    <div className="text-sm text-gray-400">{browser.users.toLocaleString()} users</div>
                                   </div>
-                                )}
-                              </CardContent>
-                            </Card>
-                          ))}
+                                ))}
+                              </div>
+                            </CardContent>
+                          </Card>
                         </div>
-                      </CardContent>
-                    </Card>
 
-                    {/* Media Upload */}
-                    <Card
-                      className={`p-6 ${isDark ? "bg-black/50 border-purple-500/30" : "bg-white/50 border-cyan-500/30"}`}
-                    >
-                      <CardHeader>
-                        <CardTitle className={`text-2xl ${isDark ? "text-purple-300" : "text-cyan-600"}`}>
-                          Media Upload Center
-                        </CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <p className="font-exo mb-4">
-                          Upload videos, images, and audio files to the Design & Video section.
-                        </p>
-                        <div className="grid md:grid-cols-3 gap-4">
-                          <Button
-                            size="lg"
-                            className={`rounded-full px-8 py-4 font-semibold transition-all duration-300 hover:scale-105 ${isDark ? "bg-purple-500 hover:bg-purple-600 hover:shadow-[0_0_30px_rgba(155,89,182,0.8)]" : "bg-cyan-500 hover:bg-cyan-600 hover:shadow-[0_0_30px_rgba(0,255,255,0.8)]"}`}
-                          >
-                            <Video className="h-5 w-5 mr-2" />
-                            Upload Video
-                          </Button>
-                          <Button
-                            size="lg"
-                            variant="outline"
-                            className={`rounded-full px-8 py-4 font-semibold transition-all duration-300 hover:scale-105 ${isDark ? "border-purple-500 hover:bg-purple-500/20" : "border-cyan-500 hover:bg-cyan-500/20"}`}
-                          >
-                            <ImageIcon className="h-5 w-5 mr-2" />
-                            Upload Image
-                          </Button>
-                          <Button
-                            size="lg"
-                            variant="outline"
-                            className={`rounded-full px-8 py-4 font-semibold transition-all duration-300 hover:scale-105 ${isDark ? "border-purple-500 hover:bg-purple-500/20" : "border-cyan-500 hover:bg-cyan-500/20"}`}
-                          >
-                            <Music className="h-5 w-5 mr-2" />
-                            Upload Audio
-                          </Button>
-                        </div>
-                      </CardContent>
-                    </Card>
+                        {/* Real-time Activity */}
+                        <Card
+                          className={`p-6 ${isDark ? "bg-black/50 border-purple-500/30" : "bg-white/50 border-cyan-500/30"}`}
+                        >
+                          <CardHeader>
+                            <CardTitle className={`${isDark ? "text-purple-300" : "text-cyan-600"}`}>
+                              Real-time Activity
+                            </CardTitle>
+                          </CardHeader>
+                          <CardContent>
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                              <div className="text-center">
+                                <div className={`text-3xl font-bold ${isDark ? "text-green-400" : "text-green-600"}`}>
+                                  {websiteStats.onlineUsers}
+                                </div>
+                                <div className="text-sm text-gray-400">Active Users</div>
+                              </div>
+                              <div className="text-center">
+                                <div className={`text-3xl font-bold ${isDark ? "text-blue-400" : "text-blue-600"}`}>
+                                  {websiteStats.avgSessionDuration}
+                                </div>
+                                <div className="text-sm text-gray-400">Avg Session</div>
+                              </div>
+                              <div className="text-center">
+                                <div className={`text-3xl font-bold ${isDark ? "text-yellow-400" : "text-yellow-600"}`}>
+                                  {websiteStats.bounceRate}%
+                                </div>
+                                <div className="text-sm text-gray-400">Bounce Rate</div>
+                              </div>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      </TabsContent>
 
-                    {/* Project Management */}
-                    <Card
-                      className={`p-6 ${isDark ? "bg-black/50 border-purple-500/30" : "bg-white/50 border-cyan-500/30"}`}
-                    >
-                      <CardHeader>
-                        <CardTitle className={`text-2xl ${isDark ? "text-purple-300" : "text-cyan-600"}`}>
-                          Project Management
-                        </CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <div className="space-y-4">
-                          {projects.map((project) => (
-                            <Card
-                              key={project.id}
-                              className={`p-4 ${isDark ? "bg-black/30 border-purple-500/20" : "bg-white/30 border-cyan-500/20"}`}
-                            >
-                              <CardContent className="flex items-center justify-between">
-                                <div className="flex items-center space-x-4">
-                                  <Image
-                                    src={project.image || "/placeholder.svg"}
-                                    alt={project.title}
-                                    width={60}
-                                    height={40}
-                                    className="rounded object-cover"
-                                  />
-                                  <div className="text-left">
-                                    <h4
-                                      className={`font-bold font-rajdhani ${isDark ? "text-purple-300" : "text-cyan-600"}`}
-                                    >
-                                      {project.title}
-                                    </h4>
-                                    <p className="text-sm text-gray-400 font-exo">{project.status}</p>
+                      {/* Management Tab */}
+                      <TabsContent value="management" className="space-y-6">
+                        {/* CV Management */}
+                        <Card
+                          className={`p-6 ${isDark ? "bg-black/50 border-purple-500/30" : "bg-white/50 border-cyan-500/30"}`}
+                        >
+                          <CardHeader>
+                            <CardTitle className={`text-2xl ${isDark ? "text-purple-300" : "text-cyan-600"}`}>
+                              CV Management
+                            </CardTitle>
+                          </CardHeader>
+                          <CardContent>
+                            <div className="flex justify-between items-center mb-4">
+                              <p className="font-exo">
+                                {uploadedCV ? `Current CV: ${uploadedCV.name}` : "No CV uploaded yet"}
+                              </p>
+                              <Button
+                                onClick={() => fileInputRef.current?.click()}
+                                className={`${isDark ? "bg-purple-500 hover:bg-purple-600" : "bg-cyan-500 hover:bg-cyan-600"}`}
+                              >
+                                <Upload className="h-4 w-4 mr-2" />
+                                {uploadedCV ? "Replace CV" : "Upload CV"}
+                              </Button>
+                            </div>
+                            {uploadedCV && (
+                              <div
+                                className={`p-4 rounded-lg ${isDark ? "bg-purple-900/20 border border-purple-500/30" : "bg-cyan-900/20 border border-cyan-500/30"}`}
+                              >
+                                <div className="flex items-center justify-between">
+                                  <div>
+                                    <p className="font-semibold">{uploadedCV.name}</p>
+                                    <p className="text-sm text-gray-400">
+                                      Size: {(uploadedCV.size / 1024 / 1024).toFixed(2)} MB
+                                    </p>
                                   </div>
+                                  <FileText className={`h-8 w-8 ${isDark ? "text-purple-400" : "text-cyan-500"}`} />
                                 </div>
-                                <div className="flex space-x-2">
-                                  <Button
-                                    variant="outline"
-                                    size="sm"
-                                    className={`${isDark ? "border-purple-500/50 hover:bg-purple-500/20" : "border-cyan-500/50 hover:bg-cyan-500/20"}`}
-                                  >
-                                    <Edit3 className="h-4 w-4" />
-                                  </Button>
-                                  <Button
-                                    variant="outline"
-                                    size="sm"
-                                    className={`${isDark ? "border-purple-500/50 hover:bg-purple-500/20" : "border-cyan-500/50 hover:bg-cyan-500/20"}`}
-                                  >
-                                    <ExternalLink className="h-4 w-4" />
-                                  </Button>
-                                </div>
-                              </CardContent>
-                            </Card>
-                          ))}
-                        </div>
-                      </CardContent>
-                    </Card>
+                              </div>
+                            )}
+                          </CardContent>
+                        </Card>
 
-                    {/* Admin Actions */}
-                    <Card
-                      className={`p-6 ${isDark ? "bg-black/50 border-purple-500/30" : "bg-white/50 border-cyan-500/30"}`}
-                    >
-                      <CardHeader>
-                        <CardTitle className={`text-2xl ${isDark ? "text-purple-300" : "text-cyan-600"}`}>
-                          Admin Actions
-                        </CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <div className="flex gap-4 justify-center">
-                          <Button
-                            onClick={() => setActiveTab("skills")}
-                            variant="outline"
-                            className={`${isDark ? "border-purple-500/50 hover:bg-purple-500/20" : "border-cyan-500/50 hover:bg-cyan-500/20"}`}
-                          >
-                            <Target className="h-4 w-4 mr-2" />
-                            Go to Skills Tab
-                          </Button>
-                          <Button
-                            onClick={() => setActiveTab("media")}
-                            variant="outline"
-                            className={`${isDark ? "border-purple-500/50 hover:bg-purple-500/20" : "border-cyan-500/50 hover:bg-cyan-500/20"}`}
-                          >
-                            <Upload className="h-4 w-4 mr-2" />
-                            Go to Media Tab
-                          </Button>
-                          <Button
-                            onClick={() => {
-                              setIsAdmin(false)
-                              setActiveTab("about")
-                            }}
-                            variant="outline"
-                            className="border-red-500/50 hover:bg-red-500/20 text-red-400"
-                          >
-                            <Lock className="h-4 w-4 mr-2" />
-                            Logout
-                          </Button>
-                        </div>
-                      </CardContent>
-                    </Card>
+                        {/* Skills Management */}
+                        <Card
+                          className={`p-6 ${isDark ? "bg-black/50 border-purple-500/30" : "bg-white/50 border-cyan-500/30"}`}
+                        >
+                          <CardHeader>
+                            <CardTitle className={`text-2xl ${isDark ? "text-purple-300" : "text-cyan-600"}`}>
+                              Skills Management
+                            </CardTitle>
+                          </CardHeader>
+                          <CardContent>
+                            <div className="flex justify-between items-center mb-6">
+                              <p className="font-exo">Manage skill levels and add new skills directly from here.</p>
+                              <Button
+                                onClick={() => setEditingSkills(!editingSkills)}
+                                className={`${isDark ? "bg-purple-500 hover:bg-purple-600" : "bg-cyan-500 hover:bg-cyan-600"}`}
+                              >
+                                <Edit3 className="h-4 w-4 mr-2" />
+                                {editingSkills ? "Save Changes" : "Edit Skills"}
+                              </Button>
+                            </div>
+
+                            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                              {skills.map((category, categoryIndex) => (
+                                <Card
+                                  key={categoryIndex}
+                                  className={`p-4 ${isDark ? "bg-black/30 border-purple-500/20" : "bg-white/30 border-cyan-500/20"}`}
+                                >
+                                  <CardHeader className="pb-2">
+                                    <CardTitle
+                                      className={`text-lg font-rajdhani ${isDark ? "text-purple-300" : "text-cyan-600"}`}
+                                    >
+                                      {category.category}
+                                    </CardTitle>
+                                  </CardHeader>
+                                  <CardContent className="space-y-3">
+                                    {category.skills.map((skill, skillIndex) => (
+                                      <div key={skillIndex} className="space-y-2">
+                                        <div className="flex justify-between items-center">
+                                          <span className="font-exo text-sm">{skill.name}</span>
+                                          <div className="flex items-center gap-2">
+                                            <span className="text-sm text-gray-400">{skill.level}%</span>
+                                            {editingSkills && (
+                                              <Button
+                                                onClick={() => deleteSkill(categoryIndex, skillIndex)}
+                                                variant="outline"
+                                                size="sm"
+                                                className="h-6 w-6 p-0 text-red-400 hover:bg-red-500/20"
+                                              >
+                                                ×
+                                              </Button>
+                                            )}
+                                          </div>
+                                        </div>
+                                        {editingSkills ? (
+                                          <Slider
+                                            value={[skill.level]}
+                                            onValueChange={(value) =>
+                                              updateSkillLevel(categoryIndex, skillIndex, value)
+                                            }
+                                            max={100}
+                                            step={1}
+                                            className={`${isDark ? "accent-purple-500" : "accent-cyan-500"}`}
+                                          />
+                                        ) : (
+                                          <Progress
+                                            value={skill.level}
+                                            className={`h-2 ${isDark ? "bg-purple-900/30" : "bg-cyan-900/30"}`}
+                                          />
+                                        )}
+                                      </div>
+                                    ))}
+
+                                    {editingSkills && (
+                                      <div className="mt-4 p-3 border-t border-gray-600 space-y-2">
+                                        <Input
+                                          placeholder="New skill name"
+                                          value={newSkillName}
+                                          onChange={(e) => setNewSkillName(e.target.value)}
+                                          className="text-sm"
+                                        />
+                                        <div className="flex items-center gap-2">
+                                          <Slider
+                                            value={[newSkillLevel]}
+                                            onValueChange={(value) => setNewSkillLevel(value[0])}
+                                            max={100}
+                                            step={1}
+                                            className="flex-1"
+                                          />
+                                          <span className="text-xs text-gray-400 w-8">{newSkillLevel}%</span>
+                                        </div>
+                                        <Button
+                                          onClick={() => {
+                                            setSelectedCategory(categoryIndex)
+                                            addSkill()
+                                          }}
+                                          size="sm"
+                                          className={`w-full text-xs ${isDark ? "bg-purple-500 hover:bg-purple-600" : "bg-cyan-500 hover:bg-cyan-600"}`}
+                                        >
+                                          Add Skill
+                                        </Button>
+                                      </div>
+                                    )}
+                                  </CardContent>
+                                </Card>
+                              ))}
+                            </div>
+                          </CardContent>
+                        </Card>
+
+                        {/* Project Management */}
+                        <Card
+                          className={`p-6 ${isDark ? "bg-black/50 border-purple-500/30" : "bg-white/50 border-cyan-500/30"}`}
+                        >
+                          <CardHeader>
+                            <CardTitle className={`text-2xl ${isDark ? "text-purple-300" : "text-cyan-600"}`}>
+                              Project Management
+                            </CardTitle>
+                          </CardHeader>
+                          <CardContent>
+                            <div className="space-y-4">
+                              {projects.map((project) => (
+                                <Card
+                                  key={project.id}
+                                  className={`p-4 ${isDark ? "bg-black/30 border-purple-500/20" : "bg-white/30 border-cyan-500/20"}`}
+                                >
+                                  <CardContent className="flex items-center justify-between">
+                                    <div className="flex items-center space-x-4">
+                                      <Image
+                                        src={project.image || "/placeholder.svg"}
+                                        alt={project.title}
+                                        width={60}
+                                        height={40}
+                                        className="rounded object-cover"
+                                      />
+                                      <div className="text-left">
+                                        <h4
+                                          className={`font-bold font-rajdhani ${isDark ? "text-purple-300" : "text-cyan-600"}`}
+                                        >
+                                          {project.title}
+                                        </h4>
+                                        <p className="text-sm text-gray-400 font-exo">{project.status}</p>
+                                        <div className="flex items-center gap-4 text-xs text-gray-500 mt-1">
+                                          <span>⭐ {project.stars}</span>
+                                          <span>🔀 {project.forks}</span>
+                                          <span>👁️ {project.views}</span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div className="flex space-x-2">
+                                      <Button
+                                        variant="outline"
+                                        size="sm"
+                                        className={`${isDark ? "border-purple-500/50 hover:bg-purple-500/20" : "border-cyan-500/50 hover:bg-cyan-500/20"}`}
+                                      >
+                                        <Edit3 className="h-4 w-4" />
+                                      </Button>
+                                      <Button
+                                        variant="outline"
+                                        size="sm"
+                                        className={`${isDark ? "border-purple-500/50 hover:bg-purple-500/20" : "border-cyan-500/50 hover:bg-cyan-500/20"}`}
+                                      >
+                                        <ExternalLink className="h-4 w-4" />
+                                      </Button>
+                                    </div>
+                                  </CardContent>
+                                </Card>
+                              ))}
+                            </div>
+                          </CardContent>
+                        </Card>
+                      </TabsContent>
+
+                      {/* Settings Tab */}
+                      <TabsContent value="settings" className="space-y-6">
+                        {/* Media Upload */}
+                        <Card
+                          className={`p-6 ${isDark ? "bg-black/50 border-purple-500/30" : "bg-white/50 border-cyan-500/30"}`}
+                        >
+                          <CardHeader>
+                            <CardTitle className={`text-2xl ${isDark ? "text-purple-300" : "text-cyan-600"}`}>
+                              Media Upload Center
+                            </CardTitle>
+                          </CardHeader>
+                          <CardContent>
+                            <p className="font-exo mb-4">
+                              Upload videos, images, and audio files to the Design & Video section.
+                            </p>
+                            <div className="grid md:grid-cols-3 gap-4">
+                              <Button
+                                size="lg"
+                                className={`rounded-full px-8 py-4 font-semibold transition-all duration-300 hover:scale-105 ${isDark ? "bg-purple-500 hover:bg-purple-600 hover:shadow-[0_0_30px_rgba(155,89,182,0.8)]" : "bg-cyan-500 hover:bg-cyan-600 hover:shadow-[0_0_30px_rgba(0,255,255,0.8)]"}`}
+                              >
+                                <Video className="h-5 w-5 mr-2" />
+                                Upload Video
+                              </Button>
+                              <Button
+                                size="lg"
+                                variant="outline"
+                                className={`rounded-full px-8 py-4 font-semibold transition-all duration-300 hover:scale-105 ${isDark ? "border-purple-500 hover:bg-purple-500/20" : "border-cyan-500 hover:bg-cyan-500/20"}`}
+                              >
+                                <ImageIcon className="h-5 w-5 mr-2" />
+                                Upload Image
+                              </Button>
+                              <Button
+                                size="lg"
+                                variant="outline"
+                                className={`rounded-full px-8 py-4 font-semibold transition-all duration-300 hover:scale-105 ${isDark ? "border-purple-500 hover:bg-purple-500/20" : "border-cyan-500 hover:bg-cyan-500/20"}`}
+                              >
+                                <Music className="h-5 w-5 mr-2" />
+                                Upload Audio
+                              </Button>
+                            </div>
+                          </CardContent>
+                        </Card>
+
+                        {/* Admin Actions */}
+                        <Card
+                          className={`p-6 ${isDark ? "bg-black/50 border-purple-500/30" : "bg-white/50 border-cyan-500/30"}`}
+                        >
+                          <CardHeader>
+                            <CardTitle className={`text-2xl ${isDark ? "text-purple-300" : "text-cyan-600"}`}>
+                              Admin Actions
+                            </CardTitle>
+                          </CardHeader>
+                          <CardContent>
+                            <div className="flex gap-4 justify-center">
+                              <Button
+                                onClick={() => setActiveTab("skills")}
+                                variant="outline"
+                                className={`${isDark ? "border-purple-500/50 hover:bg-purple-500/20" : "border-cyan-500/50 hover:bg-cyan-500/20"}`}
+                              >
+                                <Target className="h-4 w-4 mr-2" />
+                                Go to Skills Tab
+                              </Button>
+                              <Button
+                                onClick={() => setActiveTab("media")}
+                                variant="outline"
+                                className={`${isDark ? "border-purple-500/50 hover:bg-purple-500/20" : "border-cyan-500/50 hover:bg-cyan-500/20"}`}
+                              >
+                                <Upload className="h-4 w-4 mr-2" />
+                                Go to Media Tab
+                              </Button>
+                              <Button
+                                onClick={() => {
+                                  setIsAdmin(false)
+                                  setActiveTab("about")
+                                }}
+                                variant="outline"
+                                className="border-red-500/50 hover:bg-red-500/20 text-red-400"
+                              >
+                                <Lock className="h-4 w-4 mr-2" />
+                                Logout
+                              </Button>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      </TabsContent>
+                    </Tabs>
                   </div>
                 </div>
               </TabsContent>

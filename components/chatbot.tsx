@@ -1,153 +1,173 @@
 "use client"
 
-import { useState } from "react"
-import { MessageCircle, X, Send } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { useState, useRef, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { ScrollArea } from "@/components/ui/scroll-area"
+import { Badge } from "@/components/ui/badge"
+import { MessageCircle, Send, Minimize2, X, Bot, User, Sparkles } from "lucide-react"
 
-interface Message {
-  id: number
-  text: string
-  isUser: boolean
-  timestamp: Date
-}
-
-interface ChatbotProps {
-  isDark: boolean
-}
-
-export default function Chatbot({ isDark }: ChatbotProps) {
+const ChatBot = ({ isDark }) => {
   const [isOpen, setIsOpen] = useState(false)
-  const [messages, setMessages] = useState<Message[]>([
+  const [messages, setMessages] = useState([
     {
       id: 1,
-      text: "Hello! I'm N1cht's AI assistant. How can I help you today?",
-      isUser: false,
+      type: "bot",
+      content: "👋 Hey! I'm Achraf's AI assistant. Ask me anything about him or his work!",
       timestamp: new Date(),
     },
   ])
   const [inputMessage, setInputMessage] = useState("")
+  const [isTyping, setIsTyping] = useState(false)
+  const messagesEndRef = useRef(null)
 
-  const handleSendMessage = () => {
-    if (inputMessage.trim()) {
-      const newMessage: Message = {
-        id: messages.length + 1,
-        text: inputMessage,
-        isUser: true,
-        timestamp: new Date(),
-      }
-
-      setMessages([...messages, newMessage])
-      setInputMessage("")
-
-      // Simulate AI response
-      setTimeout(() => {
-        const aiResponse: Message = {
-          id: messages.length + 2,
-          text: getAIResponse(inputMessage),
-          isUser: false,
-          timestamp: new Date(),
-        }
-        setMessages((prev) => [...prev, aiResponse])
-      }, 1000)
-    }
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
   }
 
-  const getAIResponse = (message: string): string => {
-    const lowerMessage = message.toLowerCase()
+  useEffect(() => {
+    scrollToBottom()
+  }, [messages])
 
-    if (lowerMessage.includes("skills") || lowerMessage.includes("programming")) {
-      return "N1cht specializes in Python, JavaScript/TypeScript, React/Next.js, machine learning, cybersecurity, and algorithmic trading. He's also skilled in creative design with After Effects and video editing!"
+  // --- Basic keyword intelligence ---
+  const knowledgeBase = {
+    skills: {
+      keywords: ["skills", "technologies", "programming"],
+      response: "🚀 Achraf works with React, Next.js, Python, Node.js, and more!",
+    },
+    projects: {
+      keywords: ["projects", "portfolio"],
+      response: "💼 Achraf built a Chess AI, Cybersecurity CTF platform, and several games.",
+    },
+  }
+
+  // --- Simulated AI replies for unknown questions ---
+  const fillerReplies = [
+    "Hmm 🤔 interesting question! I’ll need to think about that.",
+    "I’m not 100% sure, but I can find out for you!",
+    "That’s outside my main knowledge, but Achraf might know!",
+    "Let’s see… oh! That’s a tricky one!",
+  ]
+
+  const generateResponse = (userMessage) => {
+    const lower = userMessage.toLowerCase()
+    for (const [_, data] of Object.entries(knowledgeBase)) {
+      if (data.keywords.some((kw) => lower.includes(kw))) return data.response
     }
+    return fillerReplies[Math.floor(Math.random() * fillerReplies.length)]
+  }
 
-    if (lowerMessage.includes("projects") || lowerMessage.includes("work")) {
-      return "N1cht has worked on various projects including AI-powered trading bots, cybersecurity dashboards, data science platforms, and video content studios. Each project combines technical expertise with creative vision!"
+  const handleSendMessage = () => {
+    if (!inputMessage.trim()) return
+
+    const userMsg = {
+      id: Date.now(),
+      type: "user",
+      content: inputMessage,
+      timestamp: new Date(),
     }
+    setMessages((prev) => [...prev, userMsg])
+    setInputMessage("")
+    setIsTyping(true)
 
-    if (lowerMessage.includes("contact") || lowerMessage.includes("email")) {
-      return "You can reach N1cht at achraf.lemrani@gmail.com or connect through his social media links on GitHub, LinkedIn, and Instagram!"
+    setTimeout(() => {
+      const botMsg = {
+        id: Date.now() + 1,
+        type: "bot",
+        content: generateResponse(userMsg.content),
+        timestamp: new Date(),
+      }
+      setMessages((prev) => [...prev, botMsg])
+      setIsTyping(false)
+    }, 1000)
+  }
+
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault()
+      handleSendMessage()
     }
-
-    if (lowerMessage.includes("chess") || lowerMessage.includes("game")) {
-      return "N1cht has built an interactive chess game with AI opponent and a CTF hacking challenge! You can find them in the Games section. Try challenging the AI!"
-    }
-
-    if (lowerMessage.includes("hello") || lowerMessage.includes("hi")) {
-      return "Hello! Welcome to N1cht's portfolio. I'm here to help you learn more about his skills, projects, and experience. What would you like to know?"
-    }
-
-    return "That's an interesting question! N1cht is passionate about combining technology with creativity. Feel free to explore his portfolio sections or ask me about his skills, projects, or how to get in touch!"
   }
 
   return (
     <>
-      {/* Chat Toggle Button */}
-      <Button
-        onClick={() => setIsOpen(!isOpen)}
-        className={`fixed bottom-6 right-6 z-50 rounded-full w-14 h-14 shadow-lg transition-all duration-300 ${
-          isDark
-            ? "bg-purple-500 hover:bg-purple-600 hover:shadow-[0_0_30px_rgba(155,89,182,0.8)]"
-            : "bg-cyan-500 hover:bg-cyan-600 hover:shadow-[0_0_30px_rgba(0,255,255,0.8)]"
-        }`}
-      >
-        {isOpen ? <X className="h-6 w-6" /> : <MessageCircle className="h-6 w-6" />}
-      </Button>
+      {/* Floating Chat Button */}
+      {!isOpen && (
+        <Button
+          onClick={() => setIsOpen(true)}
+          className={`fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full shadow-lg ${
+            isDark
+              ? "bg-gradient-to-r from-purple-500 to-pink-500"
+              : "bg-gradient-to-r from-cyan-500 to-blue-500"
+          }`}
+        >
+          <MessageCircle className="h-6 w-6" />
+        </Button>
+      )}
 
       {/* Chat Window */}
       {isOpen && (
         <Card
-          className={`fixed bottom-24 right-6 z-50 w-80 h-96 shadow-2xl transition-all duration-300 ${
+          className={`fixed bottom-20 right-6 z-50 w-80 h-[400px] shadow-2xl flex flex-col ${
             isDark
-              ? "bg-black/90 border-purple-500/50 backdrop-blur-sm"
-              : "bg-white/90 border-cyan-500/50 backdrop-blur-sm"
+              ? "bg-gray-900 border-purple-500/30"
+              : "bg-white border-cyan-500/30"
           }`}
         >
-          <CardHeader className="pb-2">
-            <CardTitle className={`text-lg font-rajdhani ${isDark ? "text-purple-300" : "text-cyan-600"}`}>
-              N1cht Assistant
+          <CardHeader className="py-2 flex justify-between items-center">
+            <CardTitle className={`text-sm font-semibold flex items-center gap-2 ${isDark ? "text-purple-300" : "text-cyan-600"}`}>
+              <Bot className="h-4 w-4" /> AI Assistant
+              <Badge variant="secondary" className="text-xs">
+                <Sparkles className="h-3 w-3 mr-1" /> Online
+              </Badge>
             </CardTitle>
+            <Button variant="ghost" size="sm" onClick={() => setIsOpen(false)} className="h-6 w-6 p-0">
+              <X className="h-4 w-4" />
+            </Button>
           </CardHeader>
-          <CardContent className="flex flex-col h-full">
-            {/* Messages */}
-            <div className="flex-1 overflow-y-auto space-y-3 mb-4">
-              {messages.map((message) => (
-                <div key={message.id} className={`flex ${message.isUser ? "justify-end" : "justify-start"}`}>
-                  <div
-                    className={`max-w-[80%] p-3 rounded-lg text-sm font-exo ${
-                      message.isUser
-                        ? isDark
-                          ? "bg-purple-500 text-white"
-                          : "bg-cyan-500 text-white"
-                        : isDark
-                          ? "bg-gray-800 text-gray-200"
-                          : "bg-gray-100 text-gray-800"
-                    }`}
-                  >
-                    {message.text}
+
+          <CardContent className="flex flex-col flex-1 p-3">
+            <ScrollArea className="flex-1 pr-2">
+              <div className="space-y-3">
+                {messages.map((m) => (
+                  <div key={m.id} className={`flex ${m.type === "user" ? "justify-end" : "justify-start"}`}>
+                    <div
+                      className={`max-w-[80%] rounded-lg p-2 text-sm ${
+                        m.type === "user"
+                          ? isDark ? "bg-purple-600 text-white" : "bg-cyan-600 text-white"
+                          : isDark ? "bg-gray-800 text-purple-100" : "bg-gray-100 text-cyan-900"
+                      }`}
+                    >
+                      {m.content}
+                      <div className="text-[10px] opacity-70 mt-1">
+                        {m.timestamp.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                      </div>
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+
+                {isTyping && (
+                  <div className="flex justify-start">
+                    <div className={`p-2 rounded-lg text-sm ${isDark ? "bg-gray-800 text-purple-100" : "bg-gray-100 text-cyan-900"}`}>
+                      Typing...
+                    </div>
+                  </div>
+                )}
+              </div>
+              <div ref={messagesEndRef} />
+            </ScrollArea>
 
             {/* Input */}
-            <div className="flex gap-2">
+            <div className="flex gap-2 mt-2">
               <Input
                 value={inputMessage}
                 onChange={(e) => setInputMessage(e.target.value)}
-                placeholder="Ask me anything..."
-                className={`flex-1 ${isDark ? "border-purple-500/50" : "border-cyan-500/50"}`}
-                onKeyPress={(e) => {
-                  if (e.key === "Enter") {
-                    handleSendMessage()
-                  }
-                }}
+                onKeyPress={handleKeyPress}
+                placeholder="Type a message..."
+                className={isDark ? "bg-gray-800 text-purple-100" : "bg-white text-cyan-900"}
               />
-              <Button
-                onClick={handleSendMessage}
-                size="sm"
-                className={`${isDark ? "bg-purple-500 hover:bg-purple-600" : "bg-cyan-500 hover:bg-cyan-600"}`}
-              >
+              <Button onClick={handleSendMessage} disabled={!inputMessage.trim() || isTyping} className={isDark ? "bg-purple-600" : "bg-cyan-600"}>
                 <Send className="h-4 w-4" />
               </Button>
             </div>
@@ -157,3 +177,5 @@ export default function Chatbot({ isDark }: ChatbotProps) {
     </>
   )
 }
+
+export default ChatBot
