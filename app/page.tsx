@@ -33,6 +33,8 @@ import {
   Share2,
   Calendar,
   MapPin,
+  MoreHorizontal,
+  Palette,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -42,11 +44,21 @@ import { Label } from "@/components/ui/label"
 import { Progress } from "@/components/ui/progress"
 import { Slider } from "@/components/ui/slider"
 import { Badge } from "@/components/ui/badge"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu"
 import Image from "next/image"
 import ChessGame from "@/components/chess-game"
 import Chatbot from "@/components/chatbot"
 import CTFGame from "@/components/ctf-game"
 import DigitalClock from "@/components/digital-clock"
+import CircuitSimulator from "@/components/circuit-simulator"
+import ScientificCalculator from "@/components/scientific-calculator"
+import GraphingCalculator from "@/components/graphing-calculator"
 
 export default function Portfolio() {
   const [isDark, setIsDark] = useState(true)
@@ -62,10 +74,13 @@ export default function Portfolio() {
   const [newSkillLevel, setNewSkillLevel] = useState(50)
   const [selectedCategory, setSelectedCategory] = useState(0)
   const [activeGame, setActiveGame] = useState("chess")
+  const [activeTool, setActiveTool] = useState("circuit")
   const [uploadedCV, setUploadedCV] = useState(null)
   const [visitorCount, setVisitorCount] = useState(12847)
   const [pageViews, setPageViews] = useState(45623)
   const [onlineUsers, setOnlineUsers] = useState(23)
+  const [showToolsDropdown, setShowToolsDropdown] = useState(false)
+  const [matrixEffect, setMatrixEffect] = useState(false)
 
   const particleRef = useRef(null)
   const fileInputRef = useRef(null)
@@ -107,6 +122,27 @@ export default function Portfolio() {
     window.addEventListener("mousemove", handleMouseMove)
     return () => window.removeEventListener("mousemove", handleMouseMove)
   }, [isDark])
+
+  // Matrix effect particles
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      if (matrixEffect) {
+        const newParticle = {
+          id: Date.now(),
+          x: e.clientX,
+          y: e.clientY,
+          vx: (Math.random() - 0.5) * 2,
+          vy: (Math.random() - 0.5) * 2,
+          life: 1,
+          color: isDark ? "#9b59b6" : "#00ffff",
+        }
+        setParticles((prev) => [...prev.slice(-20), newParticle])
+      }
+    }
+
+    window.addEventListener("mousemove", handleMouseMove)
+    return () => window.removeEventListener("mousemove", handleMouseMove)
+  }, [isDark, matrixEffect])
 
   // Animate particles
   useEffect(() => {
@@ -347,8 +383,9 @@ export default function Portfolio() {
       {/* Hidden file input for CV upload */}
       <input type="file" ref={fileInputRef} onChange={handleFileChange} accept=".pdf" style={{ display: "none" }} />
 
-      {/* Digital Clock */}
-      <DigitalClock isDark={isDark} />
+      <div className="fixed top-4 left-4 z-50">
+        <DigitalClock isDark={isDark} />
+      </div>
 
       {/* Background Particles */}
       <div className="fixed inset-0 pointer-events-none z-0">
@@ -376,6 +413,50 @@ export default function Portfolio() {
 
       {/* Top Navigation */}
       <div className="fixed top-6 right-6 z-50 flex gap-2">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant="outline"
+              size="icon"
+              className={`rounded-full border-2 transition-all duration-300 ${
+                isDark
+                  ? "border-purple-500 bg-black/50 hover:bg-purple-500/20"
+                  : "border-cyan-500 bg-white/50 hover:bg-cyan-500/20"
+              }`}
+            >
+              <MoreHorizontal className={`h-5 w-5 ${isDark ? "text-purple-400" : "text-cyan-500"}`} />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent
+            align="end"
+            className={`w-56 ${isDark ? "bg-black/90 border-purple-500/30" : "bg-white/90 border-cyan-500/30"}`}
+          >
+            <DropdownMenuItem onClick={() => setIsDark(!isDark)} className="cursor-pointer">
+              <Palette className="mr-2 h-4 w-4" />
+              <span>Toggle Theme</span>
+              {isDark ? <Moon className="ml-auto h-4 w-4" /> : <Sun className="ml-auto h-4 w-4" />}
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={() => setActiveTab("games")} className="cursor-pointer">
+              <GamepadIcon className="mr-2 h-4 w-4" />
+              <span>Games</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setActiveTab("projects")} className="cursor-pointer">
+              <Briefcase className="mr-2 h-4 w-4" />
+              <span>Projects</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setActiveTab("skills")} className="cursor-pointer">
+              <Target className="mr-2 h-4 w-4" />
+              <span>Skills</span>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={() => setShowMatrix(!showMatrix)} className="cursor-pointer">
+              <Activity className="mr-2 h-4 w-4" />
+              <span>Matrix Effect</span>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+
         {/* CV Upload */}
         <Button
           onClick={() => setShowAdminLogin("cv")}
@@ -421,6 +502,10 @@ export default function Portfolio() {
         >
           {isDark ? <Sun className="h-5 w-5 text-purple-400" /> : <Moon className="h-5 w-5 text-cyan-500" />}
         </Button>
+      </div>
+
+      <div className="fixed bottom-4 left-4 z-50">
+        <Chatbot isDark={isDark} />
       </div>
 
       {/* CV Upload / Admin Login Modal */}
@@ -579,7 +664,7 @@ export default function Portfolio() {
         <div className="max-w-6xl mx-auto">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <TabsList
-              className={`grid w-full grid-cols-6 mb-12 ${
+              className={`grid w-full grid-cols-7 mb-12 ${
                 isDark ? "bg-black/50 border border-purple-500/30" : "bg-white/50 border border-cyan-500/30"
               }`}
             >
@@ -617,6 +702,13 @@ export default function Portfolio() {
               >
                 <GamepadIcon className="h-4 w-4" />
                 Games
+              </TabsTrigger>
+              <TabsTrigger
+                value="tools"
+                className={`flex items-center gap-2 font-rajdhani ${isDark ? "data-[state=active]:bg-purple-500/20 data-[state=active]:text-purple-300" : "data-[state=active]:bg-cyan-500/20 data-[state=active]:text-cyan-600"}`}
+              >
+                <Settings className="h-4 w-4" />
+                Tools
               </TabsTrigger>
               {isAdmin && (
                 <TabsTrigger
@@ -1006,6 +1098,67 @@ export default function Portfolio() {
 
                 {activeGame === "chess" && <ChessGame isDark={isDark} />}
                 {activeGame === "ctf" && <CTFGame isDark={isDark} />}
+              </div>
+            </TabsContent>
+
+            {/* Tools Tab */}
+            <TabsContent value="tools" className="space-y-8">
+              <div className="text-center">
+                <h2
+                  className={`text-4xl md:text-5xl font-bold mb-16 font-orbitron ${isDark ? "text-purple-400" : "text-cyan-500"}`}
+                >
+                  Developer Tools
+                </h2>
+
+                {/* Added tool selection buttons similar to games section */}
+                <div className="flex justify-center gap-4 mb-8">
+                  <Button
+                    onClick={() => setActiveTool("circuit")}
+                    variant={activeTool === "circuit" ? "default" : "outline"}
+                    className={`${isDark ? "bg-purple-500 hover:bg-purple-600" : "bg-cyan-500 hover:bg-cyan-600"}`}
+                  >
+                    ⚡ Circuit Simulator
+                  </Button>
+                  <Button
+                    onClick={() => setActiveTool("scientific")}
+                    variant={activeTool === "scientific" ? "default" : "outline"}
+                    className={`${isDark ? "bg-purple-500 hover:bg-purple-600" : "bg-cyan-500 hover:bg-cyan-600"}`}
+                  >
+                    🧮 Scientific Calculator
+                  </Button>
+                  <Button
+                    onClick={() => setActiveTool("graphing")}
+                    variant={activeTool === "graphing" ? "default" : "outline"}
+                    className={`${isDark ? "bg-purple-500 hover:bg-purple-600" : "bg-cyan-500 hover:bg-cyan-600"}`}
+                  >
+                    📊 Graphing Calculator
+                  </Button>
+                </div>
+
+                {/* Conditional rendering of tools based on selection */}
+                {activeTool === "circuit" && (
+                  <div
+                    className={`p-8 rounded-lg ${isDark ? "bg-black/30 border border-purple-500/30" : "bg-white/30 border border-cyan-500/30"} backdrop-blur-sm`}
+                  >
+                    <CircuitSimulator />
+                  </div>
+                )}
+
+                {activeTool === "scientific" && (
+                  <div
+                    className={`p-8 rounded-lg ${isDark ? "bg-black/30 border border-purple-500/30" : "bg-white/30 border border-cyan-500/30"} backdrop-blur-sm`}
+                  >
+                    <ScientificCalculator />
+                  </div>
+                )}
+
+                {activeTool === "graphing" && (
+                  <div
+                    className={`p-8 rounded-lg ${isDark ? "bg-black/30 border border-purple-500/30" : "bg-white/30 border border-cyan-500/30"} backdrop-blur-sm`}
+                  >
+                    <GraphingCalculator />
+                  </div>
+                )}
               </div>
             </TabsContent>
 

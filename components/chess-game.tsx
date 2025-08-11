@@ -1,727 +1,235 @@
 "use client"
 
-import React, { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, useCallback } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Brain, RotateCcw } from "lucide-react"
+import { AdvancedChessEngine } from "@/lib/advanced-chess-engine" // Corrected import path
 import { Badge } from "@/components/ui/badge"
-import { Trophy, RotateCcw, Users, Bot, Star, Zap, Brain, Target } from "lucide-react"
+import { Users, Bot, Star, Target, Crown, Flame } from "lucide-react"
+import Image from "next/image"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 
-type PieceChar = "p" | "r" | "n" | "b" | "q" | "k" | "P" | "R" | "N" | "B" | "Q" | "K"
-type Board = (PieceChar | null)[][]
-type Square = [number, number]
-type Move = { from: Square; to: Square; piece: PieceChar; capture: PieceChar | null }
-type Personality = "balanced" | "aggressive" | "positional" | "defensive" | "hikaru" | "random"
-
-// Enhanced chess engine with multiple AI personalities
-class ChessEngine {
-  pieceValues: Record<PieceChar, number>
-  pawnTable: number[][]
-  knightTable: number[][]
-  constructor() {
-    this.pieceValues = {
-      p: 100,
-      n: 320,
-      b: 330,
-      r: 500,
-      q: 900,
-      k: 20000,
-      P: 100,
-      N: 320,
-      B: 330,
-      R: 500,
-      Q: 900,
-      K: 20000,
-    }
-
-    this.pawnTable = [
-      [0, 0, 0, 0, 0, 0, 0, 0],
-      [50, 50, 50, 50, 50, 50, 50, 50],
-      [10, 10, 20, 30, 30, 20, 10, 10],
-      [5, 5, 10, 25, 25, 10, 5, 5],
-      [0, 0, 0, 20, 20, 0, 0, 0],
-      [5, -5, -10, 0, 0, -10, -5, 5],
-      [5, 10, 10, -20, -20, 10, 10, 5],
-      [0, 0, 0, 0, 0, 0, 0, 0],
-    ]
-
-    this.knightTable = [
-      [-50, -40, -30, -30, -30, -30, -40, -50],
-      [-40, -20, 0, 0, 0, 0, -20, -40],
-      [-30, 0, 10, 15, 15, 10, 0, -30],
-      [-30, 5, 15, 20, 20, 15, 5, -30],
-      [-30, 0, 15, 20, 20, 15, 0, -30],
-      [-30, 5, 10, 15, 15, 10, 5, -30],
-      [-40, -20, 0, 5, 5, 0, -20, -40],
-      [-50, -40, -30, -30, -30, -30, -40, -50],
-    ]
-  }
-
-  evaluateBoard(board: Board, personality: Personality = "balanced") {
-    let score = 0
-    for (let row = 0; row < 8; row++) {
-      for (let col = 0; col < 8; col++) {
-        const piece = board[row][col]
-        if (piece) {
-          const isWhite = piece === piece.toUpperCase()
-          const pieceType = piece.toLowerCase()
-          let pieceScore = this.pieceValues[piece]
-
-          if (personality === "aggressive") {
-            if (pieceType === "q") pieceScore *= 1.2
-            if (pieceType === "r") pieceScore *= 1.1
-          } else if (personality === "positional") {
-            if (pieceType === "b") pieceScore *= 1.1
-            if (pieceType === "n") pieceScore *= 1.1
-          } else if (personality === "defensive") {
-            if (pieceType === "k") pieceScore *= 1.1
-            if (pieceType === "p") pieceScore *= 1.1
-          }
-
-          if (pieceType === "p") {
-            pieceScore += this.pawnTable[isWhite ? row : 7 - row][col]
-          } else if (pieceType === "n") {
-            pieceScore += this.knightTable[isWhite ? row : 7 - row][col]
-          }
-
-          score += isWhite ? pieceScore : -pieceScore
-        }
-      }
-    }
-    return score
-  }
-
-  getAllMoves(board: Board, isWhite: boolean): Move[] {
-    const moves: Move[] = []
-    for (let row = 0; row < 8; row++) {
-      for (let col = 0; col < 8; col++) {
-        const piece = board[row][col]
-        if (piece && ((isWhite && piece === piece.toUpperCase()) || (!isWhite && piece === piece.toLowerCase()))) {
-          const pieceMoves = this.getPieceMoves(board, row, col, piece as PieceChar)
-          const fromSq: Square = [row, col]
-          moves.push(
-            ...pieceMoves.map((move: Square): Move => ({
-              from: fromSq,
-              to: move,
-              piece: piece as PieceChar,
-              capture: board[move[0]][move[1]] as PieceChar | null,
-            })),
-          )
-        }
-      }
-    }
-    return moves
-  }
-
-  getPieceMoves(board: Board, row: number, col: number, piece: PieceChar): Square[] {
-    const pieceType = piece.toLowerCase()
-    const isWhite = piece === piece.toUpperCase()
-
-    switch (pieceType) {
-      case "p":
-        return this.getPawnMoves(board, row, col, isWhite)
-      case "r":
-        return this.getRookMoves(board, row, col, isWhite)
-      case "n":
-        return this.getKnightMoves(board, row, col, isWhite)
-      case "b":
-        return this.getBishopMoves(board, row, col, isWhite)
-      case "q":
-        return this.getQueenMoves(board, row, col, isWhite)
-      case "k":
-        return this.getKingMoves(board, row, col, isWhite)
-      default:
-        return []
-    }
-  }
-
-  getPawnMoves(board: Board, row: number, col: number, isWhite: boolean) {
-    const moves: Square[] = []
-    const direction = isWhite ? -1 : 1
-    const startRow = isWhite ? 6 : 1
-
-    if (row + direction >= 0 && row + direction < 8 && !board[row + direction][col]) {
-      moves.push([row + direction, col])
-      if (row === startRow && !board[row + 2 * direction][col]) {
-        moves.push([row + 2 * direction, col])
-      }
-    }
-
-    for (const dcol of [-1, 1]) {
-      const newRow = row + direction
-      const newCol = col + dcol
-      if (newRow >= 0 && newRow < 8 && newCol >= 0 && newCol < 8) {
-        const target = board[newRow][newCol]
-        if (target && ((isWhite && target === target.toLowerCase()) || (!isWhite && target === target.toUpperCase()))) {
-          moves.push([newRow, newCol])
-        }
-      }
-    }
-    return moves
-  }
-
-  getRookMoves(board: Board, row: number, col: number, isWhite: boolean) {
-    const moves: Square[] = []
-    const directions = [
-      [0, 1],
-      [0, -1],
-      [1, 0],
-      [-1, 0],
-    ]
-
-    for (const [drow, dcol] of directions) {
-      for (let i = 1; i < 8; i++) {
-        const newRow = row + i * drow
-        const newCol = col + i * dcol
-        if (newRow < 0 || newRow >= 8 || newCol < 0 || newCol >= 8) break
-
-        const target = board[newRow][newCol]
-        if (!target) {
-          moves.push([newRow, newCol])
-        } else {
-          if ((isWhite && target === target.toLowerCase()) || (!isWhite && target === target.toUpperCase())) {
-            moves.push([newRow, newCol])
-          }
-          break
-        }
-      }
-    }
-    return moves
-  }
-
-  getKnightMoves(board: Board, row: number, col: number, isWhite: boolean) {
-    const moves: Square[] = []
-    const knightMoves = [
-      [-2, -1],
-      [-2, 1],
-      [-1, -2],
-      [-1, 2],
-      [1, -2],
-      [1, 2],
-      [2, -1],
-      [2, 1],
-    ]
-
-    for (const [drow, dcol] of knightMoves) {
-      const newRow = row + drow
-      const newCol = col + dcol
-      if (newRow >= 0 && newRow < 8 && newCol >= 0 && newCol < 8) {
-        const target = board[newRow][newCol]
-        if (!target || (isWhite && target === target.toLowerCase()) || (!isWhite && target === target.toUpperCase())) {
-          moves.push([newRow, newCol])
-        }
-      }
-    }
-    return moves
-  }
-
-  getBishopMoves(board: Board, row: number, col: number, isWhite: boolean) {
-    const moves: Square[] = []
-    const directions = [
-      [1, 1],
-      [1, -1],
-      [-1, 1],
-      [-1, -1],
-    ]
-
-    for (const [drow, dcol] of directions) {
-      for (let i = 1; i < 8; i++) {
-        const newRow = row + i * drow
-        const newCol = col + i * dcol
-        if (newRow < 0 || newRow >= 8 || newCol < 0 || newCol >= 8) break
-
-        const target = board[newRow][newCol]
-        if (!target) {
-          moves.push([newRow, newCol])
-        } else {
-          if ((isWhite && target === target.toLowerCase()) || (!isWhite && target === target.toUpperCase())) {
-            moves.push([newRow, newCol])
-          }
-          break
-        }
-      }
-    }
-    return moves
-  }
-
-  getQueenMoves(board: Board, row: number, col: number, isWhite: boolean) {
-    return [...this.getRookMoves(board, row, col, isWhite), ...this.getBishopMoves(board, row, col, isWhite)]
-  }
-
-  getKingMoves(board: Board, row: number, col: number, isWhite: boolean) {
-    const moves: Square[] = []
-    const directions = [
-      [-1, -1],
-      [-1, 0],
-      [-1, 1],
-      [0, -1],
-      [0, 1],
-      [1, -1],
-      [1, 0],
-      [1, 1],
-    ]
-
-    for (const [drow, dcol] of directions) {
-      const newRow = row + drow
-      const newCol = col + dcol
-      if (newRow >= 0 && newRow < 8 && newCol >= 0 && newCol < 8) {
-        const target = board[newRow][newCol]
-        if (!target || (isWhite && target === target.toLowerCase()) || (!isWhite && target === target.toUpperCase())) {
-          moves.push([newRow, newCol])
-        }
-      }
-    }
-
-    // Simplified castling rules: allow if king and rook are on initial squares, path clear, and not in check through path
-    const startRow = isWhite ? 7 : 0
-    const kingSymbol: PieceChar = isWhite ? "K" : "k"
-    const rookSymbol: PieceChar = isWhite ? "R" : "r"
-    if (row === startRow && col === 4 && board[startRow][4] === kingSymbol) {
-      // King side
-      if (
-        board[startRow][5] === null &&
-        board[startRow][6] === null &&
-        board[startRow][7] === rookSymbol
-      ) {
-        // ensure squares not in check while passing
-        const boardStep = this.makeMove(board, [row, col], [startRow, 5])
-        if (!this.isInCheck(boardStep, isWhite)) {
-          const boardStep2 = this.makeMove(boardStep, [startRow, 5], [startRow, 6])
-          if (!this.isInCheck(boardStep2, isWhite)) {
-            moves.push([startRow, 6])
-          }
-        }
-      }
-      // Queen side
-      if (
-        board[startRow][3] === null &&
-        board[startRow][2] === null &&
-        board[startRow][1] === null &&
-        board[startRow][0] === rookSymbol
-      ) {
-        const boardStep = this.makeMove(board, [row, col], [startRow, 3])
-        if (!this.isInCheck(boardStep, isWhite)) {
-          const boardStep2 = this.makeMove(boardStep, [startRow, 3], [startRow, 2])
-          if (!this.isInCheck(boardStep2, isWhite)) {
-            moves.push([startRow, 2])
-          }
-        }
-      }
-    }
-    return moves
-  }
-
-  isInCheck(board: Board, isWhite: boolean) {
-    let kingPos: Square | null = null
-    const kingSymbol = isWhite ? "K" : "k"
-
-    for (let row = 0; row < 8; row++) {
-      for (let col = 0; col < 8; col++) {
-        if (board[row][col] === kingSymbol) {
-          kingPos = [row, col]
-          break
-        }
-      }
-      if (kingPos) break
-    }
-
-    if (!kingPos) return false
-
-    const opponentMoves = this.getAllMoves(board, !isWhite)
-    return opponentMoves.some((move) => move.to[0] === kingPos[0] && move.to[1] === kingPos[1])
-  }
-
-  isValidMove(board: Board, from: Square, to: Square, isWhite: boolean) {
-    const [fromRow, fromCol] = from
-    const [toRow, toCol] = to
-    const piece = board[fromRow][fromCol]
-
-    if (!piece) return false
-    if ((isWhite && piece !== piece.toUpperCase()) || (!isWhite && piece !== piece.toLowerCase())) return false
-
-    const validMoves = this.getPieceMoves(board, fromRow, fromCol, piece)
-    const moveExists = validMoves.some(([r, c]) => r === toRow && c === toCol)
-
-    if (!moveExists) return false
-
-    const testBoard = this.makeMove(board, from, to)
-    return !this.isInCheck(testBoard, isWhite)
-  }
-
-  getBestMove(board: Board, depth = 4, personality: Personality = "balanced") {
-    const moves = this.getAllMoves(board, false)
-    if (moves.length === 0) return null
-
-    let bestMove: Move | null = null
-    let bestScore = Number.POSITIVE_INFINITY
-
-    if (personality === "aggressive") {
-      moves.sort((a, b) => {
-        const aValue = a.capture ? this.pieceValues[a.capture] * 1.5 : 0
-        const bValue = b.capture ? this.pieceValues[b.capture] * 1.5 : 0
-        return bValue - aValue
-      })
-    } else if (personality === "positional") {
-      moves.sort((a, b) => {
-        const aCenter = Math.abs(a.to[0] - 3.5) + Math.abs(a.to[1] - 3.5)
-        const bCenter = Math.abs(b.to[0] - 3.5) + Math.abs(b.to[1] - 3.5)
-        return aCenter - bCenter
-      })
-    } else {
-      moves.sort((a, b) => {
-        const aValue = a.capture ? this.pieceValues[a.capture] : 0
-        const bValue = b.capture ? this.pieceValues[b.capture] : 0
-        return bValue - aValue
-      })
-    }
-
-    const searchLimit = personality === "hikaru" ? 25 : 20
-    for (const move of moves.slice(0, searchLimit)) {
-      const newBoard = this.makeMove(board, move.from, move.to)
-      if (!this.isInCheck(newBoard, false)) {
-        const score = this.minimax(
-          newBoard,
-          depth - 1,
-          true,
-          Number.NEGATIVE_INFINITY,
-          Number.POSITIVE_INFINITY,
-          personality,
-        )
-        if (score < bestScore) {
-          bestScore = score
-          bestMove = move
-        }
-      }
-    }
-
-    return bestMove
-  }
-
-  minimax(
-    board: Board,
-    depth: number,
-    isMaximizing: boolean,
-    alpha: number,
-    beta: number,
-    personality: Personality,
-  ) {
-    if (depth === 0) {
-      return this.evaluateBoard(board, personality)
-    }
-
-    const moves = this.getAllMoves(board, isMaximizing)
-
-    if (moves.length === 0) {
-      if (this.isInCheck(board, isMaximizing)) {
-        return isMaximizing ? -10000 + (4 - depth) : 10000 - (4 - depth)
-      }
-      return 0
-    }
-
-    if (isMaximizing) {
-      let maxEval = Number.NEGATIVE_INFINITY
-      for (const move of moves.slice(0, 15)) {
-        const newBoard = this.makeMove(board, move.from, move.to)
-        const score = this.minimax(newBoard, depth - 1, false, alpha, beta, personality)
-        maxEval = Math.max(maxEval, score)
-        alpha = Math.max(alpha, score)
-        if (beta <= alpha) break
-      }
-      return maxEval
-    } else {
-      let minEval = Number.POSITIVE_INFINITY
-      for (const move of moves.slice(0, 15)) {
-        const newBoard = this.makeMove(board, move.from, move.to)
-        const score = this.minimax(newBoard, depth - 1, true, alpha, beta, personality)
-        minEval = Math.min(minEval, score)
-        beta = Math.min(beta, score)
-        if (beta <= alpha) break
-      }
-      return minEval
-    }
-  }
-
-  makeMove(board: Board, from: Square, to: Square) {
-    const newBoard: Board = board.map((row) => [...row])
-    const [fromRow, fromCol] = from
-    const [toRow, toCol] = to
-    newBoard[toRow][toCol] = newBoard[fromRow][fromCol]
-    newBoard[fromRow][fromCol] = null
-
-    // Handle castling rook move
-    const moving = newBoard[toRow][toCol]
-    if (moving === 'K' && fromRow === 7 && fromCol === 4) {
-      // white
-      if (toCol === 6) {
-        // king side
-        newBoard[7][5] = newBoard[7][7]
-        newBoard[7][7] = null
-      } else if (toCol === 2) {
-        // queen side
-        newBoard[7][3] = newBoard[7][0]
-        newBoard[7][0] = null
-      }
-    } else if (moving === 'k' && fromRow === 0 && fromCol === 4) {
-      // black
-      if (toCol === 6) {
-        newBoard[0][5] = newBoard[0][7]
-        newBoard[0][7] = null
-      } else if (toCol === 2) {
-        newBoard[0][3] = newBoard[0][0]
-        newBoard[0][0] = null
-      }
-    }
-
-    // Handle pawn promotion (auto to queen)
-    if (moving === 'P' && toRow === 0) {
-      newBoard[toRow][toCol] = 'Q'
-    } else if (moving === 'p' && toRow === 7) {
-      newBoard[toRow][toCol] = 'q'
-    }
-    return newBoard
-  }
+interface ChessGameProps {
+  isDark: boolean
 }
 
-// Custom Purple vs Cyan glowing SVG piece set
-const ChessPiece: React.FC<{ piece: PieceChar; isSelected: boolean; isCheckmate: boolean }> = ({
-  piece,
-  isSelected,
-  isCheckmate,
-}) => {
+const pieceImages: { [key: string]: string } = {
+  wp: "/images/chess-pieces/angel-pawn.png",
+  wr: "/images/chess-pieces/angel-rook.png",
+  wn: "/images/chess-pieces/angel-knight.png",
+  wb: "/images/chess-pieces/angel-bishop.png",
+  wq: "/images/chess-pieces/angel-queen.png",
+  wk: "/images/chess-pieces/angel-king.png",
+  bp: "/images/chess-pieces/demon-pawn.png",
+  br: "/images/chess-pieces/demon-rook.png",
+  bn: "/images/chess-pieces/demon-knight.png",
+  bb: "/images/chess-pieces/demon-bishop.png",
+  bq: "/images/chess-pieces/demon-queen.png",
+  bk: "/images/chess-pieces/demon-king.png",
+}
+
+const boardSize = 400 // px
+const squareSize = boardSize / 8 // px
+
+// Angel vs Demon Chess Piece Component with Custom Images
+const AngelDemonChessPiece = ({ piece, isSelected, isCheckmate, isDark }) => {
   if (!piece) return null
 
   const isWhite = piece === piece.toUpperCase()
   const pieceType = piece.toLowerCase()
-  const fill = isWhite ? "#06b6d4" : "#7c3aed"
-  const stroke = isWhite ? "#0891b2" : "#6d28d9"
-  const accent = isWhite ? "#22d3ee" : "#a78bfa"
 
-  const Base = () => (
-    <g>
-      <rect x="16" y="48" width="32" height="6" rx="3" fill={fill} stroke={stroke} strokeWidth="2" />
-      <rect x="12" y="42" width="40" height="6" rx="3" fill={fill} stroke={stroke} strokeWidth="2" />
-    </g>
-  )
+  const getPieceImage = () => {
+    if (isWhite) {
+      switch (pieceType) {
+        case "k":
+          return "/images/chess-pieces/angel-king.png"
+        case "q":
+          return "/images/chess-pieces/angel-queen.png"
+        case "r":
+          return "/images/chess-pieces/angel-rook.png"
+        case "b":
+          return "/images/chess-pieces/angel-bishop.png"
+        case "n":
+          return "/images/chess-pieces/angel-knight.png"
+        case "p":
+          return "/images/chess-pieces/angel-pawn.png"
+        default:
+          return "/placeholder.svg"
+      }
+    } else {
+      switch (pieceType) {
+        case "k":
+          return "/images/chess-pieces/demon-king.png"
+        case "q":
+          return "/images/chess-pieces/demon-queen.png"
+        case "r":
+          return "/images/chess-pieces/demon-rook.png"
+        case "b":
+          return "/images/chess-pieces/demon-bishop.png"
+        case "n":
+          return "/images/chess-pieces/demon-knight.png" // Corrected path
+        case "p":
+          return "/images/chess-pieces/demon-pawn.png"
+        default:
+          return "/placeholder.svg"
+      }
+    }
+  }
 
-  const AngelBody = () => (
-    <g>
-      {/* Wings */}
-      <path d="M8,40 C10,28 18,22 24,22 C18,28 18,36 16,40 Z" fill={fill} stroke={stroke} strokeWidth="2" opacity="0.9" />
-      <path d="M56,40 C54,28 46,22 40,22 C46,28 46,36 48,40 Z" fill={fill} stroke={stroke} strokeWidth="2" opacity="0.9" />
-      {/* Halo */}
-      <ellipse cx="32" cy="12" rx="9" ry="3" fill={accent} stroke={stroke} strokeWidth="2" />
-      {/* Head */}
-      <circle cx="32" cy="20" r="6" fill={fill} stroke={stroke} strokeWidth="2" />
-      {/* Robe */}
-      <path d="M24,26 L40,26 L46,44 L18,44 Z" fill={fill} stroke={stroke} strokeWidth="2" />
-    </g>
-  )
-
-  const DemonBody = () => (
-    <g>
-      {/* Horns */}
-      <path d="M24,16 C22,12 22,10 24,8 C26,10 26,12 25,16 Z" fill={fill} stroke={stroke} strokeWidth="2" />
-      <path d="M40,16 C42,12 42,10 40,8 C38,10 38,12 39,16 Z" fill={fill} stroke={stroke} strokeWidth="2" />
-      {/* Head */}
-      <circle cx="32" cy="20" r="6" fill={fill} stroke={stroke} strokeWidth="2" />
-      {/* Bat wings */}
-      <path d="M8,36 C14,26 22,24 24,28 C18,30 14,34 12,40 Z" fill={fill} stroke={stroke} strokeWidth="2" />
-      <path d="M56,36 C50,26 42,24 40,28 C46,30 50,34 52,40 Z" fill={fill} stroke={stroke} strokeWidth="2" />
-      {/* Torso */}
-      <path d="M24,26 L40,26 L44,44 L20,44 Z" fill={fill} stroke={stroke} strokeWidth="2" />
-    </g>
-  )
-
-  const renderByType = () => {
-    switch (pieceType) {
-      case "k":
-        return (
-          <g>
-            {isWhite ? <AngelBody /> : <DemonBody />}
-            {/* Crown / Spikes */}
-            {isWhite ? (
-              <path d="M24,26 L28,18 L32,24 L36,18 L40,26 Z" fill={accent} stroke={stroke} strokeWidth="2" />
-            ) : (
-              <path d="M24,26 L28,18 L32,22 L36,18 L40,26 Z" fill={accent} stroke={stroke} strokeWidth="2" />
-            )}
-          </g>
-        )
-      case "q":
-        return (
-          <g>
-            {isWhite ? <AngelBody /> : <DemonBody />}
-            <circle cx="32" cy="16" r="3" fill={accent} stroke={stroke} strokeWidth="2" />
-            <circle cx="26" cy="18" r="2" fill={accent} stroke={stroke} strokeWidth="2" />
-            <circle cx="38" cy="18" r="2" fill={accent} stroke={stroke} strokeWidth="2" />
-          </g>
-        )
-      case "r":
-        return (
-          <g>
-            {isWhite ? <AngelBody /> : <DemonBody />}
-            {/* Rook fortified wings and battlements */}
-            <rect x="22" y="22" width="20" height="8" fill={accent} stroke={stroke} strokeWidth="2" />
-            <rect x="24" y="20" width="4" height="4" fill={stroke} />
-            <rect x="30" y="20" width="4" height="4" fill={stroke} />
-            <rect x="36" y="20" width="4" height="4" fill={stroke} />
-          </g>
-        )
-      case "b":
-        return (
-          <g>
-            {isWhite ? <AngelBody /> : <DemonBody />}
-            {/* Curved crosier (angel) or inverted wand (demon) */}
-            {isWhite ? (
-              <path d="M32,18 C38,18 38,26 32,26" fill="none" stroke={accent} strokeWidth="3" />
-            ) : (
-              <path d="M32,18 C26,18 26,26 32,26" fill="none" stroke={accent} strokeWidth="3" />
-            )}
-            <line x1="32" y1="26" x2="32" y2="38" stroke={accent} strokeWidth="3" />
-          </g>
-        )
-      case "n":
-        return (
-          <g>
-            {isWhite ? <AngelBody /> : <DemonBody />}
-            {/* Knight stylized winged steed / drake */}
-            <path d="M24,20 C28,14 40,14 40,24 C36,22 30,24 28,28 C28,24 26,22 24,20 Z" fill={accent} stroke={stroke} strokeWidth="2" />
-          </g>
-        )
-      case "p":
-        return (
-          <g>
-            {/* Simple pawn with halo/horns */}
-            {isWhite ? (
-              <ellipse cx="32" cy="12" rx="7" ry="2.5" fill={accent} stroke={stroke} strokeWidth="2" />
-            ) : (
-              <g>
-                <path d="M28,12 C26,10 26,8 28,8" stroke={stroke} strokeWidth="2" />
-                <path d="M36,12 C38,10 38,8 36,8" stroke={stroke} strokeWidth="2" />
-              </g>
-            )}
-            <circle cx="32" cy="20" r="6" fill={fill} stroke={stroke} strokeWidth="2" />
-            <path d="M24,26 L40,26 L38,40 L26,40 Z" fill={fill} stroke={stroke} strokeWidth="2" />
-          </g>
-        )
-      default:
-        return null
+  const getGlowEffect = () => {
+    if (isWhite) {
+      return isDark
+        ? "drop-shadow-[0_0_20px_rgba(6,182,212,1)] drop-shadow-[0_0_40px_rgba(6,182,212,0.6)]"
+        : "drop-shadow-[0_0_15px_rgba(6,182,212,0.8)] drop-shadow-[0_0_30px_rgba(6,182,212,0.4)]"
+    } else {
+      return isDark
+        ? "drop-shadow-[0_0_20px_rgba(147,51,234,1)] drop-shadow-[0_0_40px_rgba(147,51,234,0.6)]"
+        : "drop-shadow-[0_0_15px_rgba(147,51,234,0.8)] drop-shadow-[0_0_30px_rgba(147,51,234,0.4)]"
     }
   }
 
   return (
-    <div
-      className="select-none"
-      style={{
-        width: "85%",
-        height: "85%",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        transform: isSelected ? "scale(1.08)" : "scale(1)",
-        transition: "transform 0.15s ease",
-        animation: isCheckmate ? "shake 0.5s ease-in-out infinite" : "none",
-        filter: isWhite
-          ? "drop-shadow(0 0 8px rgba(6, 182, 212, 0.8)) drop-shadow(0 0 16px rgba(6, 182, 212, 0.4)) brightness(1.1)"
-          : "drop-shadow(0 0 8px rgba(124, 58, 237, 0.8)) drop-shadow(0 0 16px rgba(124, 58, 237, 0.4)) brightness(1.1)",
-        animation: isWhite ? "cyanGlow 2s ease-in-out infinite" : "purpleGlow 2s ease-in-out infinite",
-      }}
-    >
-      <svg viewBox="0 0 64 64" width="100%" height="100%" aria-hidden>
-        <defs>
-          {isWhite ? (
-            <filter id="cyanGlow" x="-50%" y="-50%" width="200%" height="200%">
-              <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
-              <feMerge> 
-                <feMergeNode in="coloredBlur"/>
-                <feMergeNode in="SourceGraphic"/>
-              </feMerge>
-            </filter>
-          ) : (
-            <filter id="purpleGlow" x="-50%" y="-50%" width="200%" height="200%">
-              <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
-              <feMerge> 
-                <feMergeNode in="coloredBlur"/>
-                <feMergeNode in="SourceGraphic"/>
-              </feMerge>
-            </filter>
-          )}
-        </defs>
-        <g filter={isWhite ? "url(#cyanGlow)" : "url(#purpleGlow)"}>
-          {renderByType()}
-          <Base />
-        </g>
-      </svg>
+    <div className="w-full h-full flex items-center justify-center relative">
+      {/* Heaven Sparkles for White Pieces */}
+      {isWhite && (
+        <div className="absolute inset-0 pointer-events-none">
+          {[...Array(6)].map((_, i) => (
+            <div
+              key={i}
+              className="absolute w-1 h-1 bg-cyan-300 rounded-full animate-pulse opacity-60"
+              style={{
+                top: `${Math.random() * 100}%`,
+                left: `${Math.random() * 100}%`,
+                animationDelay: `${Math.random() * 2}s`,
+                animationDuration: `${2 + Math.random() * 2}s`,
+              }}
+            />
+          ))}
+        </div>
+      )}
+
+      {/* Hell Embers for Black Pieces */}
+      {!isWhite && (
+        <div className="absolute inset-0 pointer-events-none">
+          {[...Array(4)].map((_, i) => (
+            <div
+              key={i}
+              className="absolute w-1 h-1 bg-red-500 rounded-full animate-bounce opacity-70"
+              style={{
+                bottom: `${Math.random() * 50}%`,
+                left: `${Math.random() * 100}%`,
+                animationDelay: `${Math.random() * 1.5}s`,
+                animationDuration: `${1 + Math.random() * 1}s`,
+              }}
+            />
+          ))}
+        </div>
+      )}
+
+      {/* Chess Piece Image */}
+      <div
+        className={`
+        relative z-10 w-full h-full transition-all duration-300
+        ${getGlowEffect()}
+        ${isSelected ? "scale-125 animate-pulse" : "scale-100"}
+        ${isCheckmate ? "animate-bounce" : ""}
+      `}
+        style={{
+          filter: isSelected ? "brightness(1.4)" : "brightness(1)",
+        }}
+      >
+        <Image
+          src={getPieceImage() || "/placeholder.svg"}
+          alt={`${isWhite ? "Angel" : "Demon"} ${pieceType.toUpperCase()}`}
+          fill
+          className="object-contain"
+        />
+      </div>
+
+      {/* Selection Ring */}
+      {isSelected && (
+        <div
+          className={`
+          absolute inset-0 rounded-full animate-ping
+          ${isWhite ? "bg-cyan-400/30 border-4 border-cyan-400/60" : "bg-purple-400/30 border-4 border-purple-400/60"}
+        `}
+        />
+      )}
+
+      {/* Power Aura */}
+      {(pieceType === "k" || pieceType === "q") && (
+        <div
+          className={`
+          absolute inset-0 rounded-full animate-pulse
+          ${
+            isWhite
+              ? "bg-gradient-radial from-cyan-400/20 to-transparent"
+              : "bg-gradient-radial from-purple-400/20 to-transparent"
+          }
+        `}
+          style={{ animationDuration: "3s" }}
+        />
+      )}
     </div>
   )
 }
 
-type ChessBot = {
-  id: "beginner" | "intermediate" | "advanced" | "expert" | "hikaru"
-  name: string
-  rating: number
-  personality: Personality
-  depth: number
-  // lucide icons are React components
-  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>
-  color: string
-  description: string
-}
-
-const chessBot: ChessBot[] = [
+const chessBot = [
   {
     id: "beginner",
-    name: "Rookie Bot",
+    name: "Rookie Angel",
     rating: 400,
     personality: "random",
     depth: 2,
     icon: Target,
     color: "bg-green-500",
-    description: "Perfect for learning the basics",
+    description: "Learning the divine art of chess",
   },
   {
     id: "intermediate",
-    name: "Club Player",
+    name: "Guardian Spirit",
     rating: 1200,
     personality: "balanced",
     depth: 3,
     icon: Brain,
     color: "bg-blue-500",
-    description: "Solid fundamental play",
+    description: "Balanced celestial strategy",
   },
   {
     id: "advanced",
-    name: "Master Bot",
+    name: "Archangel",
     rating: 1800,
     personality: "positional",
     depth: 4,
     icon: Star,
     color: "bg-purple-500",
-    description: "Strategic and calculating",
+    description: "Strategic heavenly wisdom",
   },
   {
     id: "expert",
-    name: "Grandmaster",
+    name: "Demon Lord",
     rating: 2400,
     personality: "aggressive",
     depth: 5,
-    icon: Zap,
+    icon: Flame,
     color: "bg-red-500",
-    description: "Ruthless and tactical",
+    description: "Ruthless infernal tactics",
   },
   {
     id: "hikaru",
-    name: "Hikaru Bot",
+    name: "Chess Deity",
     rating: 3200,
     personality: "hikaru",
     depth: 6,
-    icon: Trophy,
+    icon: Crown,
     color: "bg-gradient-to-r from-yellow-400 to-orange-500",
-    description: "Chat is this winning?",
+    description: "Omniscient chess consciousness",
   },
 ]
 
-export default function ChessGame({ isDark }: { isDark?: boolean }) {
-  const [gameBoard, setGameBoard] = useState<Board>([
+export default function ChessGame({ isDark }) {
+  const [gameBoard, setGameBoard] = useState([
     ["r", "n", "b", "q", "k", "b", "n", "r"],
     ["p", "p", "p", "p", "p", "p", "p", "p"],
     [null, null, null, null, null, null, null, null],
@@ -732,29 +240,28 @@ export default function ChessGame({ isDark }: { isDark?: boolean }) {
     ["R", "N", "B", "Q", "K", "B", "N", "R"],
   ])
 
-  const [selectedSquare, setSelectedSquare] = useState<Square | null>(null)
-  const [legalMoves, setLegalMoves] = useState<Square[]>([])
-  const [lastMove, setLastMove] = useState<[Square, Square] | null>(null)
-  const [isPlayerTurn, setIsPlayerTurn] = useState(true)
-  const [gameStatus, setGameStatus] = useState<
-    "playing" | "white-wins" | "black-wins" | "stalemate"
-  >("playing")
-  const [capturedPieces, setCapturedPieces] = useState<{ white: PieceChar[]; black: PieceChar[] }>({
-    white: [],
-    black: [],
-  })
-  const [moveHistory, setMoveHistory] = useState<
-    Array<{ from: Square; to: Square; piece: PieceChar; captured: PieceChar | null }>
-  >([])
+  const [selectedSquare, setSelectedSquare] = useState(null)
+  const [legalMoves, setLegalMoves] = useState([])
+  const [lastMove, setLastMove] = useState(null)
+  const [isPlayerTurn, setIsPlayerTurn] = useState(true) // true for White, false for Black
+  const [gameStatus, setGameStatus] = useState("playing")
+  const [capturedPieces, setCapturedPieces] = useState({ white: [], black: [] })
+  const [moveHistory, setMoveHistory] = useState([])
   const [isThinking, setIsThinking] = useState(false)
   const [showBotSelection, setShowBotSelection] = useState(true)
-  const [selectedBot, setSelectedBot] = useState<ChessBot | null>(null)
-  const [gameMode, setGameMode] = useState<"ai" | "human">("ai")
+  const [selectedBot, setSelectedBot] = useState(null)
+  const [gameMode, setGameMode] = useState("ai")
   const [checkmateAnimation, setCheckmateAnimation] = useState(false)
+  const [gameState, setGameState] = useState({
+    castlingRights: { whiteKing: true, whiteQueen: true, blackKing: true, blackQueen: true },
+    enPassantTarget: null,
+    halfMoveClock: 0,
+    fullMoveNumber: 1,
+  })
 
-  const engine = useRef(new ChessEngine())
+  const engine = useRef(new AdvancedChessEngine())
 
-  const resetGame = () => {
+  const resetGame = useCallback(() => {
     setGameBoard([
       ["r", "n", "b", "q", "k", "b", "n", "r"],
       ["p", "p", "p", "p", "p", "p", "p", "p"],
@@ -774,137 +281,168 @@ export default function ChessGame({ isDark }: { isDark?: boolean }) {
     setMoveHistory([])
     setIsThinking(false)
     setCheckmateAnimation(false)
-  }
+    const initialGameState = {
+      castlingRights: { whiteKing: true, whiteQueen: true, blackKing: true, blackQueen: true },
+      enPassantTarget: null,
+      halfMoveClock: 0,
+      fullMoveNumber: 1,
+    }
+    setGameState(initialGameState)
+    engine.current.gameState = initialGameState // Reset engine's internal state
+  }, [])
 
-  const startGame = (bot: ChessBot) => {
-    setSelectedBot(bot)
-    setShowBotSelection(false)
-    resetGame()
-  }
+  const startGame = useCallback(
+    (bot) => {
+      setSelectedBot(bot)
+      setShowBotSelection(false)
+      resetGame()
+    },
+    [resetGame],
+  )
 
-  const handleSquareClick = (row: number, col: number) => {
-    if (gameStatus !== "playing") return
-    if (gameMode === "ai" && !isPlayerTurn) return
+  const makeMove = useCallback(
+    (from, to) => {
+      const [fromRow, fromCol] = from
+      const [toRow, toCol] = to
+      const movingPiece = gameBoard[fromRow][fromCol]
+      const capturedPiece = gameBoard[toRow][toCol]
 
-    const piece = gameBoard[row][col]
+      const result = engine.current.makeMove(gameBoard, from, to, gameState)
+      const newBoard = result.board
+      const newGameState = result.gameState
 
-    if (selectedSquare) {
-      const [selectedRow, selectedCol] = selectedSquare
-      const isValidMove = engine.current.isValidMove(
-        gameBoard,
-        [selectedRow, selectedCol],
-        [row, col],
-        gameMode === "ai" ? true : isPlayerTurn,
-      )
+      if (capturedPiece) {
+        const captureColor = capturedPiece === capturedPiece.toUpperCase() ? "white" : "black"
+        setCapturedPieces((prev) => ({
+          ...prev,
+          [captureColor]: [...prev[captureColor], capturedPiece],
+        }))
+      }
 
-      if (isValidMove) {
-        makeMove([selectedRow, selectedCol], [row, col])
+      setGameBoard(newBoard)
+      setGameState(newGameState)
+      engine.current.gameState = newGameState // Keep engine's internal state in sync
+      setLastMove([from, to])
+      setSelectedSquare(null)
+      setLegalMoves([])
+      setMoveHistory((prev) => [...prev, { from, to, piece: movingPiece, captured: capturedPiece }])
+
+      // Check game end conditions
+      const hasWhiteKing = newBoard.flat().includes("K")
+      const hasBlackKing = newBoard.flat().includes("k")
+
+      if (!hasWhiteKing) {
+        setGameStatus("black-wins")
+        setCheckmateAnimation(true)
+      } else if (!hasBlackKing) {
+        setGameStatus("white-wins")
+        setCheckmateAnimation(true)
       } else {
-        if (
-          piece &&
-          ((gameMode === "ai" && piece === piece.toUpperCase()) ||
-            (gameMode === "human" &&
-              ((isPlayerTurn && piece === piece.toUpperCase()) || (!isPlayerTurn && piece === piece.toLowerCase()))))
-        ) {
+        const nextPlayerTurn = gameMode === "ai" ? false : !isPlayerTurn // Determine next player for status check
+        const possibleMovesForNextPlayer = engine.current.getAllMoves(newBoard, nextPlayerTurn, newGameState)
+        const validMovesForNextPlayer = possibleMovesForNextPlayer.filter((move) =>
+          engine.current.isValidMove(newBoard, move.from, move.to, nextPlayerTurn, newGameState),
+        )
+
+        if (validMovesForNextPlayer.length === 0) {
+          if (engine.current.isInCheck(newBoard, nextPlayerTurn)) {
+            setGameStatus(nextPlayerTurn ? "black-wins" : "white-wins")
+            setCheckmateAnimation(true)
+          } else {
+            setGameStatus("stalemate")
+          }
+        } else {
+          setIsPlayerTurn(!isPlayerTurn) // Switch turn only if game is still playing
+        }
+      }
+    },
+    [gameBoard, gameState, isPlayerTurn, gameMode],
+  )
+
+  const selectPiece = useCallback(
+    (row, col, piece) => {
+      setSelectedSquare([row, col])
+      const moves = engine.current.getPieceMoves(gameBoard, row, col, piece, gameState)
+      const validMoves = moves.filter((move) => {
+        const moveSquare = move.to || move
+        return engine.current.isValidMove(gameBoard, [row, col], moveSquare, piece === piece.toUpperCase(), gameState)
+      })
+      setLegalMoves(validMoves.map((move) => move.to || move))
+    },
+    [gameBoard, gameState],
+  )
+
+  const handleSquareClick = useCallback(
+    (row, col) => {
+      if (gameStatus !== "playing") return
+      if (gameMode === "ai" && !isPlayerTurn) return // Player (White) can only click on their turn in AI mode
+
+      const piece = gameBoard[row][col]
+
+      if (selectedSquare) {
+        const [selectedRow, selectedCol] = selectedSquare
+        const isValidMoveAttempt = engine.current.isValidMove(
+          gameBoard,
+          [selectedRow, selectedCol],
+          [row, col],
+          isPlayerTurn, // Check validity for the current player's turn
+          gameState,
+        )
+
+        if (isValidMoveAttempt) {
+          makeMove([selectedRow, selectedCol], [row, col])
+        } else {
+          // If invalid move, but clicked on own piece, select new piece
+          if (
+            piece &&
+            ((isPlayerTurn && piece === piece.toUpperCase()) || (!isPlayerTurn && piece === piece.toLowerCase()))
+          ) {
+            selectPiece(row, col, piece)
+          } else {
+            setSelectedSquare(null)
+            setLegalMoves([])
+          }
+        }
+      } else if (piece) {
+        // Select a piece if it's the current player's piece
+        const canSelect =
+          (isPlayerTurn && piece === piece.toUpperCase()) || (!isPlayerTurn && piece === piece.toLowerCase())
+
+        if (canSelect) {
           selectPiece(row, col, piece)
-        } else {
-          setSelectedSquare(null)
-          setLegalMoves([])
         }
       }
-    } else if (piece) {
-      const canSelect =
-        gameMode === "ai"
-          ? piece === piece.toUpperCase()
-          : (isPlayerTurn && piece === piece.toUpperCase()) || (!isPlayerTurn && piece === piece.toLowerCase())
+    },
+    [gameStatus, gameMode, isPlayerTurn, gameBoard, selectedSquare, gameState, makeMove, selectPiece],
+  )
 
-      if (canSelect) {
-        selectPiece(row, col, piece)
-      }
-    }
-  }
+  const makeAIMove = useCallback(() => {
+    if (gameStatus !== "playing" || isPlayerTurn || !selectedBot) return // AI moves only if not player turn and bot selected
 
-  const selectPiece = (row: number, col: number, piece: PieceChar) => {
-    setSelectedSquare([row, col])
-    const moves = engine.current.getPieceMoves(gameBoard, row, col, piece)
-    const validMoves = moves.filter(([toRow, toCol]) =>
-      engine.current.isValidMove(gameBoard, [row, col], [toRow, toCol], piece === piece.toUpperCase()),
+    setIsThinking(true)
+    const timer = setTimeout(
+      () => {
+        // AI is always black, so isWhite is false
+        const aiMove = engine.current.getBestMove(gameBoard, selectedBot.depth, selectedBot.personality, gameState)
+        if (aiMove) {
+          makeMove(aiMove.from, aiMove.to)
+        }
+        setIsThinking(false)
+      },
+      selectedBot.id === "hikaru" ? 500 : 1000,
     )
-    setLegalMoves(validMoves)
-  }
 
-  const makeMove = (from: Square, to: Square) => {
-    const [fromRow, fromCol] = from
-    const [toRow, toCol] = to
-    const newBoard = [...gameBoard]
-    const movingPiece = newBoard[fromRow][fromCol] as PieceChar
-    const capturedPiece = newBoard[toRow][toCol] as PieceChar | null
+    return () => clearTimeout(timer)
+  }, [gameBoard, isPlayerTurn, gameStatus, selectedBot, gameState, makeMove])
 
-    if (capturedPiece) {
-      const captureColor = capturedPiece === capturedPiece.toUpperCase() ? "white" : "black"
-      setCapturedPieces((prev) => ({
-        ...prev,
-        [captureColor]: [...prev[captureColor], capturedPiece],
-      }))
-    }
-
-    newBoard[toRow][toCol] = movingPiece
-    newBoard[fromRow][fromCol] = null
-
-    setGameBoard(newBoard)
-    setLastMove([from, to])
-    setSelectedSquare(null)
-    setLegalMoves([])
-    setMoveHistory((prev) => [...prev, { from, to, piece: movingPiece, captured: capturedPiece }])
-
-    const hasWhiteKing = newBoard.flat().includes("K")
-    const hasBlackKing = newBoard.flat().includes("k")
-
-    if (!hasWhiteKing) {
-      setGameStatus("black-wins")
-      setCheckmateAnimation(true)
-    } else if (!hasBlackKing) {
-      setGameStatus("white-wins")
-      setCheckmateAnimation(true)
-    } else {
-      const nextPlayer = gameMode === "ai" ? false : !isPlayerTurn
-      const possibleMoves = engine.current.getAllMoves(newBoard, nextPlayer)
-      const validMoves = possibleMoves.filter((move) =>
-        engine.current.isValidMove(newBoard, move.from, move.to, nextPlayer),
-      )
-
-      if (validMoves.length === 0) {
-        if (engine.current.isInCheck(newBoard, nextPlayer)) {
-          setGameStatus(nextPlayer ? "black-wins" : "white-wins")
-          setCheckmateAnimation(true)
-        } else {
-          setGameStatus("stalemate")
-        }
-      } else {
-        setIsPlayerTurn(!isPlayerTurn)
-      }
-    }
-  }
-
+  // Effect to trigger AI move when it's AI's turn
   useEffect(() => {
     if (gameMode === "ai" && !isPlayerTurn && gameStatus === "playing" && selectedBot) {
-      setIsThinking(true)
-      const timer = setTimeout(
-        () => {
-          const aiMove = engine.current.getBestMove(gameBoard, selectedBot.depth, selectedBot.personality)
-          if (aiMove) {
-            makeMove(aiMove.from, aiMove.to)
-          }
-          setIsThinking(false)
-        },
-        selectedBot.id === "hikaru" ? 500 : 1000,
-      )
-
-      return () => clearTimeout(timer)
+      makeAIMove()
     }
-  }, [isPlayerTurn, gameBoard, gameStatus, gameMode, selectedBot])
+  }, [isPlayerTurn, gameBoard, gameStatus, gameMode, selectedBot, makeAIMove])
 
-  const isSquareHighlighted = (row: number, col: number) => {
+  const isSquareHighlighted = (row, col) => {
     if (selectedSquare && selectedSquare[0] === row && selectedSquare[1] === col) return "selected"
     if (legalMoves.some(([r, c]) => r === row && c === col)) return "legal"
     if (
@@ -918,20 +456,20 @@ export default function ChessGame({ isDark }: { isDark?: boolean }) {
   const getGameStatusText = () => {
     switch (gameStatus) {
       case "white-wins":
-        return "🎉 You Win!"
+        return "🎉 Angels Triumph!"
       case "black-wins":
-        return `🤖 ${selectedBot?.name || "Bot"} Wins!`
+        return `👹 ${selectedBot?.name || "Demons"} Victory!`
       case "stalemate":
-        return "🤝 Stalemate!"
+        return "⚖️ Divine Stalemate!"
       case "playing":
         if (gameMode === "ai") {
           return isThinking
-            ? `🤖 ${selectedBot?.name || "Bot"} is thinking...`
+            ? `🤖 ${selectedBot?.name || "Bot"} contemplating...`
             : isPlayerTurn
-              ? "Your turn (White)"
-              : `${selectedBot?.name || "Bot"}'s turn`
+              ? "⚡ Your turn (Angels)"
+              : `🔥 ${selectedBot?.name || "Bot"}'s turn`
         } else {
-          return isPlayerTurn ? "White's turn" : "Black's turn"
+          return isPlayerTurn ? "⚡ Angels' turn" : "🔥 Demons' turn"
         }
       default:
         return ""
@@ -964,63 +502,70 @@ export default function ChessGame({ isDark }: { isDark?: boolean }) {
           }
         }
 
-        @keyframes cyanGlow {
-          0%, 100% {
-            filter: drop-shadow(0 0 8px rgba(6, 182, 212, 0.8)) drop-shadow(0 0 16px rgba(6, 182, 212, 0.4));
-          }
-          50% {
-            filter: drop-shadow(0 0 12px rgba(6, 182, 212, 1)) drop-shadow(0 0 24px rgba(6, 182, 212, 0.6));
-          }
-        }
-
-        @keyframes purpleGlow {
-          0%, 100% {
-            filter: drop-shadow(0 0 8px rgba(124, 58, 237, 0.8)) drop-shadow(0 0 16px rgba(124, 58, 237, 0.4));
-          }
-          50% {
-            filter: drop-shadow(0 0 12px rgba(124, 58, 237, 1)) drop-shadow(0 0 24px rgba(124, 58, 237, 0.6));
-          }
-        }
-
         .checkmate-board {
           animation: checkmate-flash 1s ease-in-out 3;
         }
 
-        .chess-piece-3d {
-          background: linear-gradient(145deg, #f0f0f0, #d0d0d0);
-          border-radius: 50%;
-          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), inset 0 1px 2px rgba(255, 255, 255, 0.8);
+        @keyframes heaven-sparkle {
+          0%,
+          100% {
+            opacity: 0;
+            transform: scale(0);
+          }
+          50% {
+            opacity: 1;
+            transform: scale(1);
+          }
         }
 
-        .chess-piece-3d.black {
-          background: linear-gradient(145deg, #4a4a4a, #2a2a2a);
-          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5), inset 0 1px 2px rgba(255, 255, 255, 0.2);
+        @keyframes hell-ember {
+          0% {
+            opacity: 0.7;
+            transform: translateY(0px);
+          }
+          100% {
+            opacity: 0;
+            transform: translateY(-20px);
+          }
         }
       `}</style>
 
       <Card
-        className={`max-w-6xl mx-auto ${isDark ? "bg-black/50 border-purple-500/30" : "bg-white/50 border-cyan-500/30"}`}
+        className={`max-w-6xl mx-auto ${
+          isDark
+            ? "bg-gradient-to-br from-black/80 to-purple-900/50 border-purple-500/30 shadow-[0_0_50px_rgba(147,51,234,0.3)]"
+            : "bg-gradient-to-br from-white/80 to-cyan-100/50 border-cyan-500/30 shadow-[0_0_30px_rgba(6,182,212,0.2)]"
+        }`}
       >
         <CardHeader>
           <CardTitle
-            className={`flex items-center justify-center gap-2 ${isDark ? "text-purple-300" : "text-cyan-600"}`}
+            className={`flex items-center justify-center gap-3 text-2xl ${
+              isDark ? "text-purple-300" : "text-cyan-600"
+            }`}
           >
-            <Trophy className="h-6 w-6" />
-            Chess.com Style Chess
+            <Crown className="h-8 w-8" />⚡ Angel vs Demon Chess 🔥
+            <Flame className="h-8 w-8" />
           </CardTitle>
+          <p className={`text-center text-sm ${isDark ? "text-purple-200/80" : "text-cyan-700/80"}`}>
+            The Ultimate Battle Between Light and Darkness
+          </p>
         </CardHeader>
         <CardContent>
           {/* Bot Selection Dialog */}
           <Dialog open={showBotSelection} onOpenChange={setShowBotSelection}>
             <DialogContent
-              className={`max-w-4xl ${isDark ? "bg-gray-900 border-purple-500/30" : "bg-white border-cyan-500/30"}`}
+              className={`max-w-4xl ${
+                isDark
+                  ? "bg-gradient-to-br from-gray-900 to-purple-900/50 border-purple-500/30"
+                  : "bg-gradient-to-br from-white to-cyan-50 border-cyan-500/30"
+              }`}
             >
               <DialogHeader>
-                <DialogTitle className={`text-center text-2xl ${isDark ? "text-purple-300" : "text-cyan-600"}`}>
-                  🤖 Play the Bots
+                <DialogTitle className={`text-center text-3xl ${isDark ? "text-purple-300" : "text-cyan-600"}`}>
+                  ⚔️ Choose Your Opponent ⚔️
                 </DialogTitle>
                 <p className={`text-center ${isDark ? "text-purple-200" : "text-cyan-700"}`}>
-                  Challenge a bot to a chess game. Choose from beginner to master.
+                  Face the forces of darkness in an epic chess battle!
                 </p>
               </DialogHeader>
 
@@ -1030,16 +575,16 @@ export default function ChessGame({ isDark }: { isDark?: boolean }) {
                   return (
                     <Card
                       key={bot.id}
-                      className={`cursor-pointer transition-all duration-200 hover:scale-105 ${
+                      className={`cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-xl ${
                         isDark
-                          ? "bg-gray-800/50 border-purple-500/20 hover:border-purple-500/50"
-                          : "bg-white/50 border-cyan-500/20 hover:border-cyan-500/50"
+                          ? "bg-gray-800/50 border-purple-500/20 hover:border-purple-500/50 hover:shadow-purple-500/20"
+                          : "bg-white/50 border-cyan-500/20 hover:border-cyan-500/50 hover:shadow-cyan-500/20"
                       }`}
                       onClick={() => startGame(bot)}
                     >
                       <CardContent className="p-6 text-center">
                         <div
-                          className={`w-16 h-16 rounded-full ${bot.color} flex items-center justify-center mx-auto mb-4`}
+                          className={`w-16 h-16 rounded-full ${bot.color} flex items-center justify-center mx-auto mb-4 shadow-lg`}
                         >
                           <IconComponent className="h-8 w-8 text-white" />
                         </div>
@@ -1064,7 +609,11 @@ export default function ChessGame({ isDark }: { isDark?: boolean }) {
                     resetGame()
                   }}
                   variant="outline"
-                  className={`${isDark ? "border-purple-500/50 hover:bg-purple-500/20" : "border-cyan-500/50 hover:bg-cyan-500/20"}`}
+                  className={`${
+                    isDark
+                      ? "border-purple-500/50 hover:bg-purple-500/20 text-purple-300"
+                      : "border-cyan-500/50 hover:bg-cyan-500/20 text-cyan-700"
+                  }`}
                 >
                   <Users className="h-4 w-4 mr-2" />2 Players
                 </Button>
@@ -1076,10 +625,16 @@ export default function ChessGame({ isDark }: { isDark?: boolean }) {
             {/* Chess Board */}
             <div className="flex-1">
               <div
-                className={`relative w-full max-w-[480px] mx-auto aspect-square ${checkmateAnimation ? "checkmate-board" : ""}`}
+                className={`relative w-full max-w-[500px] mx-auto aspect-square ${
+                  checkmateAnimation ? "checkmate-board" : ""
+                }`}
               >
-                {/* Chess.com style board background */}
-                <div className="absolute inset-0 rounded-lg overflow-hidden border-4 border-amber-900/30">
+                {/* Epic chess board background */}
+                <div
+                  className={`absolute inset-0 rounded-xl overflow-hidden border-4 shadow-2xl ${
+                    isDark ? "border-purple-500/40 shadow-purple-500/30" : "border-cyan-500/40 shadow-cyan-500/30"
+                  }`}
+                >
                   <div className="w-full h-full grid grid-cols-8 grid-rows-8">
                     {Array.from({ length: 64 }).map((_, index) => {
                       const row = Math.floor(index / 8)
@@ -1088,8 +643,17 @@ export default function ChessGame({ isDark }: { isDark?: boolean }) {
                       return (
                         <div
                           key={index}
-                          className={`${isLight ? "bg-amber-50" : "bg-green-600"} transition-colors duration-200`}
-                        />
+                          className={`${isLight ? "bg-white" : "bg-black"} transition-colors duration-200 relative`}
+                        >
+                          {/* Subtle texture overlay */}
+                          <div
+                            className={`absolute inset-0 opacity-5 ${
+                              isLight
+                                ? "bg-gradient-to-br from-white to-gray-100"
+                                : "bg-gradient-to-br from-gray-800 to-black"
+                            }`}
+                          />
+                        </div>
                       )
                     })}
                   </div>
@@ -1108,29 +672,60 @@ export default function ChessGame({ isDark }: { isDark?: boolean }) {
                           key={`${rowIndex}-${colIndex}`}
                           onClick={() => handleSquareClick(rowIndex, colIndex)}
                           className={`
-                            relative flex items-center justify-center cursor-pointer
-                            transition-all duration-200 hover:bg-black/10 rounded-sm
-                            ${highlight === "selected" ? "bg-yellow-400/70 ring-2 ring-yellow-500" : ""}
-                            ${highlight === "legal" ? "bg-green-400/50" : ""}
-                            ${highlight === "lastMove" ? "bg-yellow-300/60" : ""}
-                          `}
+                          relative flex items-center justify-center cursor-pointer
+                          transition-all duration-300 hover:bg-yellow-400/20 rounded-lg
+                          ${
+                            highlight === "selected"
+                              ? "bg-yellow-400/80 ring-4 ring-yellow-500 shadow-[0_0_30px_rgba(234,179,8,0.6)]"
+                              : ""
+                          }
+                          ${
+                            highlight === "legal"
+                              ? isDark
+                                ? "bg-green-400/60 shadow-[0_0_20px_rgba(34,197,94,0.4)]"
+                                : "bg-green-300/60 shadow-[0_0_15px_rgba(34,197,94,0.4)]"
+                              : ""
+                          }
+                          ${
+                            highlight === "lastMove"
+                              ? isDark
+                                ? "bg-blue-400/70 shadow-[0_0_20px_rgba(59,130,246,0.4)]"
+                                : "bg-blue-300/70 shadow-[0_0_15px_rgba(59,130,246,0.4)]"
+                              : ""
+                          }
+                        `}
                         >
                           {piece && (
-                            <ChessPiece
-                              piece={piece}
-                              isSelected={isSelected}
-                              isCheckmate={checkmateAnimation && piece.toLowerCase() === "k"}
-                            />
+                            <div className="w-full h-full p-1">
+                              <AngelDemonChessPiece
+                                piece={piece}
+                                isSelected={isSelected}
+                                isCheckmate={checkmateAnimation && piece.toLowerCase() === "k"}
+                                isDark={isDark}
+                              />
+                            </div>
                           )}
 
-                          {/* Legal move indicators - Chess.com style */}
+                          {/* Legal move indicators */}
                           {highlight === "legal" && !piece && (
-                            <div className="w-6 h-6 rounded-full bg-green-600/70 border-2 border-green-500 shadow-lg" />
+                            <div
+                              className={`w-8 h-8 rounded-full border-4 shadow-xl animate-pulse ${
+                                isDark
+                                  ? "bg-green-500/80 border-green-400 shadow-green-400/60"
+                                  : "bg-green-600/80 border-green-500 shadow-green-500/60"
+                              }`}
+                            />
                           )}
 
                           {/* Capture indicators */}
                           {highlight === "legal" && piece && (
-                            <div className="absolute inset-1 rounded-full border-4 border-green-500/70 bg-green-400/20" />
+                            <div
+                              className={`absolute inset-2 rounded-full border-4 animate-pulse ${
+                                isDark
+                                  ? "border-red-500/80 bg-red-400/30 shadow-[0_0_20px_rgba(239,68,68,0.5)]"
+                                  : "border-red-600/80 bg-red-500/30 shadow-[0_0_15px_rgba(239,68,68,0.5)]"
+                              }`}
+                            />
                           )}
                         </div>
                       )
@@ -1138,22 +733,30 @@ export default function ChessGame({ isDark }: { isDark?: boolean }) {
                   )}
                 </div>
 
-                {/* Board coordinates - Chess.com style */}
+                {/* Board coordinates */}
                 <div className="absolute inset-0 pointer-events-none">
                   {/* File labels (a-h) */}
-                  <div className="absolute bottom-1 left-0 right-0 flex px-1">
+                  <div className="absolute bottom-2 left-0 right-0 flex px-2">
                     {["a", "b", "c", "d", "e", "f", "g", "h"].map((file, index) => (
                       <div key={file} className="flex-1 text-center">
-                        <span className="text-xs font-bold text-amber-900 opacity-70">{file}</span>
+                        <span
+                          className={`text-sm font-bold opacity-80 ${isDark ? "text-purple-300" : "text-cyan-700"}`}
+                        >
+                          {file}
+                        </span>
                       </div>
                     ))}
                   </div>
 
                   {/* Rank labels (1-8) */}
-                  <div className="absolute top-0 bottom-0 left-1 flex flex-col py-1">
+                  <div className="absolute top-0 bottom-0 left-2 flex flex-col py-2">
                     {[8, 7, 6, 5, 4, 3, 2, 1].map((rank) => (
                       <div key={rank} className="flex-1 flex items-center">
-                        <span className="text-xs font-bold text-amber-900 opacity-70">{rank}</span>
+                        <span
+                          className={`text-sm font-bold opacity-80 ${isDark ? "text-purple-300" : "text-cyan-700"}`}
+                        >
+                          {rank}
+                        </span>
                       </div>
                     ))}
                   </div>
@@ -1166,10 +769,16 @@ export default function ChessGame({ isDark }: { isDark?: boolean }) {
               {/* Current Opponent */}
               {selectedBot && (
                 <Card
-                  className={`p-4 ${isDark ? "bg-purple-900/20 border-purple-500/30" : "bg-cyan-900/20 border-cyan-500/30"}`}
+                  className={`p-4 ${
+                    isDark
+                      ? "bg-gradient-to-r from-purple-900/30 to-red-900/30 border-purple-500/30"
+                      : "bg-gradient-to-r from-cyan-100/30 to-blue-100/30 border-cyan-500/30"
+                  }`}
                 >
                   <div className="flex items-center gap-3">
-                    <div className={`w-12 h-12 rounded-full ${selectedBot.color} flex items-center justify-center`}>
+                    <div
+                      className={`w-12 h-12 rounded-full ${selectedBot.color} flex items-center justify-center shadow-lg`}
+                    >
                       <selectedBot.icon className="h-6 w-6 text-white" />
                     </div>
                     <div>
@@ -1186,38 +795,46 @@ export default function ChessGame({ isDark }: { isDark?: boolean }) {
 
               {/* Game Status */}
               <Card
-                className={`p-4 ${isDark ? "bg-purple-900/20 border-purple-500/30" : "bg-cyan-900/20 border-cyan-500/30"}`}
+                className={`p-4 ${
+                  isDark
+                    ? "bg-gradient-to-r from-purple-900/30 to-indigo-900/30 border-purple-500/30"
+                    : "bg-gradient-to-r from-cyan-100/30 to-indigo-100/30 border-cyan-500/30"
+                }`}
               >
                 <div className="text-center">
                   <h3 className={`text-lg font-bold ${isDark ? "text-purple-300" : "text-cyan-600"}`}>
                     {getGameStatusText()}
                   </h3>
                   {engine.current.isInCheck(gameBoard, isPlayerTurn) && gameStatus === "playing" && (
-                    <p className="text-red-400 text-sm mt-1 animate-pulse">Check!</p>
+                    <p className="text-red-400 text-sm mt-1 animate-pulse">⚠️ CHECK! ⚠️</p>
                   )}
-                  {checkmateAnimation && <p className="text-red-500 text-sm mt-1 animate-bounce">Checkmate!</p>}
+                  {checkmateAnimation && <p className="text-red-500 text-sm mt-1 animate-bounce">💀 CHECKMATE! 💀</p>}
                 </div>
               </Card>
 
               {/* Captured Pieces */}
               <Card className={`p-4 ${isDark ? "bg-black/30 border-purple-500/20" : "bg-white/30 border-cyan-500/20"}`}>
-                <h4 className={`font-bold mb-2 ${isDark ? "text-purple-300" : "text-cyan-600"}`}>Captured</h4>
+                <h4 className={`font-bold mb-2 ${isDark ? "text-purple-300" : "text-cyan-600"}`}>Fallen Warriors</h4>
                 <div className="space-y-2">
-                  <div>
-                    <span className="text-sm text-gray-400">White: </span>
-                    {capturedPieces.white.map((piece, index) => (
-                      <span key={index} className="text-lg mr-1">
-                        <ChessPiece piece={piece} isSelected={false} isCheckmate={false} />
-                      </span>
-                    ))}
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm text-gray-400">Angels: </span>
+                    <div className="flex gap-1">
+                      {capturedPieces.white.map((piece, index) => (
+                        <div key={index} className="w-6 h-6">
+                          <AngelDemonChessPiece piece={piece} isSelected={false} isCheckmate={false} isDark={isDark} />
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                  <div>
-                    <span className="text-sm text-gray-400">Black: </span>
-                    {capturedPieces.black.map((piece, index) => (
-                      <span key={index} className="text-lg mr-1">
-                        <ChessPiece piece={piece} isSelected={false} isCheckmate={false} />
-                      </span>
-                    ))}
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm text-gray-400">Demons: </span>
+                    <div className="flex gap-1">
+                      {capturedPieces.black.map((piece, index) => (
+                        <div key={index} className="w-6 h-6">
+                          <AngelDemonChessPiece piece={piece} isSelected={false} isCheckmate={false} isDark={isDark} />
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </Card>
@@ -1225,7 +842,7 @@ export default function ChessGame({ isDark }: { isDark?: boolean }) {
               {/* Move History */}
               <Card className={`p-4 ${isDark ? "bg-black/30 border-purple-500/20" : "bg-white/30 border-cyan-500/20"}`}>
                 <h4 className={`font-bold mb-2 ${isDark ? "text-purple-300" : "text-cyan-600"}`}>
-                  Moves ({moveHistory.length})
+                  Battle Chronicle ({moveHistory.length})
                 </h4>
                 <div className="max-h-32 overflow-y-auto text-sm">
                   {moveHistory.slice(-6).map((move, index) => (
@@ -1234,17 +851,36 @@ export default function ChessGame({ isDark }: { isDark?: boolean }) {
                       {String.fromCharCode(97 + move.from[1])}
                       {8 - move.from[0]} →{String.fromCharCode(97 + move.to[1])}
                       {8 - move.to[0]}
-                      {move.captured && ` x${move.captured}`}
+                      {move.captured && ` ⚔️${move.captured}`}
                     </div>
                   ))}
                 </div>
+              </Card>
+
+              {/* Game Features */}
+              <Card className={`p-4 ${isDark ? "bg-black/20 border-purple-500/10" : "bg-white/20 border-cyan-500/10"}`}>
+                <h5 className={`font-bold text-sm mb-2 ${isDark ? "text-purple-300" : "text-cyan-600"}`}>
+                  ⚔️ Advanced Features
+                </h5>
+                <ul className="text-xs text-gray-400 space-y-1">
+                  <li>✅ Castling (O-O & O-O-O)</li>
+                  <li>✅ En Passant captures</li>
+                  <li>✅ Pawn promotion</li>
+                  <li>✅ Check & Checkmate detection</li>
+                  <li>✅ Stalemate recognition</li>
+                  <li>✨ Heaven sparkles & Hell embers</li>
+                </ul>
               </Card>
 
               {/* Controls */}
               <div className="space-y-2">
                 <Button
                   onClick={() => setShowBotSelection(true)}
-                  className={`w-full ${isDark ? "bg-purple-500 hover:bg-purple-600" : "bg-cyan-500 hover:bg-cyan-600"}`}
+                  className={`w-full ${
+                    isDark
+                      ? "bg-gradient-to-r from-purple-500 to-red-500 hover:from-purple-600 hover:to-red-600"
+                      : "bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600"
+                  } text-white font-bold shadow-lg`}
                 >
                   <Bot className="h-4 w-4 mr-2" />
                   Change Opponent
@@ -1252,25 +888,29 @@ export default function ChessGame({ isDark }: { isDark?: boolean }) {
                 <Button
                   onClick={resetGame}
                   variant="outline"
-                  className={`w-full ${isDark ? "border-purple-500/50 hover:bg-purple-500/20" : "border-cyan-500/50 hover:bg-cyan-500/20"}`}
+                  className={`w-full ${
+                    isDark
+                      ? "border-purple-500/50 hover:bg-purple-500/20 text-purple-300"
+                      : "border-cyan-500/50 hover:bg-cyan-500/20 text-cyan-700"
+                  }`}
                 >
                   <RotateCcw className="h-4 w-4 mr-2" />
-                  New Game
+                  New Battle
                 </Button>
               </div>
 
-              {/* Instructions */}
+              {/* Battle Guide */}
               <Card className={`p-3 ${isDark ? "bg-black/20 border-purple-500/10" : "bg-white/20 border-cyan-500/10"}`}>
                 <h5 className={`font-bold text-sm mb-2 ${isDark ? "text-purple-300" : "text-cyan-600"}`}>
-                  How to Play
+                  🏆 Battle Guide
                 </h5>
                 <ul className="text-xs text-gray-400 space-y-1">
-                  <li>• Click a piece to select it</li>
-                  <li>• Green circles show legal moves</li>
-                  <li>• Click destination to move</li>
-                  <li>• Yellow highlight shows selection</li>
-                  <li>• Board coordinates like Chess.com</li>
-                  <li>• Protect your King!</li>
+                  <li>⚡ Angels (White) glow with cyan light</li>
+                  <li>🔥 Demons (Black) radiate purple energy</li>
+                  <li>✨ Heaven sparkles around Angels</li>
+                  <li>🔥 Hell embers rise from Demons</li>
+                  <li>👑 Protect your King at all costs!</li>
+                  <li>⚔️ Capture enemy pieces to win!</li>
                 </ul>
               </Card>
             </div>

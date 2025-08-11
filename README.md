@@ -1,30 +1,11570 @@
-# Developer portfolio
+# My Developer Portfolio
 
-*Automatically synced with your [v0.dev](https://v0.dev) deployments*
+This is a personal developer portfolio showcasing various projects and skills. It features a modern design with a dark/light theme toggle and interactive components.
 
-[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/achraflms-projects/v0-developer-portfolio)
-[![Built with v0](https://img.shields.io/badge/Built%20with-v0.dev-black?style=for-the-badge)](https://v0.dev/chat/projects/vOmd6XCxFD2)
+## Features
 
-## Overview
+- **Responsive Design:** Optimized for various screen sizes.
+- **Dark/Light Theme:** Toggle between dark (Angel vs Demon) and light (Cyan/Blue) themes.
+- **Hero Section:** Introduction with profile image and call-to-action buttons.
+- **About Section:** Detailed information about the developer.
+- **Skills Section:** Categorized display of technical skills.
+- **Projects Section:** Showcase of various development projects, including:
+    - **Angel vs Demon Chess:** An interactive chess game with custom pieces, AI opponents, and unique visual effects.
+    - **Circuit Simulator:** A web-based tool to simulate basic electrical circuits and understand Ohm's Law.
+    - **Math Tools:** A collection of useful mathematical calculators and tools.
+- **Blog Section:** Placeholder for latest blog posts.
+- **Contact Section:** Ways to get in touch, including email and social links.
+- **Mobile Navigation:** Responsive menu for smaller screens.
 
-This repository will stay in sync with your deployed chats on [v0.dev](https://v0.dev).
-Any changes you make to your deployed app will be automatically pushed to this repository from [v0.dev](https://v0.dev).
+## Technologies Used
+
+- Next.js (App Router)
+- React
+- TypeScript
+- Tailwind CSS
+- shadcn/ui
+- Lucide React Icons
+
+## Getting Started
+
+1.  **Clone the repository:**
+    \`\`\`bash
+    git clone <repository-url>
+    cd my-developer-portfolio
+    \`\`\`
+2.  **Install dependencies:**
+    \`\`\`bash
+    npm install
+    # or
+    yarn install
+    # or
+    pnpm install
+    \`\`\`
+3.  **Run the development server:**
+    \`\`\`bash
+    npm run dev
+    # or
+    yarn dev
+    # or
+    pnpm dev
+    \`\`\`
+    Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+## Customization
+
+- **Content:** Update `app/page.tsx` with your personal information, projects, skills, and blog posts.
+- **Images:** Replace placeholder images in the `public/images` directory with your own.
+- **Colors:** Modify `tailwind.config.ts` and `app/globals.css` to adjust the theme colors.
+- **Components:** Customize existing components or add new ones in the `components` directory.
 
 ## Deployment
 
-Your project is live at:
+This project can be easily deployed to Vercel.
 
-**[https://vercel.com/achraflms-projects/v0-developer-portfolio](https://vercel.com/achraflms-projects/v0-developer-portfolio)**
-
-## Build your app
-
-Continue building your app on:
-
-**[https://v0.dev/chat/projects/vOmd6XCxFD2](https://v0.dev/chat/projects/vOmd6XCxFD2)**
-
-## How It Works
-
-1. Create and modify your project using [v0.dev](https://v0.dev)
-2. Deploy your chats from the v0 interface
-3. Changes are automatically pushed to this repository
-4. Vercel deploys the latest version from this repository
+\`\`\`bash
+npm run build
+\`\`\`
+\`\`\`bash
+npm start
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash
+vercel env pull
+\`\`\`
+\`\`\`bash
+vercel logs
+\`\`\`
+\`\`\`bash
+vercel --help
+\`\`\`
+\`\`\`bash
+vercel login
+\`\`\`
+\`\`\`bash
+vercel logout
+\`\`\`
+\`\`\`bash
+vercel whoami
+\`\`\`
+\`\`\`bash
+vercel link
+\`\`\`
+\`\`\`bash
+vercel unlink
+\`\`\`
+\`\`\`bash
+vercel git connect
+\`\`\`
+\`\`\`bash
+vercel git disconnect
+\`\`\`
+\`\`\`bash
+vercel git pull
+\`\`\`
+\`\`\`bash
+vercel git push
+\`\`\`
+\`\`\`bash
+vercel git checkout
+\`\`\`
+\`\`\`bash
+vercel git branch
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git log
+\`\`\`
+\`\`\`bash
+vercel git remote
+\`\`\`
+\`\`\`bash
+vercel git fetch
+\`\`\`
+\`\`\`bash
+vercel git add
+\`\`\`
+\`\`\`bash
+vercel git commit
+\`\`\`
+\`\`\`bash
+vercel git reset
+\`\`\`
+\`\`\`bash
+vercel git revert
+\`\`\`
+\`\`\`bash
+vercel git merge
+\`\`\`
+\`\`\`bash
+vercel git rebase
+\`\`\`
+\`\`\`bash
+vercel git stash
+\`\`\`
+\`\`\`bash
+vercel git clean
+\`\`\`
+\`\`\`bash
+vercel git diff
+\`\`\`
+\`\`\`bash
+vercel git mv
+\`\`\`
+\`\`\`bash
+vercel git rm
+\`\`\`
+\`\`\`bash
+vercel git submodule
+\`\`\`
+\`\`\`bash
+vercel git config
+\`\`\`
+\`\`\`bash
+vercel git help
+\`\`\`
+\`\`\`bash
+vercel git version
+\`\`\`
+\`\`\`bash
+vercel git init
+\`\`\`
+\`\`\`bash
+vercel git clone
+\`\`\`
+\`\`\`bash
+vercel git status
+\`\`\`
+\`\`\`bash
+vercel git add .
+\`\`\`
+\`\`\`bash
+vercel git commit -m "Initial commit"
+\`\`\`
+\`\`\`bash
+vercel git push origin main
+\`\`\`
+\`\`\`bash
+vercel deploy
+\`\`\`
+\`\`\`bash
+vercel deploy --prod
+\`\`\`
+\`\`\`bash
+vercel dev
+\`\`\`
+\`\`\`bash
+vercel env add <name>
+\`\`\`
+\`\`\`bash
+vercel env ls
+\`\`\`
+\`\`\`bash

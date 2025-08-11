@@ -1,181 +1,151 @@
 "use client"
 
-import { useState, useRef, useEffect } from "react"
+import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { Badge } from "@/components/ui/badge"
-import { MessageCircle, Send, Minimize2, X, Bot, User, Sparkles } from "lucide-react"
+import { Send, Bot, User, MessageCircle, X } from "lucide-react"
 
-const ChatBot = ({ isDark }) => {
-  const [isOpen, setIsOpen] = useState(false)
-  const [messages, setMessages] = useState([
-    {
-      id: 1,
-      type: "bot",
-      content: "👋 Hey! I'm Achraf's AI assistant. Ask me anything about him or his work!",
-      timestamp: new Date(),
-    },
-  ])
-  const [inputMessage, setInputMessage] = useState("")
+interface ChatbotProps {
+  isDark: boolean
+}
+
+export default function Chatbot({ isDark }: ChatbotProps) {
+  const [messages, setMessages] = useState<{ sender: "user" | "bot"; text: string }[]>([])
+  const [input, setInput] = useState("")
   const [isTyping, setIsTyping] = useState(false)
-  const messagesEndRef = useRef(null)
+  const [isOpen, setIsOpen] = useState(false)
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
-  }
+  const handleSendMessage = async () => {
+    if (input.trim() === "") return
 
-  useEffect(() => {
-    scrollToBottom()
-  }, [messages])
-
-  // --- Basic keyword intelligence ---
-  const knowledgeBase = {
-    skills: {
-      keywords: ["skills", "technologies", "programming"],
-      response: "🚀 Achraf works with React, Next.js, Python, Node.js, and more!",
-    },
-    projects: {
-      keywords: ["projects", "portfolio"],
-      response: "💼 Achraf built a Chess AI, Cybersecurity CTF platform, and several games.",
-    },
-  }
-
-  // --- Simulated AI replies for unknown questions ---
-  const fillerReplies = [
-    "Hmm 🤔 interesting question! I’ll need to think about that.",
-    "I’m not 100% sure, but I can find out for you!",
-    "That’s outside my main knowledge, but Achraf might know!",
-    "Let’s see… oh! That’s a tricky one!",
-  ]
-
-  const generateResponse = (userMessage) => {
-    const lower = userMessage.toLowerCase()
-    for (const [_, data] of Object.entries(knowledgeBase)) {
-      if (data.keywords.some((kw) => lower.includes(kw))) return data.response
-    }
-    return fillerReplies[Math.floor(Math.random() * fillerReplies.length)]
-  }
-
-  const handleSendMessage = () => {
-    if (!inputMessage.trim()) return
-
-    const userMsg = {
-      id: Date.now(),
-      type: "user",
-      content: inputMessage,
-      timestamp: new Date(),
-    }
-    setMessages((prev) => [...prev, userMsg])
-    setInputMessage("")
+    const userMessage = { sender: "user", text: input.trim() }
+    setMessages((prev) => [...prev, userMessage])
+    setInput("")
     setIsTyping(true)
 
-    setTimeout(() => {
-      const botMsg = {
-        id: Date.now() + 1,
-        type: "bot",
-        content: generateResponse(userMsg.content),
-        timestamp: new Date(),
-      }
-      setMessages((prev) => [...prev, botMsg])
-      setIsTyping(false)
-    }, 1000)
-  }
+    // Simulate bot response
+    await new Promise((resolve) => setTimeout(resolve, 1500))
 
-  const handleKeyPress = (e) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault()
-      handleSendMessage()
-    }
+    const botResponse = { sender: "bot", text: `Echo: ${userMessage.text}` }
+    setMessages((prev) => [...prev, botResponse])
+    setIsTyping(false)
   }
 
   return (
     <>
-      {/* Floating Chat Button */}
-      {!isOpen && (
-        <Button
-          onClick={() => setIsOpen(true)}
-          className={`fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full shadow-lg ${
-            isDark
-              ? "bg-gradient-to-r from-purple-500 to-pink-500"
-              : "bg-gradient-to-r from-cyan-500 to-blue-500"
-          }`}
-        >
-          <MessageCircle className="h-6 w-6" />
-        </Button>
-      )}
+      <Button
+        onClick={() => setIsOpen(!isOpen)}
+        size="icon"
+        className={`fixed bottom-6 left-6 z-50 rounded-full w-10 h-10 shadow-lg transition-all duration-300 ${
+          isDark
+            ? "bg-purple-600 hover:bg-purple-700 border-purple-500"
+            : "bg-cyan-600 hover:bg-cyan-700 border-cyan-500"
+        }`}
+      >
+        {isOpen ? <X className="h-4 w-4 text-white" /> : <MessageCircle className="h-4 w-4 text-white" />}
+      </Button>
 
-      {/* Chat Window */}
       {isOpen && (
-        <Card
-          className={`fixed bottom-20 right-6 z-50 w-80 h-[400px] shadow-2xl flex flex-col ${
-            isDark
-              ? "bg-gray-900 border-purple-500/30"
-              : "bg-white border-cyan-500/30"
-          }`}
-        >
-          <CardHeader className="py-2 flex justify-between items-center">
-            <CardTitle className={`text-sm font-semibold flex items-center gap-2 ${isDark ? "text-purple-300" : "text-cyan-600"}`}>
-              <Bot className="h-4 w-4" /> AI Assistant
-              <Badge variant="secondary" className="text-xs">
-                <Sparkles className="h-3 w-3 mr-1" /> Online
-              </Badge>
-            </CardTitle>
-            <Button variant="ghost" size="sm" onClick={() => setIsOpen(false)} className="h-6 w-6 p-0">
-              <X className="h-4 w-4" />
-            </Button>
-          </CardHeader>
-
-          <CardContent className="flex flex-col flex-1 p-3">
-            <ScrollArea className="flex-1 pr-2">
-              <div className="space-y-3">
-                {messages.map((m) => (
-                  <div key={m.id} className={`flex ${m.type === "user" ? "justify-end" : "justify-start"}`}>
+        <div className="fixed bottom-20 left-6 z-50">
+          <Card
+            className={`w-80 h-96 ${
+              isDark ? "bg-black/90 border-purple-500/50" : "bg-white/90 border-cyan-500/50"
+            } backdrop-blur-sm shadow-xl`}
+          >
+            <CardHeader className="pb-2">
+              <CardTitle className={`flex items-center gap-2 text-sm ${isDark ? "text-purple-300" : "text-cyan-600"}`}>
+                <Bot className="h-4 w-4" />
+                AI Assistant
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="flex flex-col h-[280px] p-3">
+              <ScrollArea className="flex-1 p-2 border rounded-md mb-3">
+                <div className="space-y-3">
+                  {messages.map((msg, index) => (
                     <div
-                      className={`max-w-[80%] rounded-lg p-2 text-sm ${
-                        m.type === "user"
-                          ? isDark ? "bg-purple-600 text-white" : "bg-cyan-600 text-white"
-                          : isDark ? "bg-gray-800 text-purple-100" : "bg-gray-100 text-cyan-900"
-                      }`}
+                      key={index}
+                      className={`flex items-start gap-2 ${msg.sender === "user" ? "justify-end" : "justify-start"}`}
                     >
-                      {m.content}
-                      <div className="text-[10px] opacity-70 mt-1">
-                        {m.timestamp.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                      {msg.sender === "bot" && (
+                        <div
+                          className={`w-6 h-6 rounded-full flex items-center justify-center ${
+                            isDark ? "bg-purple-600" : "bg-cyan-600"
+                          } text-white`}
+                        >
+                          <Bot className="h-3 w-3" />
+                        </div>
+                      )}
+                      <div
+                        className={`p-2 rounded-lg max-w-[70%] text-sm ${
+                          msg.sender === "user"
+                            ? isDark
+                              ? "bg-purple-700 text-white"
+                              : "bg-cyan-600 text-white"
+                            : isDark
+                              ? "bg-gray-700 text-gray-100"
+                              : "bg-gray-200 text-gray-800"
+                        }`}
+                      >
+                        {msg.text}
+                      </div>
+                      {msg.sender === "user" && (
+                        <div
+                          className={`w-6 h-6 rounded-full flex items-center justify-center ${
+                            isDark ? "bg-gray-600" : "bg-gray-400"
+                          } text-white`}
+                        >
+                          <User className="h-3 w-3" />
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                  {isTyping && (
+                    <div className="flex items-start gap-2">
+                      <div
+                        className={`w-6 h-6 rounded-full flex items-center justify-center ${
+                          isDark ? "bg-purple-600" : "bg-cyan-600"
+                        } text-white`}
+                      >
+                        <Bot className="h-3 w-3" />
+                      </div>
+                      <div
+                        className={`p-2 rounded-lg max-w-[70%] text-sm ${
+                          isDark ? "bg-gray-700 text-gray-100" : "bg-gray-200 text-gray-800"
+                        }`}
+                      >
+                        <span className="animate-pulse">...</span>
                       </div>
                     </div>
-                  </div>
-                ))}
-
-                {isTyping && (
-                  <div className="flex justify-start">
-                    <div className={`p-2 rounded-lg text-sm ${isDark ? "bg-gray-800 text-purple-100" : "bg-gray-100 text-cyan-900"}`}>
-                      Typing...
-                    </div>
-                  </div>
-                )}
+                  )}
+                </div>
+              </ScrollArea>
+              <div className="flex gap-2">
+                <Input
+                  type="text"
+                  placeholder="Type message..."
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyPress={(e) => {
+                    if (e.key === "Enter") handleSendMessage()
+                  }}
+                  className={`text-sm ${isDark ? "bg-gray-800 border-purple-700 text-white" : "bg-gray-50 border-cyan-700"}`}
+                  disabled={isTyping}
+                />
+                <Button
+                  onClick={handleSendMessage}
+                  size="sm"
+                  className={isDark ? "bg-purple-600 hover:bg-purple-700" : "bg-cyan-600 hover:bg-cyan-700"}
+                  disabled={isTyping}
+                >
+                  <Send className="h-3 w-3" />
+                </Button>
               </div>
-              <div ref={messagesEndRef} />
-            </ScrollArea>
-
-            {/* Input */}
-            <div className="flex gap-2 mt-2">
-              <Input
-                value={inputMessage}
-                onChange={(e) => setInputMessage(e.target.value)}
-                onKeyPress={handleKeyPress}
-                placeholder="Type a message..."
-                className={isDark ? "bg-gray-800 text-purple-100" : "bg-white text-cyan-900"}
-              />
-              <Button onClick={handleSendMessage} disabled={!inputMessage.trim() || isTyping} className={isDark ? "bg-purple-600" : "bg-cyan-600"}>
-                <Send className="h-4 w-4" />
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        </div>
       )}
     </>
   )
 }
-
-export default ChatBot
