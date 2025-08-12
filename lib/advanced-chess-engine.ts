@@ -1,680 +1,614 @@
-// Advanced Chess Engine with Full Rules
-export class AdvancedChessEngine {
-  constructor() {
-    this.pieceValues = {
-      p: 100,
-      n: 320,
-      b: 330,
-      r: 500,
-      q: 900,
-      k: 20000,
-      P: 100,
-      N: 320,
-      B: 330,
-      R: 500,
-      Q: 900,
-      K: 20000,
+// Advanced Chess Engine with Stockfish Integration
+import { Chess } from "chess.js"
+
+// Stockfish integration (will be loaded dynamically)
+let stockfishEngine: any = null
+
+// Initialize Stockfish engine
+const initializeStockfish = async () => {
+  if (typeof window !== "undefined" && !stockfishEngine) {
+    try {
+      // Load Stockfish from CDN
+      const Stockfish = await import("stockfish")
+      stockfishEngine = Stockfish.default()
+
+      stockfishEngine.onmessage = (message: string) => {
+        console.log("Stockfish:", message)
+      }
+
+      stockfishEngine.postMessage("uci")
+      stockfishEngine.postMessage("isready")
+    } catch (error) {
+      console.warn("Stockfish not available, using fallback AI")
     }
+  }
+}
 
-    this.pawnTable = [
-      [0, 0, 0, 0, 0, 0, 0, 0],
-      [50, 50, 50, 50, 50, 50, 50, 50],
-      [10, 10, 20, 30, 30, 20, 10, 10],
-      [5, 5, 10, 25, 25, 10, 5, 5],
-      [0, 0, 0, 20, 20, 0, 0, 0],
-      [5, -5, -10, 0, 0, -10, -5, 5],
-      [5, 10, 10, -20, -20, 10, 10, 5],
-      [0, 0, 0, 0, 0, 0, 0, 0],
-    ]
+// Chess piece values for evaluation
+const PIECE_VALUES = {
+  p: 100,
+  n: 320,
+  b: 330,
+  r: 500,
+  q: 900,
+  k: 20000,
+  P: 100,
+  N: 320,
+  B: 330,
+  R: 500,
+  Q: 900,
+  K: 20000,
+}
 
-    this.knightTable = [
-      [-50, -40, -30, -30, -30, -30, -40, -50],
-      [-40, -20, 0, 0, 0, 0, -20, -40],
-      [-30, 0, 10, 15, 15, 10, 0, -30],
-      [-30, 5, 15, 20, 20, 15, 5, -30],
-      [-30, 0, 15, 20, 20, 15, 0, -30],
-      [-30, 5, 10, 15, 15, 10, 5, -30],
-      [-40, -20, 0, 5, 5, 0, -20, -40],
-      [-50, -40, -30, -30, -30, -30, -40, -50],
-    ]
+// Position evaluation tables
+const PAWN_TABLE = [
+  0, 0, 0, 0, 0, 0, 0, 0, 50, 50, 50, 50, 50, 50, 50, 50, 10, 10, 20, 30, 30, 20, 10, 10, 5, 5, 10, 25, 25, 10, 5, 5, 0,
+  0, 0, 20, 20, 0, 0, 0, 5, -5, -10, 0, 0, -10, -5, 5, 5, 10, 10, -20, -20, 10, 10, 5, 0, 0, 0, 0, 0, 0, 0, 0,
+]
 
-    this.gameState = {
-      castlingRights: { whiteKing: true, whiteQueen: true, blackKing: true, blackQueen: true },
+const KNIGHT_TABLE = [
+  -50, -40, -30, -30, -30, -30, -40, -50, -40, -20, 0, 0, 0, 0, -20, -40, -30, 0, 10, 15, 15, 10, 0, -30, -30, 5, 15,
+  20, 20, 15, 5, -30, -30, 0, 15, 20, 20, 15, 0, -20, -40, 5, 10, 15, 15, 10, 5, -30, -40, -20, 0, 5, 5, 0, -20, -40,
+  -50, -40, -30, -30, -30, -30, -40, -50,
+]
+
+const BISHOP_TABLE = [
+  -20, -10, -10, -10, -10, -10, -10, -20, -10, 0, 0, 0, 0, 0, 0, -10, -10, 0, 5, 10, 10, 5, 0, -10, -10, 5, 5, 10, 10,
+  5, 5, -10, -10, 0, 10, 10, 10, 10, 0, -10, -10, 10, 10, 10, 10, 10, 10, -10, -10, 5, 0, 0, 0, 0, 5, -10, -20, -10,
+  -10, -10, -10, -10, -10, -20,
+]
+
+const ROOK_TABLE = [
+  0, 0, 0, 0, 0, 0, 0, 0, 5, 10, 10, 10, 10, 10, 10, 5, -5, 0, 0, 0, 0, 0, 0, -5, -5, 0, 0, 0, 0, 0, 0, -5, -5, 0, 0, 0,
+  0, 0, 0, -5, -5, 0, 0, 0, 0, 0, 0, -5, -5, 0, 0, 0, 0, 0, 0, -5, 0, 0, 0, 5, 5, 0, 0, 0,
+]
+
+const QUEEN_TABLE = [
+  -20, -10, -10, -5, -5, -10, -10, -20, -10, 0, 0, 0, 0, 0, 0, -10, -10, 0, 5, 5, 5, 5, 0, -10, -5, 0, 5, 5, 5, 5, 0,
+  -5, 0, 0, 5, 5, 5, 5, 0, -5, -10, 5, 5, 5, 5, 5, 0, -10, -10, 0, 5, 0, 0, 0, 0, -10, -20, -10, -10, -5, -5, -10, -10,
+  -20,
+]
+
+const KING_TABLE = [
+  -30, -40, -40, -50, -50, -40, -40, -30, -30, -40, -40, -50, -50, -40, -40, -30, -30, -40, -40, -50, -50, -40, -40,
+  -30, -30, -40, -40, -50, -50, -40, -40, -30, -20, -30, -30, -40, -40, -30, -30, -20, -10, -20, -20, -20, -20, -20,
+  -20, -10, 20, 20, 0, 0, 0, 0, 20, 20, 20, 30, 10, 0, 0, 10, 30, 20,
+]
+
+interface GameState {
+  castlingRights: {
+    whiteKingSide: boolean
+    whiteQueenSide: boolean
+    blackKingSide: boolean
+    blackQueenSide: boolean
+  }
+  enPassantTarget: [number, number] | null
+  halfMoveClock: number
+  fullMoveNumber: number
+  lastMove: { from: [number, number]; to: [number, number] } | null
+}
+
+interface Move {
+  from: string | [number, number]
+  to: string | [number, number]
+  promotion?: string
+}
+
+interface ChessAI {
+  name: string
+  description: string
+  difficulty: number
+  makeMove(game: Chess): Promise<Move | null>
+}
+
+class AdvancedChessEngine {
+  private game: Chess
+  private transpositionTable: Map<string, any>
+  public gameState: GameState
+
+  constructor() {
+    this.game = new Chess()
+    this.transpositionTable = new Map()
+    this.gameState = this.getInitialGameState()
+    initializeStockfish()
+  }
+
+  private getInitialGameState(): GameState {
+    return {
+      castlingRights: {
+        whiteKingSide: true,
+        whiteQueenSide: true,
+        blackKingSide: true,
+        blackQueenSide: true,
+      },
       enPassantTarget: null,
       halfMoveClock: 0,
       fullMoveNumber: 1,
+      lastMove: null,
     }
   }
 
-  evaluateBoard(board, personality = "balanced") {
+  private coordToSquare(coord: [number, number]): string {
+    const [row, col] = coord
+    return String.fromCharCode(97 + col) + (8 - row).toString()
+  }
+
+  private squareToCoord(square: string): [number, number] {
+    const col = square.charCodeAt(0) - 97
+    const row = 8 - Number.parseInt(square[1])
+    return [row, col]
+  }
+
+  private boardToFen(board: (string | null)[][]): string {
+    let fen = ""
+    for (let row = 0; row < 8; row++) {
+      let emptyCount = 0
+      for (let col = 0; col < 8; col++) {
+        const piece = board[row][col]
+        if (piece === null) {
+          emptyCount++
+        } else {
+          if (emptyCount > 0) {
+            fen += emptyCount.toString()
+            emptyCount = 0
+          }
+          fen += piece
+        }
+      }
+      if (emptyCount > 0) {
+        fen += emptyCount.toString()
+      }
+      if (row < 7) fen += "/"
+    }
+
+    // Add game state info
+    const turn = this.game.turn()
+    const castling = this.getCastlingString()
+    const enPassant = this.gameState.enPassantTarget ? this.coordToSquare(this.gameState.enPassantTarget) : "-"
+
+    return `${fen} ${turn} ${castling} ${enPassant} ${this.gameState.halfMoveClock} ${this.gameState.fullMoveNumber}`
+  }
+
+  private getCastlingString(): string {
+    let castling = ""
+    if (this.gameState.castlingRights.whiteKingSide) castling += "K"
+    if (this.gameState.castlingRights.whiteQueenSide) castling += "Q"
+    if (this.gameState.castlingRights.blackKingSide) castling += "k"
+    if (this.gameState.castlingRights.blackQueenSide) castling += "q"
+    return castling || "-"
+  }
+
+  // Get current game state
+  getGame(): Chess {
+    return this.game
+  }
+
+  // Reset the game
+  reset(): void {
+    this.game.reset()
+    this.transpositionTable.clear()
+    this.gameState = this.getInitialGameState()
+  }
+
+  // Make a move
+  makeMove(move: string | Move): boolean {
+    try {
+      const result = this.game.move(move)
+      return result !== null
+    } catch {
+      return false
+    }
+  }
+
+  // Get legal moves
+  getLegalMoves(): string[] {
+    return this.game.moves()
+  }
+
+  // Check if game is over
+  isGameOver(): boolean {
+    return this.game.isGameOver()
+  }
+
+  // Get game status
+  getGameStatus(): string {
+    if (this.game.isCheckmate()) {
+      return this.game.turn() === "w" ? "Black wins by checkmate" : "White wins by checkmate"
+    }
+    if (this.game.isStalemate()) return "Draw by stalemate"
+    if (this.game.isThreefoldRepetition()) return "Draw by repetition"
+    if (this.game.isInsufficientMaterial()) return "Draw by insufficient material"
+    if (this.game.isDraw()) return "Draw"
+    if (this.game.isCheck()) return "Check"
+    return "Game in progress"
+  }
+
+  // Evaluate position
+  private evaluatePosition(): number {
+    if (this.game.isCheckmate()) {
+      return this.game.turn() === "w" ? -9999 : 9999
+    }
+    if (this.game.isDraw()) return 0
+
     let score = 0
-    for (let row = 0; row < 8; row++) {
-      for (let col = 0; col < 8; col++) {
-        const piece = board[row][col]
+    const board = this.game.board()
+
+    for (let i = 0; i < 8; i++) {
+      for (let j = 0; j < 8; j++) {
+        const piece = board[i][j]
         if (piece) {
-          const isWhite = piece === piece.toUpperCase()
-          const pieceType = piece.toLowerCase()
-          let pieceScore = this.pieceValues[piece]
+          const isWhite = piece.color === "w"
+          const pieceValue = PIECE_VALUES[piece.type.toUpperCase() as keyof typeof PIECE_VALUES]
+          let positionValue = 0
 
-          // Personality adjustments
-          if (personality === "aggressive") {
-            if (pieceType === "q") pieceScore *= 1.2
-            if (pieceType === "r") pieceScore *= 1.1
-          } else if (personality === "positional") {
-            if (pieceType === "b") pieceScore *= 1.1
-            if (pieceType === "n") pieceScore *= 1.1
-          } else if (personality === "defensive") {
-            if (pieceType === "k") pieceScore *= 1.1
-            if (pieceType === "p") pieceScore *= 1.1
+          // Get position value from tables
+          const squareIndex = i * 8 + j
+          const flippedIndex = isWhite ? squareIndex : 63 - squareIndex
+
+          switch (piece.type) {
+            case "p":
+              positionValue = PAWN_TABLE[flippedIndex]
+              break
+            case "n":
+              positionValue = KNIGHT_TABLE[flippedIndex]
+              break
+            case "b":
+              positionValue = BISHOP_TABLE[flippedIndex]
+              break
+            case "r":
+              positionValue = ROOK_TABLE[flippedIndex]
+              break
+            case "q":
+              positionValue = QUEEN_TABLE[flippedIndex]
+              break
+            case "k":
+              positionValue = KING_TABLE[flippedIndex]
+              break
           }
 
-          // Position tables
-          if (pieceType === "p") {
-            pieceScore += this.pawnTable[isWhite ? row : 7 - row][col]
-          } else if (pieceType === "n") {
-            pieceScore += this.knightTable[isWhite ? row : 7 - row][col]
-          }
-
-          score += isWhite ? pieceScore : -pieceScore
-        }
-      }
-    }
-    return score
-  }
-
-  getAllMoves(board, isWhite, gameState = this.gameState) {
-    const moves = []
-    for (let row = 0; row < 8; row++) {
-      for (let col = 0; col < 8; col++) {
-        const piece = board[row][col]
-        if (piece && ((isWhite && piece === piece.toUpperCase()) || (!isWhite && piece === piece.toLowerCase()))) {
-          const pieceMoves = this.getPieceMoves(board, row, col, piece, gameState)
-          moves.push(
-            ...pieceMoves.map((move) => ({
-              from: [row, col],
-              to: move.to || move,
-              piece: piece,
-              capture: board[move.to ? move.to[0] : move[0]][move.to ? move.to[1] : move[1]],
-              special: move.special || null,
-            })),
-          )
-        }
-      }
-    }
-    return moves
-  }
-
-  getPieceMoves(board, row, col, piece, gameState = this.gameState) {
-    const pieceType = piece.toLowerCase()
-    const isWhite = piece === piece.toUpperCase()
-
-    switch (pieceType) {
-      case "p":
-        return this.getPawnMoves(board, row, col, isWhite, gameState)
-      case "r":
-        return this.getRookMoves(board, row, col, isWhite)
-      case "n":
-        return this.getKnightMoves(board, row, col, isWhite)
-      case "b":
-        return this.getBishopMoves(board, row, col, isWhite)
-      case "q":
-        return this.getQueenMoves(board, row, col, isWhite)
-      case "k":
-        return this.getKingMoves(board, row, col, isWhite, gameState)
-      default:
-        return []
-    }
-  }
-
-  getPawnMoves(board, row, col, isWhite, gameState) {
-    const moves = []
-    const direction = isWhite ? -1 : 1
-    const startRow = isWhite ? 6 : 1
-    const promotionRow = isWhite ? 0 : 7
-
-    // Forward moves
-    if (row + direction >= 0 && row + direction < 8 && !board[row + direction][col]) {
-      const newRow = row + direction
-      if (newRow === promotionRow) {
-        // Pawn promotion
-        for (const promoteTo of ["q", "r", "b", "n"]) {
-          moves.push({
-            to: [newRow, col],
-            special: { type: "promotion", promoteTo: isWhite ? promoteTo.toUpperCase() : promoteTo },
-          })
-        }
-      } else {
-        moves.push([newRow, col])
-        // Double move from starting position
-        if (row === startRow && !board[row + 2 * direction][col]) {
-          moves.push({
-            to: [row + 2 * direction, col],
-            special: { type: "enPassantTarget", target: [row + direction, col] },
-          })
+          const totalValue = pieceValue + positionValue
+          score += isWhite ? totalValue : -totalValue
         }
       }
     }
 
-    // Captures
-    for (const dcol of [-1, 1]) {
-      const newRow = row + direction
-      const newCol = col + dcol
-      if (newRow >= 0 && newRow < 8 && newCol >= 0 && newCol < 8) {
-        const target = board[newRow][newCol]
-        if (target && ((isWhite && target === target.toLowerCase()) || (!isWhite && target === target.toUpperCase()))) {
-          if (newRow === promotionRow) {
-            // Capture with promotion
-            for (const promoteTo of ["q", "r", "b", "n"]) {
-              moves.push({
-                to: [newRow, newCol],
-                special: { type: "promotion", promoteTo: isWhite ? promoteTo.toUpperCase() : promoteTo },
-              })
-            }
-          } else {
-            moves.push([newRow, newCol])
-          }
-        }
-        // En passant
-        else if (
-          gameState.enPassantTarget &&
-          gameState.enPassantTarget[0] === newRow &&
-          gameState.enPassantTarget[1] === newCol
-        ) {
-          moves.push({
-            to: [newRow, newCol],
-            special: { type: "enPassant", captureSquare: [row, newCol] },
-          })
-        }
-      }
-    }
-    return moves
+    return this.game.turn() === "w" ? score : -score
   }
 
-  getRookMoves(board, row, col, isWhite) {
-    const moves = []
-    const directions = [
-      [0, 1],
-      [0, -1],
-      [1, 0],
-      [-1, 0],
-    ]
-
-    for (const [drow, dcol] of directions) {
-      for (let i = 1; i < 8; i++) {
-        const newRow = row + i * drow
-        const newCol = col + i * dcol
-        if (newRow < 0 || newRow >= 8 || newCol < 0 || newCol >= 8) break
-
-        const target = board[newRow][newCol]
-        if (!target) {
-          moves.push([newRow, newCol])
-        } else {
-          if ((isWhite && target === target.toLowerCase()) || (!isWhite && target === target.toUpperCase())) {
-            moves.push([newRow, newCol])
-          }
-          break
-        }
-      }
-    }
-    return moves
-  }
-
-  getKnightMoves(board, row, col, isWhite) {
-    const moves = []
-    const knightMoves = [
-      [-2, -1],
-      [-2, 1],
-      [-1, -2],
-      [-1, 2],
-      [1, -2],
-      [1, 2],
-      [2, -1],
-      [2, 1],
-    ]
-
-    for (const [drow, dcol] of knightMoves) {
-      const newRow = row + drow
-      const newCol = col + dcol
-      if (newRow >= 0 && newRow < 8 && newCol >= 0 && newCol < 8) {
-        const target = board[newRow][newCol]
-        if (!target || (isWhite && target === target.toLowerCase()) || (!isWhite && target === target.toUpperCase())) {
-          moves.push([newRow, newCol])
-        }
-      }
-    }
-    return moves
-  }
-
-  getBishopMoves(board, row, col, isWhite) {
-    const moves = []
-    const directions = [
-      [1, 1],
-      [1, -1],
-      [-1, 1],
-      [-1, -1],
-    ]
-
-    for (const [drow, dcol] of directions) {
-      for (let i = 1; i < 8; i++) {
-        const newRow = row + i * drow
-        const newCol = col + i * dcol
-        if (newRow < 0 || newRow >= 8 || newCol < 0 || newCol >= 8) break
-
-        const target = board[newRow][newCol]
-        if (!target) {
-          moves.push([newRow, newCol])
-        } else {
-          if ((isWhite && target === target.toLowerCase()) || (!isWhite && target === target.toUpperCase())) {
-            moves.push([newRow, newCol])
-          }
-          break
-        }
-      }
-    }
-    return moves
-  }
-
-  getQueenMoves(board, row, col, isWhite) {
-    return [...this.getRookMoves(board, row, col, isWhite), ...this.getBishopMoves(board, row, col, isWhite)]
-  }
-
-  getKingMoves(board, row, col, isWhite, gameState) {
-    const moves = []
-    const directions = [
-      [-1, -1],
-      [-1, 0],
-      [-1, 1],
-      [0, -1],
-      [0, 1],
-      [1, -1],
-      [1, 0],
-      [1, 1],
-    ]
-
-    // Normal king moves
-    for (const [drow, dcol] of directions) {
-      const newRow = row + drow
-      const newCol = col + dcol
-      if (newRow >= 0 && newRow < 8 && newCol >= 0 && newCol < 8) {
-        const target = board[newRow][newCol]
-        if (!target || (isWhite && target === target.toLowerCase()) || (!isWhite && target === target.toUpperCase())) {
-          moves.push([newRow, newCol])
-        }
-      }
+  // Minimax with alpha-beta pruning
+  private minimax(depth: number, alpha: number, beta: number, maximizing: boolean): number {
+    const key = this.game.fen() + depth + maximizing
+    if (this.transpositionTable.has(key)) {
+      return this.transpositionTable.get(key)
     }
 
-    // Castling
-    if (!this.isInCheck(board, isWhite)) {
-      if (isWhite) {
-        // White kingside castling
-        if (gameState.castlingRights.whiteKing && !board[7][5] && !board[7][6] && board[7][7] === "R") {
-          if (!this.isSquareAttacked(board, [7, 5], false) && !this.isSquareAttacked(board, [7, 6], false)) {
-            moves.push({
-              to: [7, 6],
-              special: { type: "castle", rookFrom: [7, 7], rookTo: [7, 5] },
-            })
-          }
-        }
-        // White queenside castling
-        if (
-          gameState.castlingRights.whiteQueen &&
-          !board[7][1] &&
-          !board[7][2] &&
-          !board[7][3] &&
-          board[7][0] === "R"
-        ) {
-          if (!this.isSquareAttacked(board, [7, 2], false) && !this.isSquareAttacked(board, [7, 3], false)) {
-            moves.push({
-              to: [7, 2],
-              special: { type: "castle", rookFrom: [7, 0], rookTo: [7, 3] },
-            })
-          }
-        }
-      } else {
-        // Black kingside castling
-        if (gameState.castlingRights.blackKing && !board[0][5] && !board[0][6] && board[0][7] === "r") {
-          if (!this.isSquareAttacked(board, [0, 5], true) && !this.isSquareAttacked(board, [0, 6], true)) {
-            moves.push({
-              to: [0, 6],
-              special: { type: "castle", rookFrom: [0, 7], rookTo: [0, 5] },
-            })
-          }
-        }
-        // Black queenside castling
-        if (
-          gameState.castlingRights.blackQueen &&
-          !board[0][1] &&
-          !board[0][2] &&
-          !board[0][3] &&
-          board[0][0] === "r"
-        ) {
-          if (!this.isSquareAttacked(board, [0, 2], true) && !this.isSquareAttacked(board, [0, 3], true)) {
-            moves.push({
-              to: [0, 2],
-              special: { type: "castle", rookFrom: [0, 0], rookTo: [0, 3] },
-            })
-          }
-        }
-      }
+    if (depth === 0 || this.game.isGameOver()) {
+      const evaluation = this.evaluatePosition()
+      this.transpositionTable.set(key, evaluation)
+      return evaluation
     }
 
-    return moves
-  }
+    const moves = this.game.moves()
 
-  isSquareAttacked(board, square, byWhite) {
-    const [targetRow, targetCol] = square
-
-    for (let row = 0; row < 8; row++) {
-      for (let col = 0; col < 8; col++) {
-        const piece = board[row][col]
-        if (piece && ((byWhite && piece === piece.toUpperCase()) || (!byWhite && piece === piece.toLowerCase()))) {
-          const pieceType = piece.toLowerCase()
-
-          // For king, only check basic moves (no castling) to avoid recursion
-          if (pieceType === "k") {
-            const directions = [
-              [-1, -1],
-              [-1, 0],
-              [-1, 1],
-              [0, -1],
-              [0, 1],
-              [1, -1],
-              [1, 0],
-              [1, 1],
-            ]
-
-            for (const [drow, dcol] of directions) {
-              const newRow = row + drow
-              const newCol = col + dcol
-              if (newRow === targetRow && newCol === targetCol) {
-                return true
-              }
-            }
-          } else {
-            // For other pieces, use normal move generation
-            const moves = this.getPieceMovesBasic(board, row, col, piece)
-            if (
-              moves.some((move) => {
-                const moveSquare = move.to || move
-                return moveSquare[0] === targetRow && moveSquare[1] === targetCol
-              })
-            ) {
-              return true
-            }
-          }
-        }
-      }
-    }
-    return false
-  }
-
-  getPieceMovesBasic(board, row, col, piece) {
-    const pieceType = piece.toLowerCase()
-    const isWhite = piece === piece.toUpperCase()
-
-    switch (pieceType) {
-      case "p":
-        return this.getPawnMovesBasic(board, row, col, isWhite)
-      case "r":
-        return this.getRookMoves(board, row, col, isWhite)
-      case "n":
-        return this.getKnightMoves(board, row, col, isWhite)
-      case "b":
-        return this.getBishopMoves(board, row, col, isWhite)
-      case "q":
-        return this.getQueenMoves(board, row, col, isWhite)
-      case "k":
-        return this.getKingMovesBasic(board, row, col, isWhite)
-      default:
-        return []
-    }
-  }
-
-  getPawnMovesBasic(board, row, col, isWhite) {
-    const moves = []
-    const direction = isWhite ? -1 : 1
-    const startRow = isWhite ? 6 : 1
-
-    // Forward moves
-    if (row + direction >= 0 && row + direction < 8 && !board[row + direction][col]) {
-      moves.push([row + direction, col])
-      // Double move from starting position
-      if (row === startRow && !board[row + 2 * direction][col]) {
-        moves.push([row + 2 * direction, col])
-      }
-    }
-
-    // Captures (no en passant)
-    for (const dcol of [-1, 1]) {
-      const newRow = row + direction
-      const newCol = col + dcol
-      if (newRow >= 0 && newRow < 8 && newCol >= 0 && newCol < 8) {
-        const target = board[newRow][newCol]
-        if (target && ((isWhite && target === target.toLowerCase()) || (!isWhite && target === target.toUpperCase()))) {
-          moves.push([newRow, newCol])
-        }
-      }
-    }
-    return moves
-  }
-
-  getKingMovesBasic(board, row, col, isWhite) {
-    const moves = []
-    const directions = [
-      [-1, -1],
-      [-1, 0],
-      [-1, 1],
-      [0, -1],
-      [0, 1],
-      [1, -1],
-      [1, 0],
-      [1, 1],
-    ]
-
-    // Only basic king moves, no castling
-    for (const [drow, dcol] of directions) {
-      const newRow = row + drow
-      const newCol = col + dcol
-      if (newRow >= 0 && newRow < 8 && newCol >= 0 && newCol < 8) {
-        const target = board[newRow][newCol]
-        if (!target || (isWhite && target === target.toLowerCase()) || (!isWhite && target === target.toUpperCase())) {
-          moves.push([newRow, newCol])
-        }
-      }
-    }
-    return moves
-  }
-
-  isInCheck(board, isWhite) {
-    let kingPos = null
-    const kingSymbol = isWhite ? "K" : "k"
-
-    for (let row = 0; row < 8; row++) {
-      for (let col = 0; col < 8; col++) {
-        if (board[row][col] === kingSymbol) {
-          kingPos = [row, col]
-          break
-        }
-      }
-      if (kingPos) break
-    }
-
-    if (!kingPos) return false
-    return this.isSquareAttacked(board, kingPos, !isWhite)
-  }
-
-  isValidMove(board, from, to, isWhite, gameState = this.gameState) {
-    const [fromRow, fromCol] = from
-    const [toRow, toCol] = to
-    const piece = board[fromRow][fromCol]
-
-    if (!piece) return false
-    if ((isWhite && piece !== piece.toUpperCase()) || (!isWhite && piece !== piece.toLowerCase())) return false
-
-    const validMoves = this.getPieceMoves(board, fromRow, fromCol, piece, gameState)
-    const moveExists = validMoves.some((move) => {
-      const moveSquare = move.to || move
-      return moveSquare[0] === toRow && moveSquare[1] === toCol
-    })
-
-    if (!moveExists) return false
-
-    const testBoard = this.makeMove(board, from, to, gameState).board
-    return !this.isInCheck(testBoard, isWhite)
-  }
-
-  getBestMove(board, depth = 4, personality = "balanced", gameState = this.gameState) {
-    const moves = this.getAllMoves(board, false, gameState)
-    if (moves.length === 0) return null
-
-    let bestMove = null
-    let bestScore = Number.POSITIVE_INFINITY
-
-    // Move ordering for better performance
-    if (personality === "aggressive") {
-      moves.sort((a, b) => {
-        const aValue = a.capture ? this.pieceValues[a.capture] : 0
-        const bValue = b.capture ? this.pieceValues[b.capture] : 0
-        return bValue - aValue
-      })
-    } else if (personality === "positional") {
-      moves.sort((a, b) => {
-        const aCenter = Math.abs(a.to[0] - 3.5) + Math.abs(a.to[1] - 3.5)
-        const bCenter = Math.abs(b.to[0] - 3.5) + Math.abs(b.to[1] - 3.5)
-        return aCenter - bCenter
-      })
-    }
-
-    const searchLimit = personality === "hikaru" ? 25 : 20
-    for (const move of moves.slice(0, searchLimit)) {
-      const result = this.makeMove(board, move.from, move.to, gameState)
-      if (!this.isInCheck(result.board, false)) {
-        const score = this.minimax(
-          result.board,
-          depth - 1,
-          true,
-          Number.NEGATIVE_INFINITY,
-          Number.POSITIVE_INFINITY,
-          personality,
-          result.gameState,
-        )
-        if (score < bestScore) {
-          bestScore = score
-          bestMove = move
-        }
-      }
-    }
-
-    return bestMove
-  }
-
-  minimax(board, depth, isMaximizing, alpha, beta, personality, gameState) {
-    if (depth === 0) {
-      return this.evaluateBoard(board, personality)
-    }
-
-    const moves = this.getAllMoves(board, isMaximizing, gameState)
-
-    if (moves.length === 0) {
-      if (this.isInCheck(board, isMaximizing)) {
-        return isMaximizing ? -10000 + (4 - depth) : 10000 - (4 - depth)
-      }
-      return 0 // Stalemate
-    }
-
-    if (isMaximizing) {
+    if (maximizing) {
       let maxEval = Number.NEGATIVE_INFINITY
-      for (const move of moves.slice(0, 15)) {
-        const result = this.makeMove(board, move.from, move.to, gameState)
-        const score = this.minimax(result.board, depth - 1, false, alpha, beta, personality, result.gameState)
-        maxEval = Math.max(maxEval, score)
-        alpha = Math.max(alpha, score)
+      for (const move of moves) {
+        this.game.move(move)
+        // renamed 'eval' to 'evalScore' to avoid reserved keyword
+        const evalScore = this.minimax(depth - 1, alpha, beta, false)
+        this.game.undo()
+        maxEval = Math.max(maxEval, evalScore)
+        alpha = Math.max(alpha, evalScore)
         if (beta <= alpha) break
       }
+      this.transpositionTable.set(key, maxEval)
       return maxEval
     } else {
       let minEval = Number.POSITIVE_INFINITY
-      for (const move of moves.slice(0, 15)) {
-        const result = this.makeMove(board, move.from, move.to, gameState)
-        const score = this.minimax(result.board, depth - 1, true, alpha, beta, personality, result.gameState)
-        minEval = Math.min(minEval, score)
-        beta = Math.min(beta, score)
+      for (const move of moves) {
+        this.game.move(move)
+        // renamed 'eval' to 'evalScore' to avoid reserved keyword
+        const evalScore = this.minimax(depth - 1, alpha, beta, true)
+        this.game.undo()
+        minEval = Math.min(minEval, evalScore)
+        beta = Math.min(beta, evalScore)
         if (beta <= alpha) break
       }
+      this.transpositionTable.set(key, minEval)
       return minEval
     }
   }
 
-  makeMove(board, from, to, gameState = this.gameState) {
-    const newBoard = board.map((row) => [...row])
-    const newGameState = { ...gameState }
-    const [fromRow, fromCol] = from
-    const [toRow, toCol] = to
-    const piece = newBoard[fromRow][fromCol]
-    const capturedPiece = newBoard[toRow][toCol]
+  // Get best move using minimax
+  private getBestMoveMinimal(depth = 3): Move | null {
+    const moves = this.game.moves({ verbose: true })
+    if (moves.length === 0) return null
 
-    // Find the move details for special moves
-    const moves = this.getPieceMoves(board, fromRow, fromCol, piece, gameState)
-    const moveDetail = moves.find((move) => {
-      const moveSquare = move.to || move
-      return moveSquare[0] === toRow && moveSquare[1] === toCol
-    })
+    let bestMove = moves[0]
+    let bestValue = Number.NEGATIVE_INFINITY
 
-    // Handle special moves
-    if (moveDetail && moveDetail.special) {
-      const special = moveDetail.special
+    for (const move of moves) {
+      this.game.move(move)
+      const value = this.minimax(depth - 1, Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY, false)
+      this.game.undo()
 
-      if (special.type === "castle") {
-        // Move rook for castling
-        const [rookFromRow, rookFromCol] = special.rookFrom
-        const [rookToRow, rookToCol] = special.rookTo
-        newBoard[rookToRow][rookToCol] = newBoard[rookFromRow][rookFromCol]
-        newBoard[rookFromRow][rookFromCol] = null
-
-        // Update castling rights
-        if (piece === "K") {
-          newGameState.castlingRights.whiteKing = false
-          newGameState.castlingRights.whiteQueen = false
-        } else {
-          newGameState.castlingRights.blackKing = false
-          newGameState.castlingRights.blackQueen = false
-        }
-      } else if (special.type === "enPassant") {
-        // Remove captured pawn
-        const [captureRow, captureCol] = special.captureSquare
-        newBoard[captureRow][captureCol] = null
-      } else if (special.type === "promotion") {
-        // Promote pawn
-        newBoard[toRow][toCol] = special.promoteTo
-        newBoard[fromRow][fromCol] = null
-        newGameState.enPassantTarget = null
-        return { board: newBoard, gameState: newGameState }
-      } else if (special.type === "enPassantTarget") {
-        newGameState.enPassantTarget = special.target
+      if (value > bestValue) {
+        bestValue = value
+        bestMove = move
       }
-    } else {
-      newGameState.enPassantTarget = null
     }
 
-    // Make the move
-    newBoard[toRow][toCol] = piece
-    newBoard[fromRow][fromCol] = null
+    return {
+      from: bestMove.from,
+      to: bestMove.to,
+      promotion: bestMove.promotion,
+    }
+  }
 
-    // Update castling rights
-    if (piece === "K") {
-      newGameState.castlingRights.whiteKing = false
-      newGameState.castlingRights.whiteQueen = false
-    } else if (piece === "k") {
-      newGameState.castlingRights.blackKing = false
-      newGameState.castlingRights.blackQueen = false
-    } else if (piece === "R") {
-      if (fromRow === 7 && fromCol === 0) newGameState.castlingRights.whiteQueen = false
-      if (fromRow === 7 && fromCol === 7) newGameState.castlingRights.whiteKing = false
-    } else if (piece === "r") {
-      if (fromRow === 0 && fromCol === 0) newGameState.castlingRights.blackQueen = false
-      if (fromRow === 0 && fromCol === 7) newGameState.castlingRights.blackKing = false
+  // Stockfish integration
+  private async getBestMoveStockfish(depth = 15): Promise<Move | null> {
+    if (!stockfishEngine) {
+      return this.getBestMoveMinimal(Math.min(depth, 4))
     }
 
-    return { board: newBoard, gameState: newGameState }
+    return new Promise((resolve, reject) => {
+      const timeout = setTimeout(() => {
+        reject(new Error("Stockfish timeout"))
+      }, 30000)
+
+      stockfishEngine.onmessage = (message: string) => {
+        if (typeof message === "string" && message.startsWith("bestmove")) {
+          clearTimeout(timeout)
+          const moveStr = message.split(" ")[1]
+          if (moveStr && moveStr !== "(none)") {
+            const move = this.parseUCIMove(moveStr)
+            resolve(move)
+          } else {
+            resolve(null)
+          }
+        }
+      }
+
+      stockfishEngine.postMessage(`position fen ${this.game.fen()}`)
+      stockfishEngine.postMessage(`go depth ${depth}`)
+    }).catch(() => {
+      // Fallback to minimax if Stockfish fails
+      return this.getBestMoveMinimal(Math.min(depth, 4))
+    })
+  }
+
+  // Parse UCI move format
+  private parseUCIMove(uciMove: string): Move | null {
+    if (!uciMove || uciMove.length < 4) return null
+
+    const from = uciMove.substring(0, 2)
+    const to = uciMove.substring(2, 4)
+    const promotion = uciMove.length > 4 ? uciMove[4] : undefined
+
+    return { from, to, promotion }
+  }
+
+  isInCheck(board: (string | null)[][], isWhite: boolean): boolean {
+    try {
+      const fen = this.boardToFen(board)
+      const tempGame = new Chess(fen)
+      return tempGame.isCheck()
+    } catch {
+      return false
+    }
+  }
+
+  makeMove(
+    board: (string | null)[][],
+    from: [number, number],
+    to: [number, number],
+    gameState: GameState,
+    promotionPiece?: string,
+  ): {
+    success: boolean
+    newBoard: (string | null)[][]
+    capturedPiece: string | null
+    gameState: GameState
+  } {
+    try {
+      const fromSquare = this.coordToSquare(from)
+      const toSquare = this.coordToSquare(to)
+
+      const fen = this.boardToFen(board)
+      const tempGame = new Chess(fen)
+
+      const moveObj: any = { from: fromSquare, to: toSquare }
+      if (promotionPiece) {
+        moveObj.promotion = promotionPiece.toLowerCase()
+      }
+
+      const result = tempGame.move(moveObj)
+      if (!result) {
+        return { success: false, newBoard: board, capturedPiece: null, gameState }
+      }
+
+      // Convert back to board array
+      const newBoard = this.fenToBoard(tempGame.fen())
+
+      // Update game state
+      const newGameState = { ...gameState }
+      newGameState.lastMove = { from, to }
+      newGameState.fullMoveNumber = tempGame.moveNumber()
+
+      return {
+        success: true,
+        newBoard,
+        capturedPiece: result.captured || null,
+        gameState: newGameState,
+      }
+    } catch {
+      return { success: false, newBoard: board, capturedPiece: null, gameState }
+    }
+  }
+
+  private fenToBoard(fen: string): (string | null)[][] {
+    const board: (string | null)[][] = Array(8)
+      .fill(null)
+      .map(() => Array(8).fill(null))
+    const boardPart = fen.split(" ")[0]
+    const rows = boardPart.split("/")
+
+    for (let row = 0; row < 8; row++) {
+      let col = 0
+      for (const char of rows[row]) {
+        if (char >= "1" && char <= "8") {
+          col += Number.parseInt(char)
+        } else {
+          board[row][col] = char
+          col++
+        }
+      }
+    }
+
+    return board
+  }
+
+  getAllMoves(board: (string | null)[][], isWhite: boolean, gameState: GameState): Move[] {
+    try {
+      const fen = this.boardToFen(board)
+      const tempGame = new Chess(fen)
+      const moves = tempGame.moves({ verbose: true })
+
+      return moves.map((move) => ({
+        from: this.squareToCoord(move.from),
+        to: this.squareToCoord(move.to),
+        promotion: move.promotion,
+      }))
+    } catch {
+      return []
+    }
+  }
+
+  isValidMove(
+    board: (string | null)[][],
+    from: [number, number],
+    to: [number, number],
+    isWhite: boolean,
+    gameState: GameState,
+  ): boolean {
+    try {
+      const fromSquare = this.coordToSquare(from)
+      const toSquare = this.coordToSquare(to)
+
+      const fen = this.boardToFen(board)
+      const tempGame = new Chess(fen)
+
+      const moves = tempGame.moves({ verbose: true })
+      return moves.some((move) => move.from === fromSquare && move.to === toSquare)
+    } catch {
+      return false
+    }
+  }
+
+  getPieceMoves(
+    board: (string | null)[][],
+    row: number,
+    col: number,
+    piece: string,
+    gameState: GameState,
+  ): [number, number][] {
+    try {
+      const fromSquare = this.coordToSquare([row, col])
+      const fen = this.boardToFen(board)
+      const tempGame = new Chess(fen)
+
+      const moves = tempGame.moves({ verbose: true, square: fromSquare })
+      return moves.map((move) => this.squareToCoord(move.to))
+    } catch {
+      return []
+    }
+  }
+
+  async getBestMove(
+    board: (string | null)[][],
+    depth: number,
+    personality: string,
+    gameState: GameState,
+  ): Promise<{ from: [number, number]; to: [number, number]; promotion?: string } | null> {
+    try {
+      const fen = this.boardToFen(board)
+      this.game = new Chess(fen)
+
+      let move: Move | null = null
+
+      if (personality === "stockfish" || depth >= 5) {
+        move = await this.getBestMoveStockfish(depth)
+      } else {
+        move = this.getBestMoveMinimal(depth)
+      }
+
+      if (!move) return null
+
+      // Convert to coordinate format
+      const fromCoord = typeof move.from === "string" ? this.squareToCoord(move.from) : move.from
+      const toCoord = typeof move.to === "string" ? this.squareToCoord(move.to) : move.to
+
+      return {
+        from: fromCoord,
+        to: toCoord,
+        promotion: move.promotion,
+      }
+    } catch {
+      return null
+    }
+  }
+
+  // AI opponents
+  getAIOpponents(): ChessAI[] {
+    return [
+      {
+        name: "Stockfish Grandmaster",
+        description: "World's strongest chess engine - Grandmaster level",
+        difficulty: 5,
+        makeMove: async (game: Chess): Promise<Move | null> => {
+          this.game = game
+          return await this.getBestMoveStockfish(15)
+        },
+      },
+      {
+        name: "Advanced AI",
+        description: "Strong tactical player with deep calculation",
+        difficulty: 4,
+        makeMove: async (game: Chess): Promise<Move | null> => {
+          this.game = game
+          return this.getBestMoveMinimal(5)
+        },
+      },
+      {
+        name: "Intermediate AI",
+        description: "Solid positional player",
+        difficulty: 3,
+        makeMove: async (game: Chess): Promise<Move | null> => {
+          this.game = game
+          return this.getBestMoveMinimal(3)
+        },
+      },
+      {
+        name: "Beginner AI",
+        description: "Learning the basics",
+        difficulty: 2,
+        makeMove: async (game: Chess): Promise<Move | null> => {
+          this.game = game
+          const moves = game.moves({ verbose: true })
+          if (moves.length === 0) return null
+
+          // Add some randomness for beginner level
+          const randomMove = moves[Math.floor(Math.random() * moves.length)]
+          return {
+            from: randomMove.from,
+            to: randomMove.to,
+            promotion: randomMove.promotion,
+          }
+        },
+      },
+    ]
   }
 }
+
+export { AdvancedChessEngine }
+export type { ChessAI, Move, GameState }

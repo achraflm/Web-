@@ -1,301 +1,307 @@
 "use client"
 
-import { useEffect } from "react"
-
-import { useState, useCallback } from "react"
+import { useState, useCallback, useRef } from "react"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Slider } from "@/components/ui/slider"
-import { Lightbulb, Zap, InfinityIcon as Ohm, CircuitBoard, Play, Pause, RotateCcw } from "lucide-react"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { ScrollArea } from "@/components/ui/scroll-area"
+import { CircuitBoard, Play, Pause, Trash2 } from "lucide-react"
+
+interface Component {
+  id: string
+  type: string
+  symbol: string
+  name: string
+  x: number
+  y: number
+  rotation: number
+  properties: Record<string, any>
+}
+
+interface Wire {
+  id: string
+  startX: number
+  startY: number
+  endX: number
+  endY: number
+}
 
 interface CircuitSimulatorProps {
   isDark: boolean
 }
 
+const componentLibrary = {
+  basic: [
+    { type: "resistor", symbol: "⟲", name: "Resistor", icon: "🔧" },
+    { type: "capacitor", symbol: "⫸", name: "Capacitor", icon: "⚡" },
+    { type: "inductor", symbol: "∿", name: "Inductor", icon: "🌀" },
+    { type: "battery", symbol: "⊞", name: "Battery", icon: "🔋" },
+    { type: "ground", symbol: "⏚", name: "Ground", icon: "🌍" },
+    { type: "switch", symbol: "⧄", name: "Switch", icon: "🔘" },
+  ],
+  semiconductors: [
+    { type: "diode", symbol: "▷|", name: "Diode", icon: "💎" },
+    { type: "led", symbol: "▷|*", name: "LED", icon: "💡" },
+    { type: "transistor", symbol: "⟨|⟩", name: "Transistor", icon: "🔺" },
+    { type: "mosfet", symbol: "⟨||⟩", name: "MOSFET", icon: "🔲" },
+  ],
+  sources: [
+    { type: "dc_voltage", symbol: "⊕", name: "DC Voltage", icon: "⚡" },
+    { type: "ac_voltage", symbol: "∿", name: "AC Voltage", icon: "〰️" },
+    { type: "current_source", symbol: "⊙", name: "Current Source", icon: "🔄" },
+    { type: "signal_gen", symbol: "⟨∿⟩", name: "Signal Generator", icon: "📡" },
+  ],
+  measurement: [
+    { type: "voltmeter", symbol: "V", name: "Voltmeter", icon: "📊" },
+    { type: "ammeter", symbol: "A", name: "Ammeter", icon: "📈" },
+    { type: "oscilloscope", symbol: "〰", name: "Oscilloscope", icon: "📺" },
+    { type: "multimeter", symbol: "⚡V", name: "Multimeter", icon: "🔍" },
+  ],
+  logic: [
+    { type: "and_gate", symbol: "∧", name: "AND Gate", icon: "🚪" },
+    { type: "or_gate", symbol: "∨", name: "OR Gate", icon: "🔀" },
+    { type: "not_gate", symbol: "¬", name: "NOT Gate", icon: "🚫" },
+    { type: "xor_gate", symbol: "⊕", name: "XOR Gate", icon: "⚡" },
+  ],
+}
+
 export default function CircuitSimulator({ isDark }: CircuitSimulatorProps) {
-  const [voltage, setVoltage] = useState(12) // Volts
-  const [resistance, setResistance] = useState(100) // Ohms
-  const [current, setCurrent] = useState(0) // Amperes
-  const [power, setPower] = useState(0) // Watts
-  const [circuitState, setCircuitState] = useState("off") // 'on', 'off', 'overload'
-  const [componentType, setComponentType] = useState("resistor") // 'resistor', 'led', 'motor'
+  const [components, setComponents] = useState<Component[]>([])
+  const [wires, setWires] = useState<Wire[]>([])
+  const [selectedComponent, setSelectedComponent] = useState<string | null>(null)
+  const [isSimulating, setIsSimulating] = useState(false)
+  const [draggedComponent, setDraggedComponent] = useState<string | null>(null)
+  const canvasRef = useRef<HTMLDivElement>(null)
 
-  const calculateCircuit = useCallback(() => {
-    if (resistance === 0) {
-      setCurrent(Number.POSITIVE_INFINITY)
-      setPower(Number.POSITIVE_INFINITY)
-      setCircuitState("overload")
-      return
+  const addComponent = useCallback((type: string, symbol: string, name: string) => {
+    const newComponent: Component = {
+      id: `${type}_${Date.now()}`,
+      type,
+      symbol,
+      name,
+      x: Math.random() * 300 + 50,
+      y: Math.random() * 200 + 50,
+      rotation: 0,
+      properties: {},
     }
-
-    const calculatedCurrent = voltage / resistance
-    const calculatedPower = voltage * calculatedCurrent
-
-    setCurrent(calculatedCurrent)
-    setPower(calculatedPower)
-
-    if (calculatedCurrent > 0.5) {
-      setCircuitState("overload")
-    } else if (calculatedCurrent > 0) {
-      setCircuitState("on")
-    } else {
-      setCircuitState("off")
-    }
-  }, [voltage, resistance])
-
-  const resetCircuit = useCallback(() => {
-    setVoltage(12)
-    setResistance(100)
-    setCurrent(0)
-    setPower(0)
-    setCircuitState("off")
-    setComponentType("resistor")
+    setComponents((prev) => [...prev, newComponent])
   }, [])
 
-  useEffect(() => {
-    calculateCircuit()
-  }, [voltage, resistance, calculateCircuit])
+  const deleteComponent = useCallback((id: string) => {
+    setComponents((prev) => prev.filter((comp) => comp.id !== id))
+    setWires((prev) => prev.filter((wire) => !wire.id.includes(id)))
+  }, [])
 
-  const getCircuitStatusMessage = () => {
-    switch (circuitState) {
-      case "on":
-        return "Circuit ON: Flowing smoothly!"
-      case "off":
-        return "Circuit OFF: No current."
-      case "overload":
-        return "DANGER: Circuit Overload! 🔥"
-      default:
-        return "Circuit Status Unknown"
-    }
-  }
+  const clearCircuit = useCallback(() => {
+    setComponents([])
+    setWires([])
+    setSelectedComponent(null)
+    setIsSimulating(false)
+  }, [])
 
-  const getComponentIcon = () => {
-    switch (componentType) {
-      case "resistor":
-        return <Ohm className="h-6 w-6" />
-      case "led":
-        return <Lightbulb className="h-6 w-6" />
-      case "motor":
-        return <Zap className="h-6 w-6" />
-      default:
-        return <CircuitBoard className="h-6 w-6" />
-    }
-  }
+  const toggleSimulation = useCallback(() => {
+    setIsSimulating((prev) => !prev)
+  }, [])
+
+  const handleComponentDrag = useCallback((id: string, newX: number, newY: number) => {
+    setComponents((prev) => prev.map((comp) => (comp.id === id ? { ...comp, x: newX, y: newY } : comp)))
+  }, [])
+
+  const ComponentLibraryTab = ({
+    category,
+    components: categoryComponents,
+  }: {
+    category: string
+    components: typeof componentLibrary.basic
+  }) => (
+    <ScrollArea className="h-48">
+      <div className="grid grid-cols-2 gap-2 p-2">
+        {categoryComponents.map((comp) => (
+          <Button
+            key={comp.type}
+            variant="outline"
+            className={`h-16 flex flex-col items-center justify-center text-xs ${
+              isDark ? "hover:bg-purple-800/30" : "hover:bg-cyan-100/30"
+            }`}
+            onClick={() => addComponent(comp.type, comp.symbol, comp.name)}
+          >
+            <span className="text-lg mb-1">{comp.symbol}</span>
+            <span className="text-xs">{comp.name}</span>
+          </Button>
+        ))}
+      </div>
+    </ScrollArea>
+  )
 
   return (
     <Card
-      className={`max-w-2xl mx-auto ${
+      className={`max-w-6xl mx-auto ${
         isDark ? "bg-black/30 border-purple-500/30" : "bg-white/30 border-cyan-500/30"
       } backdrop-blur-sm shadow-xl`}
     >
       <CardHeader>
         <CardTitle className={`flex items-center gap-2 ${isDark ? "text-purple-300" : "text-cyan-600"}`}>
           <CircuitBoard className="h-5 w-5" />
-          Circuit Simulator
+          Advanced Circuit Simulator
         </CardTitle>
         <CardDescription className={`${isDark ? "text-purple-200/80" : "text-cyan-700/80"}`}>
-          Explore Ohm's Law and basic circuit behavior.
+          Drag and drop electrical components to build and simulate circuits.
         </CardDescription>
       </CardHeader>
-      <CardContent className="flex flex-col items-center space-y-6">
-        {/* Circuit Diagram / Visualization */}
-        <div
-          className={`relative w-full h-48 rounded-lg border-2 p-4 flex items-center justify-center overflow-hidden ${
-            isDark ? "border-purple-700/50 bg-gray-900/50" : "border-cyan-700/50 bg-gray-100/50"
-          } shadow-inner`}
-        >
-          {/* Background grid */}
-          <div
-            className={`absolute inset-0 grid grid-cols-8 grid-rows-4 opacity-20 ${
-              isDark ? "bg-purple-900/[0.05]" : "bg-cyan-100/[0.05]"
-            }`}
-          >
-            {Array.from({ length: 32 }).map((_, i) => (
-              <div key={i} className={`border ${isDark ? "border-purple-800/20" : "border-cyan-800/20"}`}></div>
-            ))}
+      <CardContent className="space-y-4">
+        <div className="flex gap-4">
+          {/* Component Library */}
+          <div className="w-80">
+            <Tabs defaultValue="basic" className="w-full">
+              <TabsList className="grid w-full grid-cols-3">
+                <TabsTrigger value="basic" className="text-xs">
+                  Basic
+                </TabsTrigger>
+                <TabsTrigger value="semiconductors" className="text-xs">
+                  Semi
+                </TabsTrigger>
+                <TabsTrigger value="sources" className="text-xs">
+                  Sources
+                </TabsTrigger>
+              </TabsList>
+              <TabsContent value="basic">
+                <ComponentLibraryTab category="basic" components={componentLibrary.basic} />
+              </TabsContent>
+              <TabsContent value="semiconductors">
+                <ComponentLibraryTab category="semiconductors" components={componentLibrary.semiconductors} />
+              </TabsContent>
+              <TabsContent value="sources">
+                <ComponentLibraryTab category="sources" components={componentLibrary.sources} />
+              </TabsContent>
+            </Tabs>
+
+            <Tabs defaultValue="measurement" className="w-full mt-2">
+              <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="measurement" className="text-xs">
+                  Measure
+                </TabsTrigger>
+                <TabsTrigger value="logic" className="text-xs">
+                  Logic
+                </TabsTrigger>
+              </TabsList>
+              <TabsContent value="measurement">
+                <ComponentLibraryTab category="measurement" components={componentLibrary.measurement} />
+              </TabsContent>
+              <TabsContent value="logic">
+                <ComponentLibraryTab category="logic" components={componentLibrary.logic} />
+              </TabsContent>
+            </Tabs>
           </div>
 
-          {/* Wires */}
-          <div
-            className={`absolute w-full h-2 ${
-              circuitState === "on"
-                ? isDark
-                  ? "bg-gradient-to-r from-purple-400 to-cyan-400 animate-pulse"
-                  : "bg-gradient-to-r from-cyan-400 to-blue-400 animate-pulse"
-                : "bg-gray-500"
-            } rounded-full`}
-            style={{ top: "20%", left: "0%", width: "100%" }}
-          />
-          <div
-            className={`absolute w-2 h-full ${
-              circuitState === "on"
-                ? isDark
-                  ? "bg-gradient-to-b from-purple-400 to-cyan-400 animate-pulse"
-                  : "bg-gradient-to-b from-cyan-400 to-blue-400 animate-pulse"
-                : "bg-gray-500"
-            } rounded-full`}
-            style={{ top: "0%", left: "20%", height: "100%" }}
-          />
-          <div
-            className={`absolute w-full h-2 ${
-              circuitState === "on"
-                ? isDark
-                  ? "bg-gradient-to-l from-purple-400 to-cyan-400 animate-pulse"
-                  : "bg-gradient-to-l from-cyan-400 to-blue-400 animate-pulse"
-                : "bg-gray-500"
-            } rounded-full`}
-            style={{ bottom: "20%", left: "0%", width: "100%" }}
-          />
-          <div
-            className={`absolute w-2 h-full ${
-              circuitState === "on"
-                ? isDark
-                  ? "bg-gradient-to-t from-purple-400 to-cyan-400 animate-pulse"
-                  : "bg-gradient-to-t from-cyan-400 to-blue-400 animate-pulse"
-                : "bg-gray-500"
-            } rounded-full`}
-            style={{ top: "0%", right: "20%", height: "100%" }}
-          />
-
-          {/* Power Source */}
-          <div
-            className={`absolute w-12 h-12 rounded-full flex items-center justify-center shadow-lg ${
-              isDark ? "bg-purple-600" : "bg-cyan-600"
-            }`}
-            style={{ top: "10%", left: "10%" }}
-          >
-            <Zap className="h-6 w-6 text-white" />
-          </div>
-
-          {/* Component */}
-          <div
-            className={`absolute w-16 h-16 rounded-lg flex items-center justify-center shadow-md ${
-              circuitState === "on"
-                ? isDark
-                  ? "bg-cyan-500/80 animate-pulse"
-                  : "bg-blue-500/80 animate-pulse"
-                : circuitState === "overload"
-                  ? "bg-red-500 animate-shake"
-                  : "bg-gray-700"
-            }`}
-            style={{ bottom: "10%", right: "10%" }}
-          >
-            {getComponentIcon()}
-          </div>
-
-          {/* Current Flow Indicator */}
-          {circuitState === "on" && (
+          {/* Circuit Canvas */}
+          <div className="flex-1">
             <div
-              className={`absolute w-4 h-4 rounded-full ${isDark ? "bg-cyan-300" : "bg-blue-300"} animate-ping-slow`}
-              style={{ top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}
-            />
-          )}
-          {circuitState === "overload" && (
-            <div
-              className={`absolute w-6 h-6 rounded-full bg-red-500 animate-pulse-fast`}
-              style={{ top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}
-            />
-          )}
-        </div>
+              ref={canvasRef}
+              className={`relative w-full h-96 rounded-lg border-2 overflow-hidden ${
+                isDark ? "border-purple-700/50 bg-gray-900/50" : "border-cyan-700/50 bg-gray-100/50"
+              } shadow-inner`}
+              style={{
+                backgroundImage: `radial-gradient(circle, ${isDark ? "#4c1d95" : "#0891b2"} 1px, transparent 1px)`,
+                backgroundSize: "20px 20px",
+              }}
+            >
+              {/* Render Components */}
+              {components.map((component) => (
+                <div
+                  key={component.id}
+                  className={`absolute cursor-move select-none p-2 rounded border-2 text-center font-mono text-lg ${
+                    selectedComponent === component.id
+                      ? isDark
+                        ? "border-purple-400 bg-purple-900/50"
+                        : "border-cyan-400 bg-cyan-100/50"
+                      : isDark
+                        ? "border-purple-600/50 bg-gray-800/80"
+                        : "border-cyan-600/50 bg-white/80"
+                  } ${isSimulating && component.type === "led" ? "animate-pulse" : ""}`}
+                  style={{
+                    left: component.x,
+                    top: component.y,
+                    transform: `rotate(${component.rotation}deg)`,
+                    minWidth: "60px",
+                    minHeight: "40px",
+                  }}
+                  onClick={() => setSelectedComponent(component.id)}
+                  onDoubleClick={() => deleteComponent(component.id)}
+                  draggable
+                  onDragEnd={(e) => {
+                    const rect = canvasRef.current?.getBoundingClientRect()
+                    if (rect) {
+                      const newX = e.clientX - rect.left - 30
+                      const newY = e.clientY - rect.top - 20
+                      handleComponentDrag(component.id, newX, newY)
+                    }
+                  }}
+                >
+                  <div className="text-2xl">{component.symbol}</div>
+                  <div className="text-xs mt-1">{component.name}</div>
+                </div>
+              ))}
 
-        {/* Controls */}
-        <div className="w-full space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="voltage-slider" className="flex items-center gap-2">
-                <Zap className="h-4 w-4" />
-                Voltage (V): {voltage}V
-              </Label>
-              <Slider
-                id="voltage-slider"
-                min={0}
-                max={24}
-                step={1}
-                value={[voltage]}
-                onValueChange={(val) => setVoltage(val[0])}
-              />
+              {/* Render Wires */}
+              <svg className="absolute inset-0 w-full h-full pointer-events-none">
+                {wires.map((wire) => (
+                  <line
+                    key={wire.id}
+                    x1={wire.startX}
+                    y1={wire.startY}
+                    x2={wire.endX}
+                    y2={wire.endY}
+                    stroke={isSimulating ? (isDark ? "#a855f7" : "#0891b2") : "#6b7280"}
+                    strokeWidth="3"
+                    className={isSimulating ? "animate-pulse" : ""}
+                  />
+                ))}
+              </svg>
+
+              {/* Circuit Status Indicator */}
+              {isSimulating && (
+                <div
+                  className={`absolute top-4 right-4 px-3 py-1 rounded-full text-sm font-semibold ${
+                    isDark ? "bg-purple-600 text-white" : "bg-cyan-600 text-white"
+                  } animate-pulse`}
+                >
+                  ⚡ Simulating
+                </div>
+              )}
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="resistance-slider" className="flex items-center gap-2">
-                <Ohm className="h-4 w-4" />
-                Resistance (Ω): {resistance}Ω
-              </Label>
-              <Slider
-                id="resistance-slider"
-                min={1}
-                max={1000}
-                step={10}
-                value={[resistance]}
-                onValueChange={(val) => setResistance(val[0])}
-              />
+
+            {/* Controls */}
+            <div className="flex gap-2 mt-4">
+              <Button
+                onClick={toggleSimulation}
+                className={`${isDark ? "bg-purple-600 hover:bg-purple-700" : "bg-cyan-600 hover:bg-cyan-700"}`}
+              >
+                {isSimulating ? <Pause className="h-4 w-4 mr-2" /> : <Play className="h-4 w-4 mr-2" />}
+                {isSimulating ? "Stop" : "Simulate"}
+              </Button>
+              <Button onClick={clearCircuit} variant="outline">
+                <Trash2 className="h-4 w-4 mr-2" />
+                Clear
+              </Button>
+              {selectedComponent && (
+                <Button onClick={() => deleteComponent(selectedComponent)} variant="destructive">
+                  Delete Selected
+                </Button>
+              )}
             </div>
-          </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="component-type" className="flex items-center gap-2">
-              <CircuitBoard className="h-4 w-4" />
-              Component Type
-            </Label>
-            <Select value={componentType} onValueChange={setComponentType}>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select a component" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="resistor">Resistor</SelectItem>
-                <SelectItem value="led">LED</SelectItem>
-                <SelectItem value="motor">Motor</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          {/* Results */}
-          <div
-            className={`p-4 rounded-lg border-2 ${
-              circuitState === "overload"
-                ? "bg-red-900/30 border-red-500/50 text-red-300 animate-pulse"
-                : isDark
-                  ? "bg-purple-900/30 border-purple-500/30 text-purple-200"
-                  : "bg-cyan-100/30 border-cyan-500/30 text-cyan-700"
-            }`}
-          >
-            <h3 className="text-lg font-semibold mb-2">Circuit Metrics:</h3>
-            <p>
-              Current (I):{" "}
-              <span className="font-bold">{current === Number.POSITIVE_INFINITY ? "∞" : current.toFixed(3)} A</span>
-            </p>
-            <p>
-              Power (P):{" "}
-              <span className="font-bold">{power === Number.POSITIVE_INFINITY ? "∞" : power.toFixed(3)} W</span>
-            </p>
-            <p className="mt-2 font-bold">{getCircuitStatusMessage()}</p>
-          </div>
-
-          <div className="flex gap-2">
-            <Button
-              onClick={() => setCircuitState("on")}
-              disabled={circuitState === "on" || circuitState === "overload"}
-              className={`flex-1 ${isDark ? "bg-purple-600 hover:bg-purple-700" : "bg-cyan-600 hover:bg-cyan-700"}`}
-            >
-              <Play className="h-4 w-4 mr-2" />
-              Run Circuit
-            </Button>
-            <Button
-              onClick={() => setCircuitState("off")}
-              disabled={circuitState === "off"}
-              className={`flex-1 ${isDark ? "bg-purple-800 hover:bg-purple-900" : "bg-cyan-800 hover:bg-cyan-900"}`}
-            >
-              <Pause className="h-4 w-4 mr-2" />
-              Stop Circuit
-            </Button>
-            <Button
-              onClick={resetCircuit}
-              variant="outline"
-              className={`${isDark ? "border-purple-500/50 text-purple-300" : "border-cyan-500/50 text-cyan-700"}`}
-            >
-              <RotateCcw className="h-4 w-4" />
-            </Button>
+            {/* Component Properties */}
+            {selectedComponent && (
+              <div
+                className={`mt-4 p-4 rounded-lg border ${
+                  isDark ? "border-purple-500/30 bg-purple-900/20" : "border-cyan-500/30 bg-cyan-100/20"
+                }`}
+              >
+                <h3 className="font-semibold mb-2">Component Properties</h3>
+                <p className="text-sm">Selected: {components.find((c) => c.id === selectedComponent)?.name}</p>
+                <p className="text-xs text-gray-500 mt-1">Double-click component to delete, drag to move</p>
+              </div>
+            )}
           </div>
         </div>
       </CardContent>
