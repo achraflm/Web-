@@ -2,10 +2,14 @@
 
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
+<<<<<<< HEAD
 import { Card, CardContent } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+=======
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+>>>>>>> 6a7a7de (Updated the website content and design)
 
 export default function ScientificCalculator() {
   const [display, setDisplay] = useState("0")
@@ -14,11 +18,14 @@ export default function ScientificCalculator() {
   const [waitingForOperand, setWaitingForOperand] = useState(false)
   const [memory, setMemory] = useState(0)
   const [angleMode, setAngleMode] = useState<"deg" | "rad">("deg")
+<<<<<<< HEAD
   const [expression, setExpression] = useState("")
 
   // Statistical data
   const [statData, setStatData] = useState<number[]>([])
   const [statInput, setStatInput] = useState("")
+=======
+>>>>>>> 6a7a7de (Updated the website content and design)
 
   const inputNumber = (num: string) => {
     if (waitingForOperand) {
@@ -43,7 +50,10 @@ export default function ScientificCalculator() {
     setPreviousValue(null)
     setOperation(null)
     setWaitingForOperand(false)
+<<<<<<< HEAD
     setExpression("")
+=======
+>>>>>>> 6a7a7de (Updated the website content and design)
   }
 
   const performOperation = (nextOperation: string) => {
@@ -51,19 +61,25 @@ export default function ScientificCalculator() {
 
     if (previousValue === null) {
       setPreviousValue(inputValue)
+<<<<<<< HEAD
       setExpression(`${inputValue} ${nextOperation}`)
+=======
+>>>>>>> 6a7a7de (Updated the website content and design)
     } else if (operation) {
       const currentValue = previousValue || 0
       const newValue = calculate(currentValue, inputValue, operation)
 
       setDisplay(String(newValue))
       setPreviousValue(newValue)
+<<<<<<< HEAD
 
       if (nextOperation === "=") {
         setExpression(`${expression} ${inputValue}`)
       } else {
         setExpression(`${newValue} ${nextOperation}`)
       }
+=======
+>>>>>>> 6a7a7de (Updated the website content and design)
     }
 
     setWaitingForOperand(true)
@@ -80,8 +96,11 @@ export default function ScientificCalculator() {
         return firstValue * secondValue
       case "÷":
         return firstValue / secondValue
+<<<<<<< HEAD
       case "^":
         return Math.pow(firstValue, secondValue)
+=======
+>>>>>>> 6a7a7de (Updated the website content and design)
       case "=":
         return secondValue
       default:
@@ -103,6 +122,7 @@ export default function ScientificCalculator() {
       case "tan":
         result = Math.tan(angleMode === "deg" ? (inputValue * Math.PI) / 180 : inputValue)
         break
+<<<<<<< HEAD
       case "asin":
         result = Math.asin(inputValue) * (angleMode === "deg" ? 180 / Math.PI : 1)
         break
@@ -112,6 +132,8 @@ export default function ScientificCalculator() {
       case "atan":
         result = Math.atan(inputValue) * (angleMode === "deg" ? 180 / Math.PI : 1)
         break
+=======
+>>>>>>> 6a7a7de (Updated the website content and design)
       case "log":
         result = Math.log10(inputValue)
         break
@@ -121,9 +143,12 @@ export default function ScientificCalculator() {
       case "sqrt":
         result = Math.sqrt(inputValue)
         break
+<<<<<<< HEAD
       case "cbrt":
         result = Math.cbrt(inputValue)
         break
+=======
+>>>>>>> 6a7a7de (Updated the website content and design)
       case "x²":
         result = inputValue * inputValue
         break
@@ -139,6 +164,7 @@ export default function ScientificCalculator() {
       case "e":
         result = Math.E
         break
+<<<<<<< HEAD
       case "!":
         result = factorial(inputValue)
         break
@@ -148,6 +174,8 @@ export default function ScientificCalculator() {
       case "abs":
         result = Math.abs(inputValue)
         break
+=======
+>>>>>>> 6a7a7de (Updated the website content and design)
       default:
         return
     }
@@ -156,6 +184,7 @@ export default function ScientificCalculator() {
     setWaitingForOperand(true)
   }
 
+<<<<<<< HEAD
   const factorial = (n: number): number => {
     if (n < 0 || n !== Math.floor(n)) return Number.NaN
     if (n === 0 || n === 1) return 1
@@ -678,6 +707,129 @@ export default function ScientificCalculator() {
             )}
           </TabsContent>
         </Tabs>
+=======
+  const buttonClass = "h-12 text-lg font-semibold"
+  const operatorClass = "h-12 text-lg font-semibold bg-blue-500 hover:bg-blue-600 text-white"
+  const scientificClass = "h-12 text-sm font-semibold bg-purple-500 hover:bg-purple-600 text-white"
+
+  return (
+    <Card className="w-full max-w-md mx-auto">
+      <CardHeader>
+        <CardTitle className="text-2xl font-bold text-center">Scientific Calculator</CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <div className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg">
+          <div className="text-right text-3xl font-mono overflow-hidden">{display}</div>
+        </div>
+
+        <div className="flex justify-between mb-2">
+          <Button
+            onClick={() => setAngleMode(angleMode === "deg" ? "rad" : "deg")}
+            variant="outline"
+            className="text-sm"
+          >
+            {angleMode.toUpperCase()}
+          </Button>
+          <Button onClick={clear} variant="destructive" className="text-sm">
+            Clear
+          </Button>
+        </div>
+
+        <div className="grid grid-cols-5 gap-2">
+          {/* Scientific functions row 1 */}
+          <Button onClick={() => performScientificOperation("sin")} className={scientificClass}>
+            sin
+          </Button>
+          <Button onClick={() => performScientificOperation("cos")} className={scientificClass}>
+            cos
+          </Button>
+          <Button onClick={() => performScientificOperation("tan")} className={scientificClass}>
+            tan
+          </Button>
+          <Button onClick={() => performScientificOperation("log")} className={scientificClass}>
+            log
+          </Button>
+          <Button onClick={() => performScientificOperation("ln")} className={scientificClass}>
+            ln
+          </Button>
+
+          {/* Scientific functions row 2 */}
+          <Button onClick={() => performScientificOperation("sqrt")} className={scientificClass}>
+            √
+          </Button>
+          <Button onClick={() => performScientificOperation("x²")} className={scientificClass}>
+            x²
+          </Button>
+          <Button onClick={() => performScientificOperation("x³")} className={scientificClass}>
+            x³
+          </Button>
+          <Button onClick={() => performScientificOperation("1/x")} className={scientificClass}>
+            1/x
+          </Button>
+          <Button onClick={() => performOperation("÷")} className={operatorClass}>
+            ÷
+          </Button>
+
+          {/* Numbers and operations */}
+          <Button onClick={() => inputNumber("7")} className={buttonClass}>
+            7
+          </Button>
+          <Button onClick={() => inputNumber("8")} className={buttonClass}>
+            8
+          </Button>
+          <Button onClick={() => inputNumber("9")} className={buttonClass}>
+            9
+          </Button>
+          <Button onClick={() => performOperation("×")} className={operatorClass}>
+            ×
+          </Button>
+          <Button onClick={() => performScientificOperation("π")} className={scientificClass}>
+            π
+          </Button>
+
+          <Button onClick={() => inputNumber("4")} className={buttonClass}>
+            4
+          </Button>
+          <Button onClick={() => inputNumber("5")} className={buttonClass}>
+            5
+          </Button>
+          <Button onClick={() => inputNumber("6")} className={buttonClass}>
+            6
+          </Button>
+          <Button onClick={() => performOperation("-")} className={operatorClass}>
+            -
+          </Button>
+          <Button onClick={() => performScientificOperation("e")} className={scientificClass}>
+            e
+          </Button>
+
+          <Button onClick={() => inputNumber("1")} className={buttonClass}>
+            1
+          </Button>
+          <Button onClick={() => inputNumber("2")} className={buttonClass}>
+            2
+          </Button>
+          <Button onClick={() => inputNumber("3")} className={buttonClass}>
+            3
+          </Button>
+          <Button onClick={() => performOperation("+")} className={operatorClass}>
+            +
+          </Button>
+          <Button onClick={() => performOperation("=")} className={`${operatorClass} row-span-2`}>
+            =
+          </Button>
+
+          <Button onClick={() => inputNumber("0")} className={`${buttonClass} col-span-2`}>
+            0
+          </Button>
+          <Button onClick={inputDecimal} className={buttonClass}>
+            .
+          </Button>
+          <Button onClick={() => setDisplay(display.slice(0, -1) || "0")} className={buttonClass}>
+            ⌫
+          </Button>
+        </div>
+>>>>>>> 6a7a7de (Updated the website content and design)
       </CardContent>
     </Card>
   )

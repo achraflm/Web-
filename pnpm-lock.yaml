@@ -92,12 +92,15 @@ importers:
       '@radix-ui/react-tooltip':
         specifier: latest
         version: 1.2.7(@types/react-dom@19.0.0)(@types/react@19.0.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+<<<<<<< HEAD
       chess.js:
         specifier: latest
         version: 1.4.0
       child_process:
         specifier: latest
         version: 1.0.2
+=======
+>>>>>>> 6a7a7de (Updated the website content and design)
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
@@ -122,9 +125,12 @@ importers:
       next-themes:
         specifier: latest
         version: 0.4.6(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+<<<<<<< HEAD
       path:
         specifier: latest
         version: 0.12.7
+=======
+>>>>>>> 6a7a7de (Updated the website content and design)
       react:
         specifier: ^19
         version: 19.0.0
@@ -146,9 +152,12 @@ importers:
       sonner:
         specifier: latest
         version: 2.0.7(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+<<<<<<< HEAD
       stockfish:
         specifier: latest
         version: 16.0.0
+=======
+>>>>>>> 6a7a7de (Updated the website content and design)
       tailwind-merge:
         specifier: ^2.5.5
         version: 2.5.5
@@ -1431,12 +1440,15 @@ packages:
     resolution: {integrity: sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA==}
     engines: {node: '>=10'}
 
+<<<<<<< HEAD
   chess.js@1.4.0:
     resolution: {integrity: sha512-BBJgrrtKQOzFLonR0l+k64A98NLemPwNsCskwb+29bRwobUa4iTm51E1kwGPbWXAcfdDa18nad6vpPPKPWarqw==}
 
   child_process@1.0.2:
     resolution: {integrity: sha512-Wmza/JzL0SiWz7kl6MhIKT5ceIlnFPJX+lwUGj7Clhy5MMldsSoJR0+uvRzOS5Kv45Mq7t1PoE8TsOA9bzvb6g==}
 
+=======
+>>>>>>> 6a7a7de (Updated the website content and design)
   chokidar@3.6.0:
     resolution: {integrity: sha512-7VT13fmjotKpGipCW9JEQAusEPE+Ei8nl6/g4FBAmIm0GOOLMua9NDDo/DWp0ZAxCr3cPq5ZpBqmPAQgDda2Pw==}
     engines: {node: '>= 8.10.0'}
@@ -1985,9 +1997,12 @@ packages:
     resolution: {integrity: sha512-k92I/b08q4wvFscXCLvqfsHCrjrF7yiXsQuIVvVE7N82W3+aqpzuUdBbfhWcy/FZR3/4IgflMgKLOsvPDrGCJA==}
     deprecated: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
 
+<<<<<<< HEAD
   inherits@2.0.3:
     resolution: {integrity: sha512-x00IRNXNy63jwGkJmzPigoySHbaqpNuzKbBOmzK+g2OdZpQ9w+sxCN+VSB3ja7IAge2OP2qpfxTjeNcyjmW1uw==}
 
+=======
+>>>>>>> 6a7a7de (Updated the website content and design)
   inherits@2.0.4:
     resolution: {integrity: sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==}
 
@@ -2360,9 +2375,12 @@ packages:
     resolution: {integrity: sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==}
     engines: {node: '>=8'}
 
+<<<<<<< HEAD
   path@0.12.7:
     resolution: {integrity: sha512-aXXC6s+1w7otVF9UletFkFcDsJeO7lSZBPUQhtb5O0xJe8LtYhj/GxldoL09bBj9+ZmE2hNoHqQSFMN5fikh4Q==}
 
+=======
+>>>>>>> 6a7a7de (Updated the website content and design)
   picocolors@1.1.1:
     resolution: {integrity: sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA==}
 
@@ -2435,10 +2453,13 @@ packages:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
     engines: {node: '>= 0.8.0'}
 
+<<<<<<< HEAD
   process@0.11.10:
     resolution: {integrity: sha512-cdGef/drWFoydD1JsMzuFf8100nZl+GT+yacc2bEced5f9Rjk4z+WtFUTBu9PhOi9j/jfmBPu0mMEY4wIdAF8A==}
     engines: {node: '>= 0.6.0'}
 
+=======
+>>>>>>> 6a7a7de (Updated the website content and design)
   progress@2.0.3:
     resolution: {integrity: sha512-7PiHtLll5LdnKIMw100I+8xJXR5gW2QwWYkT6iJva0bXitZKa/XMrSbdmg3r2Xnaidz9Qumd0VPaMrZlF9V9sA==}
     engines: {node: '>=0.4.0'}
@@ -2682,10 +2703,13 @@ packages:
   stable-hash@0.0.5:
     resolution: {integrity: sha512-+L3ccpzibovGXFK+Ap/f8LOS0ahMrHTf3xu7mMLSpEGU0EO9ucaysSylKo9eRDFNhWve/y275iPmIZ4z39a9iA==}
 
+<<<<<<< HEAD
   stockfish@16.0.0:
     resolution: {integrity: sha512-uu4AqsE2x0tD+SsYzZy4UtqeH4U9zDi1V8loDFDbMwCtvumGXF9j81Pg1ZmIkUgZhwQqPxQAv8IN5oy6hZa7Bw==}
     hasBin: true
 
+=======
+>>>>>>> 6a7a7de (Updated the website content and design)
   stop-iteration-iterator@1.1.0:
     resolution: {integrity: sha512-eLoXW/DHyl62zxY4SCaIgnRhuMr6ri4juEYARS8E6sCEqzKpOiE521Ucofdx+KnDZl5xmvGYaaKCk5FEOxJCoQ==}
     engines: {node: '>= 0.4'}
@@ -2892,9 +2916,12 @@ packages:
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
 
+<<<<<<< HEAD
   util@0.10.4:
     resolution: {integrity: sha512-0Pm9hTQ3se5ll1XihRic3FDIku70C+iHUdT/W926rSgHV5QgXsYbKZN8MSC3tJtSkhuROzvsQjAaFENRXr+19A==}
 
+=======
+>>>>>>> 6a7a7de (Updated the website content and design)
   v8-compile-cache@2.4.0:
     resolution: {integrity: sha512-ocyWc3bAHBB/guyqJQVI5o4BZkPhznPYUG2ea80Gond/BgNWpap8TOmLSeeQG7bnh2KMISxskdADG59j7zruhw==}
 
@@ -4199,10 +4226,13 @@ snapshots:
       ansi-styles: 4.3.0
       supports-color: 7.2.0
 
+<<<<<<< HEAD
   chess.js@1.4.0: {}
 
   child_process@1.0.2: {}
 
+=======
+>>>>>>> 6a7a7de (Updated the website content and design)
   chokidar@3.6.0:
     dependencies:
       anymatch: 3.1.3
@@ -4909,8 +4939,11 @@ snapshots:
       once: 1.4.0
       wrappy: 1.0.2
 
+<<<<<<< HEAD
   inherits@2.0.3: {}
 
+=======
+>>>>>>> 6a7a7de (Updated the website content and design)
   inherits@2.0.4: {}
 
   input-otp@1.4.2(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
@@ -5284,11 +5317,14 @@ snapshots:
 
   path-type@4.0.0: {}
 
+<<<<<<< HEAD
   path@0.12.7:
     dependencies:
       process: 0.11.10
       util: 0.10.4
 
+=======
+>>>>>>> 6a7a7de (Updated the website content and design)
   picocolors@1.1.1: {}
 
   picomatch@2.3.1: {}
@@ -5346,8 +5382,11 @@ snapshots:
 
   prelude-ls@1.2.1: {}
 
+<<<<<<< HEAD
   process@0.11.10: {}
 
+=======
+>>>>>>> 6a7a7de (Updated the website content and design)
   progress@2.0.3: {}
 
   prop-types@15.8.1:
@@ -5633,8 +5672,11 @@ snapshots:
 
   stable-hash@0.0.5: {}
 
+<<<<<<< HEAD
   stockfish@16.0.0: {}
 
+=======
+>>>>>>> 6a7a7de (Updated the website content and design)
   stop-iteration-iterator@1.1.0:
     dependencies:
       es-errors: 1.3.0
@@ -5911,10 +5953,13 @@ snapshots:
 
   util-deprecate@1.0.2: {}
 
+<<<<<<< HEAD
   util@0.10.4:
     dependencies:
       inherits: 2.0.3
 
+=======
+>>>>>>> 6a7a7de (Updated the website content and design)
   v8-compile-cache@2.4.0: {}
 
   vaul@1.1.2(@types/react-dom@19.0.0)(@types/react@19.0.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
