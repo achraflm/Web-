@@ -3,10 +3,17 @@
 import { useState, useEffect, useRef, useCallback } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+<<<<<<< HEAD
 import { RotateCcw } from "lucide-react"
 import { AdvancedChessEngine } from "@/lib/advanced-chess-engine" // Corrected import path
 import { Badge } from "@/components/ui/badge"
 import { Users, Bot, Crown, Flame } from "lucide-react"
+=======
+import { Brain, RotateCcw } from "lucide-react"
+import { SimpleStockfish, StockfishDifficulty } from "@/lib/simple-stockfish"
+import { Badge } from "@/components/ui/badge"
+import { Users, Bot, Star, Target, Crown, Flame } from "lucide-react"
+>>>>>>> 6a7a7de (Updated the website content and design)
 import Image from "next/image"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 
@@ -29,11 +36,24 @@ const pieceImages: { [key: string]: string } = {
   bk: "/images/chess-pieces/demon-king.png",
 }
 
+<<<<<<< HEAD
 const boardSize = 400 // px
 const squareSize = boardSize / 8 // px
 
 // Angel vs Demon Chess Piece Component with Custom Images
 const AngelDemonChessPiece = ({ piece, isSelected, isCheckmate, isDark }) => {
+=======
+const boardSize = 600 // px - Made bigger
+const squareSize = boardSize / 8 // px
+
+// Angel vs Demon Chess Piece Component with Custom Images
+const AngelDemonChessPiece = ({ piece, isSelected, isCheckmate, isDark }: {
+  piece: string
+  isSelected: boolean
+  isCheckmate: boolean
+  isDark: boolean
+}) => {
+>>>>>>> 6a7a7de (Updated the website content and design)
   if (!piece) return null
 
   const isWhite = piece === piece.toUpperCase()
@@ -175,6 +195,7 @@ const AngelDemonChessPiece = ({ piece, isSelected, isCheckmate, isDark }) => {
   )
 }
 
+<<<<<<< HEAD
 const chessBot = [
   {
     id: "grandmaster",
@@ -190,6 +211,68 @@ const chessBot = [
 
 export default function ChessGame({ isDark }) {
   const [gameBoard, setGameBoard] = useState([
+=======
+const stockfishDifficulties = [
+  {
+    id: "beginner",
+    name: "Stockfish Beginner",
+    rating: 1200,
+    depth: 10,
+    skillLevel: 10,
+    timeLimit: 1000,
+    icon: Target,
+    color: "bg-green-500",
+    description: "Stockfish with reduced skill level",
+  },
+  {
+    id: "intermediate",
+    name: "Stockfish Intermediate",
+    rating: 1800,
+    depth: 15,
+    skillLevel: 15,
+    timeLimit: 2000,
+    icon: Brain,
+    color: "bg-blue-500",
+    description: "Stockfish with moderate settings",
+  },
+  {
+    id: "advanced",
+    name: "Stockfish Advanced",
+    rating: 2400,
+    depth: 18,
+    skillLevel: 18,
+    timeLimit: 3000,
+    icon: Star,
+    color: "bg-purple-500",
+    description: "Stockfish with high settings",
+  },
+  {
+    id: "expert",
+    name: "Stockfish Expert",
+    rating: 2800,
+    depth: 20,
+    skillLevel: 20,
+    timeLimit: 4000,
+    icon: Flame,
+    color: "bg-red-500",
+    description: "Stockfish near maximum strength",
+  },
+  {
+    id: "master",
+    name: "Stockfish Master",
+    rating: 3200,
+    depth: 22,
+    skillLevel: 20,
+    timeLimit: 5000,
+    icon: Crown,
+    color: "bg-gradient-to-r from-yellow-400 to-orange-500",
+    description: "Stockfish at maximum strength",
+  },
+]
+
+export default function ChessGame({ isDark }: { isDark: boolean }) {
+  const [gameBoard, setGameBoard] = useState<(string | null)[][]>([
+>>>>>>> 6a7a7de (Updated the website content and design)
     ["r", "n", "b", "q", "k", "b", "n", "r"],
     ["p", "p", "p", "p", "p", "p", "p", "p"],
     [null, null, null, null, null, null, null, null],
@@ -200,6 +283,7 @@ export default function ChessGame({ isDark }) {
     ["R", "N", "B", "Q", "K", "B", "N", "R"],
   ])
 
+<<<<<<< HEAD
   const [selectedSquare, setSelectedSquare] = useState(null)
   const [legalMoves, setLegalMoves] = useState([])
   const [lastMove, setLastMove] = useState(null)
@@ -239,11 +323,58 @@ export default function ChessGame({ isDark }) {
     setLegalMoves([])
     setLastMove(null)
     setIsPlayerTurn(true)
+=======
+  const [selectedSquare, setSelectedSquare] = useState<[number, number] | null>(null)
+  const [legalMoves, setLegalMoves] = useState<[number, number][]>([])
+  const [lastMove, setLastMove] = useState<[number, number][] | null>(null)
+  const [isPlayerTurn, setIsPlayerTurn] = useState(true) // true for White, false for Black
+  const [gameStatus, setGameStatus] = useState("playing")
+  const [capturedPieces, setCapturedPieces] = useState<{ white: string[], black: string[] }>({ white: [], black: [] })
+  const [moveHistory, setMoveHistory] = useState<any[]>([])
+  const [isThinking, setIsThinking] = useState(false)
+  const [showBotSelection, setShowBotSelection] = useState(true)
+  const [showDifficultySelector, setShowDifficultySelector] = useState(false)
+  const [selectedDifficulty, setSelectedDifficulty] = useState<any>(null)
+  const [gameMode, setGameMode] = useState("ai")
+  const [playerColor, setPlayerColor] = useState<"white" | "black">("white")
+  const [checkmateAnimation, setCheckmateAnimation] = useState(false)
+  const [gameState, setGameState] = useState({
+    isCheck: false,
+    isCheckmate: false,
+    isStalemate: false,
+    isDraw: false,
+    isGameOver: false,
+    turn: 'w' as 'w' | 'b',
+    castling: { w: 'KQkq', b: 'KQkq' },
+    enPassant: null as string | null,
+    halfMoveClock: 0,
+    fullMoveNumber: 1,
+  })
+  const [promotionDialog, setPromotionDialog] = useState<{
+    show: boolean
+    from: [number, number] | null
+    to: [number, number] | null
+  }>({ show: false, from: null, to: null })
+
+  const engine = useRef(new SimpleStockfish())
+
+  const resetGame = useCallback(() => {
+    engine.current.resetGame()
+    const newBoard = engine.current.getBoard()
+    const newGameState = engine.current.getGameState()
+    
+    setGameBoard(newBoard)
+    setSelectedSquare(null)
+    setLegalMoves([])
+    setLastMove(null)
+    setIsPlayerTurn(playerColor === "white") // Player moves first if white
+>>>>>>> 6a7a7de (Updated the website content and design)
     setGameStatus("playing")
     setCapturedPieces({ white: [], black: [] })
     setMoveHistory([])
     setIsThinking(false)
     setCheckmateAnimation(false)
+<<<<<<< HEAD
     const initialGameState = {
       castlingRights: { whiteKing: true, whiteQueen: true, blackKing: true, blackQueen: true },
       enPassantTarget: null,
@@ -257,12 +388,22 @@ export default function ChessGame({ isDark }) {
   const startGame = useCallback(
     (bot) => {
       setSelectedBot(bot)
+=======
+    setGameState(newGameState)
+    setPromotionDialog({ show: false, from: null, to: null })
+  }, [playerColor])
+
+  const startGame = useCallback(
+    (difficulty: any) => {
+      setSelectedDifficulty(difficulty)
+>>>>>>> 6a7a7de (Updated the website content and design)
       setShowBotSelection(false)
       resetGame()
     },
     [resetGame],
   )
 
+<<<<<<< HEAD
   const makeMove = useCallback(
     (from, to, promotionPiece = null) => {
       const [fromRow, fromCol] = from
@@ -292,11 +433,36 @@ export default function ChessGame({ isDark }) {
         setCapturedPieces((prev) => ({
           ...prev,
           [captureColor]: [...prev[captureColor], capturedPiece],
+=======
+  const changeDifficulty = useCallback(
+    (difficulty: any) => {
+      setSelectedDifficulty(difficulty)
+      // Don't reset the game, just change the AI difficulty
+    },
+    [],
+  )
+
+  const makeMove = useCallback(
+    (from: [number, number], to: [number, number], promotion?: string) => {
+      const result = engine.current.makeMove(from, to, promotion)
+      
+      if (result.success) {
+        const newBoard = engine.current.getBoard()
+        const newGameState = engine.current.getGameState()
+        
+        // Update captured pieces
+        if (result.capturedPiece) {
+          const captureColor = result.capturedPiece === result.capturedPiece.toUpperCase() ? "white" : "black"
+        setCapturedPieces((prev) => ({
+          ...prev,
+            [captureColor]: [...prev[captureColor], result.capturedPiece],
+>>>>>>> 6a7a7de (Updated the website content and design)
         }))
       }
 
       setGameBoard(newBoard)
       setGameState(newGameState)
+<<<<<<< HEAD
       engine.current.gameState = newGameState
       setLastMove([from, to])
       setSelectedSquare(null)
@@ -327,11 +493,30 @@ export default function ChessGame({ isDark }) {
           } else {
             setGameStatus("stalemate")
           }
+=======
+      setLastMove([from, to])
+      setSelectedSquare(null)
+      setLegalMoves([])
+        setMoveHistory(engine.current.getMoveHistory())
+
+      // Check game end conditions
+        if (newGameState.isCheckmate) {
+          // Determine winner based on player color
+          if (playerColor === "white") {
+            setGameStatus(isPlayerTurn ? "black-wins" : "white-wins")
+      } else {
+            setGameStatus(isPlayerTurn ? "white-wins" : "black-wins")
+          }
+            setCheckmateAnimation(true)
+        } else if (newGameState.isStalemate || newGameState.isDraw) {
+            setGameStatus("stalemate")
+>>>>>>> 6a7a7de (Updated the website content and design)
         } else {
           setIsPlayerTurn(!isPlayerTurn)
         }
       }
     },
+<<<<<<< HEAD
     [gameBoard, gameState, isPlayerTurn, gameMode],
   )
 
@@ -352,11 +537,30 @@ export default function ChessGame({ isDark }) {
     (row, col) => {
       if (gameStatus !== "playing") return
       if (gameMode === "ai" && !isPlayerTurn) return // Player (White) can only click on their turn in AI mode
+=======
+    [isPlayerTurn, playerColor],
+  )
+
+  const selectPiece = useCallback(
+    (row: number, col: number, piece: string) => {
+      setSelectedSquare([row, col])
+      const moves = engine.current.getPieceMoves([row, col])
+      setLegalMoves(moves.map((move: any) => move.to))
+    },
+    [],
+  )
+
+  const handleSquareClick = useCallback(
+    (row: number, col: number) => {
+      if (gameStatus !== "playing") return
+      if (gameMode === "ai" && !isPlayerTurn) return // Player can only click on their turn in AI mode
+>>>>>>> 6a7a7de (Updated the website content and design)
 
       const piece = gameBoard[row][col]
 
       if (selectedSquare) {
         const [selectedRow, selectedCol] = selectedSquare
+<<<<<<< HEAD
         const isValidMoveAttempt = engine.current.isValidMove(
           gameBoard,
           [selectedRow, selectedCol],
@@ -373,6 +577,22 @@ export default function ChessGame({ isDark }) {
             piece &&
             ((isPlayerTurn && piece === piece.toUpperCase()) || (!isPlayerTurn && piece === piece.toLowerCase()))
           ) {
+=======
+        const isValidMoveAttempt = engine.current.isValidMove([selectedRow, selectedCol], [row, col])
+
+        if (isValidMoveAttempt) {
+          // Check for pawn promotion
+          const movingPiece = gameBoard[selectedRow][selectedCol]
+          if (movingPiece?.toLowerCase() === 'p' && (row === 0 || row === 7)) {
+            setPromotionDialog({ show: true, from: [selectedRow, selectedCol], to: [row, col] })
+          } else {
+          makeMove([selectedRow, selectedCol], [row, col])
+          }
+        } else {
+          // If invalid move, but clicked on own piece, select new piece
+          const isPlayerPiece = playerColor === "white" ? piece === piece?.toUpperCase() : piece === piece?.toLowerCase()
+          if (piece && isPlayerPiece) {
+>>>>>>> 6a7a7de (Updated the website content and design)
             selectPiece(row, col, piece)
           } else {
             setSelectedSquare(null)
@@ -380,15 +600,22 @@ export default function ChessGame({ isDark }) {
           }
         }
       } else if (piece) {
+<<<<<<< HEAD
         // Select a piece if it's the current player's piece
         const canSelect =
           (isPlayerTurn && piece === piece.toUpperCase()) || (!isPlayerTurn && piece === piece.toLowerCase())
 
         if (canSelect) {
+=======
+        // Select a piece if it's the player's piece
+        const isPlayerPiece = playerColor === "white" ? piece === piece.toUpperCase() : piece === piece.toLowerCase()
+        if (isPlayerPiece) {
+>>>>>>> 6a7a7de (Updated the website content and design)
           selectPiece(row, col, piece)
         }
       }
     },
+<<<<<<< HEAD
     [gameStatus, gameMode, isPlayerTurn, gameBoard, selectedSquare, gameState, makeMove, selectPiece],
   )
 
@@ -457,6 +684,95 @@ export default function ChessGame({ isDark }) {
   }, [isPlayerTurn, gameBoard, gameStatus, gameMode, selectedBot, makeAIMove])
 
   const isSquareHighlighted = (row, col) => {
+=======
+    [gameStatus, gameMode, isPlayerTurn, gameBoard, selectedSquare, makeMove, selectPiece, playerColor],
+  )
+
+  const makeAIMove = useCallback(async () => {
+    if (gameStatus !== "playing" || isPlayerTurn || !selectedDifficulty) return // AI moves only if not player turn and difficulty selected
+
+    setIsThinking(true)
+    
+    try {
+      const difficulty: StockfishDifficulty = {
+        id: selectedDifficulty.id,
+        name: selectedDifficulty.name,
+        depth: selectedDifficulty.depth,
+        skillLevel: selectedDifficulty.skillLevel,
+        timeLimit: selectedDifficulty.timeLimit,
+        description: selectedDifficulty.description
+      }
+      
+      const result = await engine.current.getAIMove(difficulty)
+      if (result && result.success) {
+        const newBoard = engine.current.getBoard()
+        const newGameState = engine.current.getGameState()
+        
+        // Update captured pieces
+        if (result.capturedPiece) {
+          const captureColor = result.capturedPiece === result.capturedPiece.toUpperCase() ? "white" : "black"
+          setCapturedPieces((prev) => ({
+            ...prev,
+            [captureColor]: [...prev[captureColor], result.capturedPiece],
+          }))
+        }
+
+        setGameBoard(newBoard)
+        setGameState(newGameState)
+        if (result.move) {
+          setLastMove([result.move.from, result.move.to])
+        }
+        setMoveHistory(engine.current.getMoveHistory())
+
+        // Check game end conditions
+        if (newGameState.isCheckmate) {
+          // Determine winner based on player color
+          if (playerColor === "white") {
+            setGameStatus(isPlayerTurn ? "black-wins" : "white-wins")
+          } else {
+            setGameStatus(isPlayerTurn ? "white-wins" : "black-wins")
+          }
+          setCheckmateAnimation(true)
+        } else if (newGameState.isStalemate || newGameState.isDraw) {
+          setGameStatus("stalemate")
+        } else {
+          setIsPlayerTurn(!isPlayerTurn)
+        }
+      }
+    } catch (error) {
+      console.error('AI move error:', error)
+    } finally {
+      setIsThinking(false)
+    }
+  }, [isPlayerTurn, gameStatus, selectedDifficulty, makeMove])
+
+  // Effect to trigger AI move when it's AI's turn
+  useEffect(() => {
+    if (gameMode === "ai" && !isPlayerTurn && gameStatus === "playing" && selectedDifficulty) {
+      makeAIMove()
+    }
+  }, [isPlayerTurn, gameBoard, gameStatus, gameMode, selectedDifficulty, makeAIMove])
+
+  // Effect to trigger AI first move when player is black
+  useEffect(() => {
+    if (gameMode === "ai" && playerColor === "black" && gameStatus === "playing" && selectedDifficulty && moveHistory.length === 0) {
+      // AI makes first move when player is black
+      setTimeout(() => {
+        makeAIMove()
+      }, 500)
+    }
+  }, [gameMode, playerColor, gameStatus, selectedDifficulty, moveHistory.length, makeAIMove])
+
+  // Function to get display coordinates based on player color
+  const getDisplayCoords = (row: number, col: number): [number, number] => {
+    if (playerColor === "black") {
+      return [7 - row, 7 - col] // Flip the board for black player
+    }
+    return [row, col]
+  }
+
+  const isSquareHighlighted = (row: number, col: number) => {
+>>>>>>> 6a7a7de (Updated the website content and design)
     if (selectedSquare && selectedSquare[0] === row && selectedSquare[1] === col) return "selected"
     if (legalMoves.some(([r, c]) => r === row && c === col)) return "legal"
     if (
@@ -470,6 +786,7 @@ export default function ChessGame({ isDark }) {
   const getGameStatusText = () => {
     switch (gameStatus) {
       case "white-wins":
+<<<<<<< HEAD
         return "🎉 Angels Triumph!"
       case "black-wins":
         return `👹 ${selectedBot?.name || "Demons"} Victory!`
@@ -484,14 +801,42 @@ export default function ChessGame({ isDark }) {
               : `🔥 ${selectedBot?.name || "Bot"}'s turn`
         } else {
           return isPlayerTurn ? "⚡ Angels' turn" : "🔥 Demons' turn"
+=======
+        return playerColor === "white" ? "🎉 You Win!" : `👹 ${selectedDifficulty?.name || "Stockfish"} Wins!`
+      case "black-wins":
+        return playerColor === "black" ? "🎉 You Win!" : `👹 ${selectedDifficulty?.name || "Stockfish"} Wins!`
+      case "stalemate":
+        return "⚖️ Stalemate!"
+      case "playing":
+        if (gameMode === "ai") {
+          return isThinking
+            ? `🤖 ${selectedDifficulty?.name || "Stockfish"} contemplating...`
+            : isPlayerTurn
+              ? `⚡ Your turn (${playerColor === "white" ? "White" : "Black"})`
+              : `🔥 ${selectedDifficulty?.name || "Stockfish"}'s turn`
+        } else {
+          return isPlayerTurn ? `⚡ ${playerColor === "white" ? "White" : "Black"}'s turn` : `🔥 ${playerColor === "white" ? "Black" : "White"}'s turn`
+>>>>>>> 6a7a7de (Updated the website content and design)
         }
       default:
         return ""
     }
   }
 
+<<<<<<< HEAD
   return (
     <div className="w-full max-w-6xl mx-auto p-4">
+=======
+  const handlePromotion = (piece: string) => {
+    if (promotionDialog.from && promotionDialog.to) {
+      makeMove(promotionDialog.from, promotionDialog.to, piece)
+      setPromotionDialog({ show: false, from: null, to: null })
+    }
+  }
+
+  return (
+    <>
+>>>>>>> 6a7a7de (Updated the website content and design)
       <style jsx>{`
         @keyframes shake {
           0%,
@@ -576,6 +921,7 @@ export default function ChessGame({ isDark }) {
             >
               <DialogHeader>
                 <DialogTitle className={`text-center text-3xl ${isDark ? "text-purple-300" : "text-cyan-600"}`}>
+<<<<<<< HEAD
                   ⚔️ Choose Your Opponent ⚔️
                 </DialogTitle>
                 <p className={`text-center ${isDark ? "text-purple-200" : "text-cyan-700"}`}>
@@ -589,26 +935,76 @@ export default function ChessGame({ isDark }) {
                   return (
                     <Card
                       key={bot.id}
+=======
+                  🤖 Choose Stockfish Difficulty 🤖
+                </DialogTitle>
+                <p className={`text-center ${isDark ? "text-purple-200" : "text-cyan-700"}`}>
+                  Play against the world's strongest chess engine!
+                </p>
+                
+                {/* Color Selection */}
+                <div className="flex justify-center gap-4 mt-4">
+                  <Button
+                    onClick={() => setPlayerColor("white")}
+                    variant={playerColor === "white" ? "default" : "outline"}
+                    className={`px-6 ${playerColor === "white" ? "bg-white text-black" : ""}`}
+                  >
+                    ⚪ Play as White
+                  </Button>
+                  <Button
+                    onClick={() => setPlayerColor("black")}
+                    variant={playerColor === "black" ? "default" : "outline"}
+                    className={`px-6 ${playerColor === "black" ? "bg-black text-white" : ""}`}
+                  >
+                    ⚫ Play as Black
+                  </Button>
+                </div>
+              </DialogHeader>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
+                {stockfishDifficulties.map((difficulty) => {
+                  const IconComponent = difficulty.icon
+                  return (
+                    <Card
+                      key={difficulty.id}
+>>>>>>> 6a7a7de (Updated the website content and design)
                       className={`cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-xl ${
                         isDark
                           ? "bg-gray-800/50 border-purple-500/20 hover:border-purple-500/50 hover:shadow-purple-500/20"
                           : "bg-white/50 border-cyan-500/20 hover:border-cyan-500/50 hover:shadow-cyan-500/20"
                       }`}
+<<<<<<< HEAD
                       onClick={() => startGame(bot)}
                     >
                       <CardContent className="p-6 text-center">
                         <div
                           className={`w-16 h-16 rounded-full ${bot.color} flex items-center justify-center mx-auto mb-4 shadow-lg`}
+=======
+                      onClick={() => startGame(difficulty)}
+                    >
+                      <CardContent className="p-6 text-center">
+                        <div
+                          className={`w-16 h-16 rounded-full ${difficulty.color} flex items-center justify-center mx-auto mb-4 shadow-lg`}
+>>>>>>> 6a7a7de (Updated the website content and design)
                         >
                           <IconComponent className="h-8 w-8 text-white" />
                         </div>
                         <h3 className={`font-bold text-lg mb-2 ${isDark ? "text-purple-300" : "text-cyan-600"}`}>
+<<<<<<< HEAD
                           {bot.name}
                         </h3>
                         <Badge variant="secondary" className="mb-2">
                           {bot.rating} ELO
                         </Badge>
                         <p className={`text-sm ${isDark ? "text-purple-200" : "text-cyan-700"}`}>{bot.description}</p>
+=======
+                          {difficulty.name}
+                        </h3>
+                        <Badge variant="secondary" className="mb-2">
+                          {difficulty.rating} ELO
+                        </Badge>
+                        <p className={`text-sm ${isDark ? "text-purple-200" : "text-cyan-700"}`}>{difficulty.description}</p>
+>>>>>>> 6a7a7de (Updated the website content and design)
                       </CardContent>
                     </Card>
                   )
@@ -637,9 +1033,15 @@ export default function ChessGame({ isDark }) {
 
           <div className="flex flex-col lg:flex-row gap-6">
             {/* Chess Board */}
+<<<<<<< HEAD
             <div className="flex-1">
               <div
                 className={`relative w-full max-w-[500px] mx-auto aspect-square ${
+=======
+            <div className="flex-1 flex justify-center">
+              <div
+                className={`relative w-full max-w-[700px] mx-auto aspect-square ${
+>>>>>>> 6a7a7de (Updated the website content and design)
                   checkmateAnimation ? "checkmate-board" : ""
                 }`}
               >
@@ -675,6 +1077,7 @@ export default function ChessGame({ isDark }) {
 
                 {/* Chess pieces overlay */}
                 <div className="absolute inset-0 grid grid-cols-8 grid-rows-8 p-1">
+<<<<<<< HEAD
                   {gameBoard &&
                     gameBoard.map(
                       (row, rowIndex) =>
@@ -689,6 +1092,21 @@ export default function ChessGame({ isDark }) {
                               key={`${rowIndex}-${colIndex}`}
                               onClick={() => handleSquareClick(rowIndex, colIndex)}
                               className={`
+=======
+                  {gameBoard.map((row, rowIndex) =>
+                    row.map((piece, colIndex) => {
+                      const [displayRow, displayCol] = getDisplayCoords(rowIndex, colIndex)
+                      const highlight = isSquareHighlighted(rowIndex, colIndex)
+                      const isSelected = Boolean(
+                        selectedSquare && selectedSquare[0] === rowIndex && selectedSquare[1] === colIndex
+                      )
+
+                      return (
+                        <div
+                          key={`${rowIndex}-${colIndex}`}
+                          onClick={() => handleSquareClick(rowIndex, colIndex)}
+                          className={`
+>>>>>>> 6a7a7de (Updated the website content and design)
                           relative flex items-center justify-center cursor-pointer
                           transition-all duration-300 hover:bg-yellow-400/20 rounded-lg
                           ${
@@ -711,6 +1129,7 @@ export default function ChessGame({ isDark }) {
                               : ""
                           }
                         `}
+<<<<<<< HEAD
                             >
                               {piece && (
                                 <div className="w-full h-full p-1">
@@ -748,13 +1167,56 @@ export default function ChessGame({ isDark }) {
                           )
                         }),
                     )}
+=======
+                        >
+                          {piece && (
+                            <div className="w-full h-full p-0.5">
+                              <AngelDemonChessPiece
+                                piece={piece || ""}
+                                isSelected={isSelected}
+                                isCheckmate={checkmateAnimation && piece?.toLowerCase() === "k"}
+                                isDark={isDark}
+                              />
+                            </div>
+                          )}
+
+                          {/* Legal move indicators */}
+                          {highlight === "legal" && !piece && (
+                            <div
+                              className={`w-12 h-12 rounded-full border-4 shadow-xl animate-pulse ${
+                                isDark
+                                  ? "bg-green-500/80 border-green-400 shadow-green-400/60"
+                                  : "bg-green-600/80 border-green-500 shadow-green-500/60"
+                              }`}
+                            />
+                          )}
+
+                          {/* Capture indicators */}
+                          {highlight === "legal" && piece && (
+                            <div
+                              className={`absolute inset-2 rounded-full border-4 animate-pulse ${
+                                isDark
+                                  ? "border-red-500/80 bg-red-400/30 shadow-[0_0_20px_rgba(239,68,68,0.5)]"
+                                  : "border-red-600/80 bg-red-500/30 shadow-[0_0_15px_rgba(239,68,68,0.5)]"
+                              }`}
+                            />
+                          )}
+                        </div>
+                      )
+                    }),
+                  )}
+>>>>>>> 6a7a7de (Updated the website content and design)
                 </div>
 
                 {/* Board coordinates */}
                 <div className="absolute inset-0 pointer-events-none">
                   {/* File labels (a-h) */}
                   <div className="absolute bottom-2 left-0 right-0 flex px-2">
+<<<<<<< HEAD
                     {["a", "b", "c", "d", "e", "f", "g", "h"].map((file, index) => (
+=======
+                    {(playerColor === "black" ? ["h", "g", "f", "e", "d", "c", "b", "a"] : ["a", "b", "c", "d", "e", "f", "g", "h"]).map((file, index) => (
+>>>>>>> 6a7a7de (Updated the website content and design)
                       <div key={file} className="flex-1 text-center">
                         <span
                           className={`text-sm font-bold opacity-80 ${isDark ? "text-purple-300" : "text-cyan-700"}`}
@@ -767,7 +1229,11 @@ export default function ChessGame({ isDark }) {
 
                   {/* Rank labels (1-8) */}
                   <div className="absolute top-0 bottom-0 left-2 flex flex-col py-2">
+<<<<<<< HEAD
                     {[8, 7, 6, 5, 4, 3, 2, 1].map((rank) => (
+=======
+                    {(playerColor === "black" ? [1, 2, 3, 4, 5, 6, 7, 8] : [8, 7, 6, 5, 4, 3, 2, 1]).map((rank) => (
+>>>>>>> 6a7a7de (Updated the website content and design)
                       <div key={rank} className="flex-1 flex items-center">
                         <span
                           className={`text-sm font-bold opacity-80 ${isDark ? "text-purple-300" : "text-cyan-700"}`}
@@ -784,7 +1250,11 @@ export default function ChessGame({ isDark }) {
             {/* Game Info */}
             <div className="w-full lg:w-80 space-y-4">
               {/* Current Opponent */}
+<<<<<<< HEAD
               {selectedBot && (
+=======
+              {selectedDifficulty && (
+>>>>>>> 6a7a7de (Updated the website content and design)
                 <Card
                   className={`p-4 ${
                     isDark
@@ -794,6 +1264,7 @@ export default function ChessGame({ isDark }) {
                 >
                   <div className="flex items-center gap-3">
                     <div
+<<<<<<< HEAD
                       className={`w-12 h-12 rounded-full ${selectedBot.color} flex items-center justify-center shadow-lg`}
                     >
                       <selectedBot.icon className="h-6 w-6 text-white" />
@@ -804,6 +1275,18 @@ export default function ChessGame({ isDark }) {
                       </h3>
                       <Badge variant="secondary" className="text-xs">
                         {selectedBot.rating} ELO
+=======
+                      className={`w-12 h-12 rounded-full ${selectedDifficulty.color} flex items-center justify-center shadow-lg`}
+                    >
+                      <selectedDifficulty.icon className="h-6 w-6 text-white" />
+                    </div>
+                    <div>
+                      <h3 className={`font-bold ${isDark ? "text-purple-300" : "text-cyan-600"}`}>
+                        {selectedDifficulty.name}
+                      </h3>
+                      <Badge variant="secondary" className="text-xs">
+                        {selectedDifficulty.rating} ELO
+>>>>>>> 6a7a7de (Updated the website content and design)
                       </Badge>
                     </div>
                   </div>
@@ -822,7 +1305,11 @@ export default function ChessGame({ isDark }) {
                   <h3 className={`text-lg font-bold ${isDark ? "text-purple-300" : "text-cyan-600"}`}>
                     {getGameStatusText()}
                   </h3>
+<<<<<<< HEAD
                   {engine.current.isInCheck(gameBoard, isPlayerTurn) && gameStatus === "playing" && (
+=======
+                  {gameState.isCheck && gameStatus === "playing" && (
+>>>>>>> 6a7a7de (Updated the website content and design)
                     <p className="text-red-400 text-sm mt-1 animate-pulse">⚠️ CHECK! ⚠️</p>
                   )}
                   {checkmateAnimation && <p className="text-red-500 text-sm mt-1 animate-bounce">💀 CHECKMATE! 💀</p>}
@@ -836,7 +1323,11 @@ export default function ChessGame({ isDark }) {
                   <div className="flex items-center gap-2">
                     <span className="text-sm text-gray-400">Angels: </span>
                     <div className="flex gap-1">
+<<<<<<< HEAD
                       {capturedPieces?.white?.map((piece, index) => (
+=======
+                      {capturedPieces.white.map((piece, index) => (
+>>>>>>> 6a7a7de (Updated the website content and design)
                         <div key={index} className="w-6 h-6">
                           <AngelDemonChessPiece piece={piece} isSelected={false} isCheckmate={false} isDark={isDark} />
                         </div>
@@ -846,7 +1337,11 @@ export default function ChessGame({ isDark }) {
                   <div className="flex items-center gap-2">
                     <span className="text-sm text-gray-400">Demons: </span>
                     <div className="flex gap-1">
+<<<<<<< HEAD
                       {capturedPieces?.black?.map((piece, index) => (
+=======
+                      {capturedPieces.black.map((piece, index) => (
+>>>>>>> 6a7a7de (Updated the website content and design)
                         <div key={index} className="w-6 h-6">
                           <AngelDemonChessPiece piece={piece} isSelected={false} isCheckmate={false} isDark={isDark} />
                         </div>
@@ -862,6 +1357,7 @@ export default function ChessGame({ isDark }) {
                   Battle Chronicle ({moveHistory.length})
                 </h4>
                 <div className="max-h-32 overflow-y-auto text-sm">
+<<<<<<< HEAD
                   {moveHistory &&
                     moveHistory.slice(-6).map((move, index) => (
                       <div key={index} className="text-gray-400">
@@ -872,6 +1368,14 @@ export default function ChessGame({ isDark }) {
                         {move.captured && ` ⚔️${move.captured}`}
                       </div>
                     ))}
+=======
+                  {moveHistory.slice(-6).map((move, index) => (
+                    <div key={index} className="text-gray-400">
+                      {moveHistory.length - 5 + index}. {move.san || move.piece}
+                      {move.captured && ` ⚔️${move.captured}`}
+                    </div>
+                  ))}
+>>>>>>> 6a7a7de (Updated the website content and design)
                 </div>
               </Card>
 
@@ -892,6 +1396,10 @@ export default function ChessGame({ isDark }) {
 
               {/* Controls */}
               <div className="space-y-2">
+<<<<<<< HEAD
+=======
+              <div className="space-y-2">
+>>>>>>> 6a7a7de (Updated the website content and design)
                 <Button
                   onClick={() => setShowBotSelection(true)}
                   className={`w-full ${
@@ -901,10 +1409,17 @@ export default function ChessGame({ isDark }) {
                   } text-white font-bold shadow-lg`}
                 >
                   <Bot className="h-4 w-4 mr-2" />
+<<<<<<< HEAD
                   Change Opponent
                 </Button>
                 <Button
                   onClick={resetGame}
+=======
+                    New Game
+                </Button>
+                <Button
+                    onClick={() => setShowDifficultySelector(true)}
+>>>>>>> 6a7a7de (Updated the website content and design)
                   variant="outline"
                   className={`w-full ${
                     isDark
@@ -913,8 +1428,14 @@ export default function ChessGame({ isDark }) {
                   }`}
                 >
                   <RotateCcw className="h-4 w-4 mr-2" />
+<<<<<<< HEAD
                   New Battle
                 </Button>
+=======
+                    Change Difficulty
+                </Button>
+                </div>
+>>>>>>> 6a7a7de (Updated the website content and design)
               </div>
 
               {/* Battle Guide */}
@@ -937,6 +1458,7 @@ export default function ChessGame({ isDark }) {
       </Card>
 
       {/* Pawn Promotion Dialog */}
+<<<<<<< HEAD
       <Dialog open={showPromotionDialog} onOpenChange={setShowPromotionDialog}>
         <DialogContent className={`${isDark ? "bg-gray-900 border-purple-500/20" : "bg-white border-cyan-500/20"}`}>
           <DialogHeader>
@@ -966,11 +1488,97 @@ export default function ChessGame({ isDark }) {
                     className="w-10 h-10"
                   />
                 </Button>
+=======
+      <Dialog open={promotionDialog.show} onOpenChange={(open) => setPromotionDialog({ show: open, from: null, to: null })}>
+        <DialogContent className={`max-w-md ${isDark ? "bg-gray-900 border-purple-500/30" : "bg-white border-cyan-500/30"}`}>
+          <DialogHeader>
+            <DialogTitle className={`text-center text-xl ${isDark ? "text-purple-300" : "text-cyan-600"}`}>
+              Choose Promotion Piece
+            </DialogTitle>
+          </DialogHeader>
+          <div className="grid grid-cols-4 gap-4 p-4">
+            {['q', 'r', 'b', 'n'].map((piece) => (
+              <Button
+                key={piece}
+                onClick={() => handlePromotion(piece)}
+                className={`h-16 w-16 p-0 ${
+                  isDark
+                    ? "bg-gray-800 hover:bg-gray-700 border-purple-500/50"
+                    : "bg-gray-100 hover:bg-gray-200 border-cyan-500/50"
+                }`}
+              >
+                <div className="w-full h-full flex items-center justify-center">
+                  <AngelDemonChessPiece
+                    piece={isPlayerTurn ? piece.toUpperCase() : piece}
+                    isSelected={false}
+                    isCheckmate={false}
+                    isDark={isDark}
+                  />
+                </div>
+              </Button>
+            ))}
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Difficulty Selection Dialog */}
+      <Dialog open={showDifficultySelector} onOpenChange={setShowDifficultySelector}>
+        <DialogContent className={`max-w-2xl ${isDark ? "bg-gray-900 border-purple-500/30" : "bg-white border-cyan-500/30"}`}>
+          <DialogHeader>
+            <DialogTitle className={`text-center text-2xl ${isDark ? "text-purple-300" : "text-cyan-600"}`}>
+              🤖 Change AI Difficulty 🤖
+            </DialogTitle>
+            <p className={`text-center ${isDark ? "text-purple-200" : "text-cyan-700"}`}>
+              Select a new difficulty level without resetting the game
+            </p>
+          </DialogHeader>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4">
+            {stockfishDifficulties.map((difficulty) => {
+              const IconComponent = difficulty.icon
+              const isSelected = selectedDifficulty?.id === difficulty.id
+              return (
+                <Card
+                  key={difficulty.id}
+                  className={`cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-xl ${
+                    isSelected
+                      ? isDark
+                        ? "bg-purple-600/50 border-purple-400 shadow-purple-400/50"
+                        : "bg-cyan-600/50 border-cyan-400 shadow-cyan-400/50"
+                      : isDark
+                        ? "bg-gray-800/50 border-purple-500/20 hover:border-purple-500/50 hover:shadow-purple-500/20"
+                        : "bg-white/50 border-cyan-500/20 hover:border-cyan-500/50 hover:shadow-cyan-500/20"
+                  }`}
+                  onClick={() => {
+                    changeDifficulty(difficulty)
+                    setShowDifficultySelector(false)
+                  }}
+                >
+                  <CardContent className="p-4 text-center">
+                    <div
+                      className={`w-12 h-12 rounded-full ${difficulty.color} flex items-center justify-center mx-auto mb-3 shadow-lg`}
+                    >
+                      <IconComponent className="h-6 w-6 text-white" />
+                    </div>
+                    <h3 className={`font-bold text-lg mb-2 ${isDark ? "text-purple-300" : "text-cyan-600"}`}>
+                      {difficulty.name}
+                    </h3>
+                    <Badge variant="secondary" className="mb-2">
+                      {difficulty.rating} ELO
+                    </Badge>
+                    <p className={`text-sm ${isDark ? "text-purple-200" : "text-cyan-700"}`}>{difficulty.description}</p>
+                  </CardContent>
+                </Card>
+>>>>>>> 6a7a7de (Updated the website content and design)
               )
             })}
           </div>
         </DialogContent>
       </Dialog>
+<<<<<<< HEAD
     </div>
+=======
+    </>
+>>>>>>> 6a7a7de (Updated the website content and design)
   )
 }
