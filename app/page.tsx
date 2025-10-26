@@ -59,7 +59,6 @@ import DigitalClock from "@/components/digital-clock"
 import CircuitSimulator from "@/components/circuit-simulator"
 import ScientificCalculator from "@/components/scientific-calculator"
 import GraphingCalculator from "@/components/graphing-calculator"
-// import StockfishInterface from "@/components/stockfish-interface"
 
 export default function Portfolio() {
   const [isDark, setIsDark] = useState(true)
@@ -1111,6 +1110,7 @@ export default function Portfolio() {
                   Developer Tools
                 </h2>
 
+                {/* Added tool selection buttons similar to games section */}
                 <div className="flex justify-center gap-4 mb-8">
                   <Button
                     onClick={() => setActiveTool("circuit")}

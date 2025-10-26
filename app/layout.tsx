@@ -21,9 +21,12 @@ const exo = Exo_2({
 })
 
 export const metadata: Metadata = {
-  title: "N1cht - Developer Portfolio",
-  description: "Personal portfolio of N1cht (Achraf Lemrani) - Developer & Content Editor",
-    generator: 'v0.dev'
+  title: "Achraf Portfolio",
+  description: "Personal portfolio of Achraf Lemrani - Developer & Content Editor",
+  generator: 'v0.dev',
+  icons: {
+    icon: '/icon.jpg',
+  }
 }
 
 export default function RootLayout({
