@@ -3,17 +3,10 @@
 import { useState, useEffect, useRef, useCallback } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-<<<<<<< HEAD
 import { RotateCcw } from "lucide-react"
-import { AdvancedChessEngine } from "@/lib/advanced-chess-engine" // Corrected import path
+import { AdvancedChessEngine } from "@/lib/advanced-chess-engine"
 import { Badge } from "@/components/ui/badge"
 import { Users, Bot, Crown, Flame } from "lucide-react"
-=======
-import { Brain, RotateCcw } from "lucide-react"
-import { SimpleStockfish, StockfishDifficulty } from "@/lib/simple-stockfish"
-import { Badge } from "@/components/ui/badge"
-import { Users, Bot, Star, Target, Crown, Flame } from "lucide-react"
->>>>>>> 6a7a7de (Updated the website content and design)
 import Image from "next/image"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 
@@ -36,14 +29,7 @@ const pieceImages: { [key: string]: string } = {
   bk: "/images/chess-pieces/demon-king.png",
 }
 
-<<<<<<< HEAD
-const boardSize = 400 // px
-const squareSize = boardSize / 8 // px
-
-// Angel vs Demon Chess Piece Component with Custom Images
-const AngelDemonChessPiece = ({ piece, isSelected, isCheckmate, isDark }) => {
-=======
-const boardSize = 600 // px - Made bigger
+const boardSize = 600 // px
 const squareSize = boardSize / 8 // px
 
 // Angel vs Demon Chess Piece Component with Custom Images
@@ -53,7 +39,6 @@ const AngelDemonChessPiece = ({ piece, isSelected, isCheckmate, isDark }: {
   isCheckmate: boolean
   isDark: boolean
 }) => {
->>>>>>> 6a7a7de (Updated the website content and design)
   if (!piece) return null
 
   const isWhite = piece === piece.toUpperCase()
