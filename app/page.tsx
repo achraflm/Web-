@@ -56,7 +56,6 @@ import ChessGame from "@/components/chess-game"
 import Chatbot from "@/components/chatbot"
 import CTFGame from "@/components/ctf-game"
 import DigitalClock from "@/components/digital-clock"
-import CircuitSimulator from "@/components/circuit-simulator"
 import ScientificCalculator from "@/components/scientific-calculator"
 import GraphingCalculator from "@/components/graphing-calculator"
 
@@ -418,11 +417,10 @@ export default function Portfolio() {
             <Button
               variant="outline"
               size="icon"
-              className={`rounded-full border-2 transition-all duration-300 ${
-                isDark
+              className={`rounded-full border-2 transition-all duration-300 ${isDark
                   ? "border-purple-500 bg-black/50 hover:bg-purple-500/20"
                   : "border-cyan-500 bg-white/50 hover:bg-cyan-500/20"
-              }`}
+                }`}
             >
               <MoreHorizontal className={`h-5 w-5 ${isDark ? "text-purple-400" : "text-cyan-500"}`} />
             </Button>
@@ -462,11 +460,10 @@ export default function Portfolio() {
           onClick={() => setShowAdminLogin("cv")}
           variant="outline"
           size="icon"
-          className={`rounded-full border-2 transition-all duration-300 ${
-            isDark
+          className={`rounded-full border-2 transition-all duration-300 ${isDark
               ? "border-purple-500 bg-black/50 hover:bg-purple-500/20"
               : "border-cyan-500 bg-white/50 hover:bg-cyan-500/20"
-          }`}
+            }`}
         >
           <Upload className={`h-5 w-5 ${isDark ? "text-purple-400" : "text-cyan-500"}`} />
         </Button>
@@ -476,11 +473,10 @@ export default function Portfolio() {
           onClick={() => setShowAdminLogin(isAdmin ? false : "admin")}
           variant="outline"
           size="icon"
-          className={`rounded-full border-2 transition-all duration-300 ${
-            isDark
+          className={`rounded-full border-2 transition-all duration-300 ${isDark
               ? "border-purple-500 bg-black/50 hover:bg-purple-500/20"
               : "border-cyan-500 bg-white/50 hover:bg-cyan-500/20"
-          }`}
+            }`}
         >
           {isAdmin ? (
             <Unlock className="h-5 w-5 text-green-400" />
@@ -494,11 +490,10 @@ export default function Portfolio() {
           onClick={() => setIsDark(!isDark)}
           variant="outline"
           size="icon"
-          className={`rounded-full border-2 transition-all duration-300 ${
-            isDark
+          className={`rounded-full border-2 transition-all duration-300 ${isDark
               ? "border-purple-500 bg-black/50 hover:bg-purple-500/20 hover:shadow-[0_0_20px_rgba(155,89,182,0.5)]"
               : "border-cyan-500 bg-white/50 hover:bg-cyan-500/20 hover:shadow-[0_0_20px_rgba(0,255,255,0.5)]"
-          }`}
+            }`}
         >
           {isDark ? <Sun className="h-5 w-5 text-purple-400" /> : <Moon className="h-5 w-5 text-cyan-500" />}
         </Button>
@@ -580,11 +575,10 @@ export default function Portfolio() {
         <div className="text-center z-10 px-4">
           {/* Profile Picture */}
           <div
-            className={`relative mx-auto mb-8 w-48 h-48 rounded-full overflow-hidden border-4 transition-all duration-300 ${
-              isDark
+            className={`relative mx-auto mb-8 w-48 h-48 rounded-full overflow-hidden border-4 transition-all duration-300 ${isDark
                 ? "border-purple-500 shadow-[0_0_50px_rgba(155,89,182,0.8)]"
                 : "border-cyan-500 shadow-[0_0_50px_rgba(0,255,255,0.8)]"
-            }`}
+              }`}
           >
             <Image
               src={isDark ? "/images/profile-dark.jpg" : "/images/profile-light.jpg"}
@@ -595,17 +589,15 @@ export default function Portfolio() {
               crossOrigin="anonymous"
             />
             <div
-              className={`absolute inset-0 rounded-full animate-pulse ${
-                isDark ? "bg-purple-500/20" : "bg-cyan-500/20"
-              }`}
+              className={`absolute inset-0 rounded-full animate-pulse ${isDark ? "bg-purple-500/20" : "bg-cyan-500/20"
+                }`}
             ></div>
           </div>
 
           {/* Glitch Name Effect */}
           <h1
-            className={`text-6xl md:text-8xl font-bold mb-4 font-orbitron glitch-text ${
-              isDark ? "text-purple-400" : "text-cyan-500"
-            }`}
+            className={`text-6xl md:text-8xl font-bold mb-4 font-orbitron glitch-text ${isDark ? "text-purple-400" : "text-cyan-500"
+              }`}
             data-text="Achraf"
           >
             Achraf
@@ -631,11 +623,10 @@ export default function Portfolio() {
                 key={label}
                 variant="outline"
                 size="lg"
-                className={`rounded-full border-2 transition-all duration-300 hover:scale-110 ${
-                  isDark
+                className={`rounded-full border-2 transition-all duration-300 hover:scale-110 ${isDark
                     ? "border-purple-500 bg-black/50 hover:bg-purple-500/20 hover:shadow-[0_0_30px_rgba(155,89,182,0.8)]"
                     : "border-cyan-500 bg-white/50 hover:bg-cyan-500/20 hover:shadow-[0_0_30px_rgba(0,255,255,0.8)]"
-                }`}
+                  }`}
                 asChild
               >
                 <a href={href} target="_blank" rel="noopener noreferrer">
@@ -650,9 +641,8 @@ export default function Portfolio() {
           <div className={`animate-bounce ${isDark ? "text-purple-400" : "text-cyan-500"}`}>
             <div className="w-6 h-10 border-2 rounded-full mx-auto relative">
               <div
-                className={`w-1 h-3 rounded-full mx-auto mt-2 animate-pulse ${
-                  isDark ? "bg-purple-400" : "bg-cyan-500"
-                }`}
+                className={`w-1 h-3 rounded-full mx-auto mt-2 animate-pulse ${isDark ? "bg-purple-400" : "bg-cyan-500"
+                  }`}
               ></div>
             </div>
           </div>
@@ -664,9 +654,8 @@ export default function Portfolio() {
         <div className="max-w-6xl mx-auto">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <TabsList
-              className={`grid w-full grid-cols-7 mb-12 ${
-                isDark ? "bg-black/50 border border-purple-500/30" : "bg-white/50 border border-cyan-500/30"
-              }`}
+              className={`grid w-full grid-cols-7 mb-12 ${isDark ? "bg-black/50 border border-purple-500/30" : "bg-white/50 border border-cyan-500/30"
+                }`}
             >
               <TabsTrigger
                 value="about"
