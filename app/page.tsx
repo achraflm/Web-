@@ -56,7 +56,9 @@ import ChessGame from "@/components/chess-game"
 import Chatbot from "@/components/chatbot"
 import CTFGame from "@/components/ctf-game"
 import DigitalClock from "@/components/digital-clock"
-
+import CircuitSimulator from "@/components/circuit-simulator"
+import ScientificCalculator from "@/components/scientific-calculator"
+import GraphingCalculator from "@/components/graphing-calculator"
 
 export default function Portfolio() {
   const [isDark, setIsDark] = useState(true)
