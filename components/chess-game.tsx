@@ -36,10 +36,13 @@ export default function ChessGame({ isDark }: { isDark?: boolean }) {
 
   // AI move handler
   useEffect(() => {
-    if (!isPlayerTurn && isThinking === false && gameStatus === "playing") {
-      makeAIMove()
+    if (!isPlayerTurn && !isThinking && gameStatus === "playing") {
+      const timer = setTimeout(() => {
+        makeAIMove()
+      }, 500) // Add slight delay for better UX
+      return () => clearTimeout(timer)
     }
-  }, [isPlayerTurn])
+  }, [isPlayerTurn, gameStatus, gameBoard])
 
   const makeAIMove = async () => {
     setIsThinking(true)
@@ -54,12 +57,21 @@ export default function ChessGame({ isDark }: { isDark?: boolean }) {
         }),
       })
 
-      if (response.ok) {
-        const data = await response.json()
-        const { move } = data
-        const newBoard = gameBoard.map(r => [...r])
-        const [fromRow, fromCol] = move.from
-        const [toRow, toCol] = move.to
+      if (!response.ok) {
+        throw new Error(`API error: ${response.status}`)
+      }
+
+      const data = await response.json()
+      if (!data.move) {
+        throw new Error('No move returned from API')
+      }
+
+      const { move } = data
+      const newBoard = gameBoard.map(r => [...r])
+      const [fromRow, fromCol] = move.from
+      const [toRow, toCol] = move.to
+      
+      if (newBoard[fromRow][fromCol]) {
         newBoard[toRow][toCol] = newBoard[fromRow][fromCol]
         newBoard[fromRow][fromCol] = null
         setGameBoard(newBoard)
@@ -68,7 +80,8 @@ export default function ChessGame({ isDark }: { isDark?: boolean }) {
         setIsPlayerTurn(true)
       }
     } catch (error) {
-      console.error('AI move error:', error)
+      console.error('[v0] AI move error:', error)
+      setIsPlayerTurn(true)
     } finally {
       setIsThinking(false)
     }
@@ -107,7 +120,7 @@ export default function ChessGame({ isDark }: { isDark?: boolean }) {
       }
       for (const offset of [-1, 1]) {
         const target = gameBoard[row + direction]?.[col + offset]
-        if (target && isWhite === (target === target.toLowerCase())) {
+        if (target && isWhite !== (target === target.toLowerCase())) {
           moves.push([row + direction, col + offset])
         }
       }
@@ -119,7 +132,7 @@ export default function ChessGame({ isDark }: { isDark?: boolean }) {
         const nr = row + dr, nc = col + dc
         if (nr >= 0 && nr < 8 && nc >= 0 && nc < 8) {
           const target = gameBoard[nr][nc]
-          if (!target || isWhite === (target === target.toLowerCase())) {
+          if (!target || isWhite !== (target === target.toLowerCase())) {
             moves.push([nr, nc])
           }
         }
@@ -135,7 +148,7 @@ export default function ChessGame({ isDark }: { isDark?: boolean }) {
           if (!target) {
             moves.push([nr, nc])
           } else {
-            if (isWhite === (target === target.toLowerCase())) {
+            if (isWhite !== (target === target.toLowerCase())) {
               moves.push([nr, nc])
             }
             break
@@ -152,7 +165,7 @@ export default function ChessGame({ isDark }: { isDark?: boolean }) {
         const nr = row + dr, nc = col + dc
         if (nr >= 0 && nr < 8 && nc >= 0 && nc < 8) {
           const target = gameBoard[nr][nc]
-          if (!target || isWhite === (target === target.toLowerCase())) {
+          if (!target || isWhite !== (target === target.toLowerCase())) {
             moves.push([nr, nc])
           }
         }
@@ -277,7 +290,6 @@ export default function ChessGame({ isDark }: { isDark?: boolean }) {
                 const isSelected = selectedSquare?.[0] === rowIdx && selectedSquare?.[1] === colIdx
                 const isLegal = legalMoves.some(m => m[0] === rowIdx && m[1] === colIdx)
                 const isLastMove = lastMove && ((lastMove.from[0] === rowIdx && lastMove.from[1] === colIdx) || (lastMove.to[0] === rowIdx && lastMove.to[1] === colIdx))
-                const isHighlighted = highlightedSquares.some(m => m[0] === rowIdx && m[1] === colIdx)
 
                 return (
                   <button
