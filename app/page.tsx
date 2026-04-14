@@ -65,15 +65,13 @@ function Page() {
           <section id="about" className="max-w-7xl mx-auto px-6 py-16">
             <ExpandableTabs defaultValue="projects">
               <ExpandableTabsList className="flex justify-center gap-4 flex-wrap mb-12">
-                <ExpandableTabsTrigger value="projects" className="px-6 py-3 rounded-lg border border-slate-700 hover:border-purple-500 transition-colors text-white font-medium flex items-center gap-2">
-                  <ExternalLink className="w-4 h-4" />
+                <ExpandableTabsTrigger value="projects" icon={ExternalLink} className="px-6 py-3 rounded-lg border border-slate-700 hover:border-purple-500 transition-colors text-white font-medium">
                   Featured Projects
                 </ExpandableTabsTrigger>
-                <ExpandableTabsTrigger value="about" className="px-6 py-3 rounded-lg border border-slate-700 hover:border-cyan-500 transition-colors text-white font-medium">
+                <ExpandableTabsTrigger value="about" icon={Code} className="px-6 py-3 rounded-lg border border-slate-700 hover:border-cyan-500 transition-colors text-white font-medium">
                   About Me
                 </ExpandableTabsTrigger>
-                <ExpandableTabsTrigger value="contact" className="px-6 py-3 rounded-lg border border-slate-700 hover:border-purple-500 transition-colors text-white font-medium flex items-center gap-2">
-                  <Mail className="w-4 h-4" />
+                <ExpandableTabsTrigger value="contact" icon={Mail} className="px-6 py-3 rounded-lg border border-slate-700 hover:border-purple-500 transition-colors text-white font-medium">
                   Contact
                 </ExpandableTabsTrigger>
               </ExpandableTabsList>
