@@ -54,7 +54,14 @@ import Image from "next/image"
 import ChessGame from "@/components/chess-game"
 import Chatbot from "@/components/chatbot"
 import DigitalClock from "@/components/digital-clock"
-import CV3DVisualization from "@/components/cv-3d-visualization"
+import ScrollProgressBar from "@/components/scroll-progress-bar"
+import TypingAnimation from "@/components/typing-animation"
+import ParticleBackground from "@/components/particle-background"
+import FadeInOnScroll from "@/components/fade-in-on-scroll"
+import ProjectCard from "@/components/project-card"
+import Timeline from "@/components/timeline"
+import SkillBadge from "@/components/skill-badge"
+import CVFlatCard from "@/components/cv-flat-card"
 
 export default function Portfolio() {
   const [isDark, setIsDark] = useState(true)
@@ -372,6 +379,9 @@ export default function Portfolio() {
     <div
       className={`min-h-screen transition-all duration-500 relative overflow-hidden ${isDark ? "bg-[#0a0a0a] text-white" : "bg-white text-gray-900"}`}
     >
+      <ScrollProgressBar />
+      <ParticleBackground />
+      
       {/* Hidden file input for CV upload */}
       <input type="file" ref={fileInputRef} onChange={handleFileChange} accept=".pdf" style={{ display: "none" }} />
 
@@ -599,8 +609,17 @@ export default function Portfolio() {
             Achraf
           </h1>
 
-          <h2 className={`text-2xl md:text-3xl mb-6 font-rajdhani ${isDark ? "text-purple-300" : "text-cyan-600"}`}>
-            Developer & Content Editor
+          <h2 className={`text-2xl md:text-3xl mb-6 font-rajdhani min-h-10 ${isDark ? "text-purple-300" : "text-cyan-600"}`}>
+            <TypingAnimation 
+              phrases={[
+                "Developer & Content Editor",
+                "AI & Data Science Student",
+                "CTF & Cybersecurity Explorer",
+                "Quant Finance Enthusiast"
+              ]}
+              speed={50}
+              delayBetweenPhrases={2000}
+            />
           </h2>
 
           <p className="text-lg md:text-xl mb-8 max-w-2xl mx-auto leading-relaxed font-exo">
@@ -652,7 +671,7 @@ export default function Portfolio() {
         <div className="max-w-6xl mx-auto">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <TabsList
-              className={`grid w-full grid-cols-7 mb-12 ${
+              className={`flex justify-center gap-6 mb-12 w-fit mx-auto px-8 py-3 rounded-full ${
                 isDark ? "bg-black/50 border border-purple-500/30" : "bg-white/50 border border-cyan-500/30"
               }`}
             >
@@ -697,17 +716,45 @@ export default function Portfolio() {
 
             {/* About Tab */}
             <TabsContent value="about" className="space-y-8">
-              <div className="text-center">
-                <h2
-                  className={`text-4xl md:text-5xl font-bold mb-8 font-orbitron ${isDark ? "text-purple-400" : "text-cyan-500"}`}
-                >
-                  About N1cht
-                </h2>
-                
-                {/* 3D CV Visualization */}
-                <div className="relative w-full h-screen mb-16 rounded-lg overflow-hidden border-2" style={{ borderColor: isDark ? 'rgba(168, 85, 247, 0.3)' : 'rgba(6, 182, 212, 0.3)' }}>
-                  <CV3DVisualization isDark={isDark} />
+              <FadeInOnScroll>
+                <div className="text-center">
+                  <h2
+                    className={`text-4xl md:text-5xl font-bold mb-8 font-orbitron ${isDark ? "text-purple-400" : "text-cyan-500"}`}
+                  >
+                    About N1cht
+                  </h2>
+                  
+                  {/* Flat CV Card */}
+                  <div className="mb-16">
+                    <CVFlatCard isDark={isDark} />
+                  </div>
+
+                  {/* Education & Experience Timeline */}
+                  <FadeInOnScroll delay={100}>
+                    <div className="mb-16 text-left">
+                      <h3 className={`text-2xl font-rajdhani mb-8 text-center ${isDark ? "text-purple-300" : "text-cyan-600"}`}>
+                        Education & Experience
+                      </h3>
+                      <Timeline 
+                        items={[
+                          {
+                            title: "ENSAM Meknès",
+                            subtitle: "Engineering School",
+                            description: "Currently studying engineering with focus on software development and innovation",
+                            date: "2021 - 2024"
+                          },
+                          {
+                            title: "Bac Sciences Mathématiques",
+                            subtitle: "High School Diploma",
+                            description: "Completed high school with excellence in mathematics and sciences",
+                            date: "2019 - 2021"
+                          }
+                        ]}
+                      />
+                    </div>
+                  </FadeInOnScroll>
                 </div>
+              </FadeInOnScroll>
 
                 <div className="max-w-4xl mx-auto space-y-6">
                   <Card
@@ -791,183 +838,62 @@ export default function Portfolio() {
 
             {/* Skills Tab */}
             <TabsContent value="skills" className="space-y-8">
-              <div className="text-center">
-                <div className="flex justify-between items-center mb-16">
+              <FadeInOnScroll>
+                <div className="text-center">
                   <h2
-                    className={`text-4xl md:text-5xl font-bold font-orbitron ${isDark ? "text-purple-400" : "text-cyan-500"}`}
+                    className={`text-4xl md:text-5xl font-bold mb-16 font-orbitron ${isDark ? "text-purple-400" : "text-cyan-500"}`}
                   >
                     Technical Expertise
                   </h2>
-                  {isAdmin && (
-                    <Button
-                      onClick={() => setEditingSkills(!editingSkills)}
-                      variant="outline"
-                      className={`${isDark ? "border-purple-500/50 hover:bg-purple-500/20" : "border-cyan-500/50 hover:bg-cyan-500/20"}`}
-                    >
-                      <Edit3 className="h-4 w-4 mr-2" />
-                      {editingSkills ? "Save Changes" : "Edit Skills"}
-                    </Button>
-                  )}
-                </div>
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {skills.map((category, categoryIndex) => (
-                    <Card
-                      key={categoryIndex}
-                      className={`p-6 ${isDark ? "bg-black/50 border-purple-500/30 hover:border-purple-500" : "bg-white/50 border-cyan-500/30 hover:border-cyan-500"}`}
-                    >
-                      <CardHeader>
-                        <CardTitle className={`text-lg font-rajdhani ${isDark ? "text-purple-300" : "text-cyan-600"}`}>
-                          {category.category}
-                        </CardTitle>
-                      </CardHeader>
-                      <CardContent className="space-y-4">
-                        {category.skills.map((skill, skillIndex) => (
-                          <div key={skillIndex} className="space-y-2">
-                            <div className="flex justify-between items-center">
-                              <span className="font-exo text-sm">{skill.name}</span>
-                              <div className="flex items-center gap-2">
-                                <span className="text-sm text-gray-400">{skill.level}%</span>
-                                {isAdmin && editingSkills && (
-                                  <Button
-                                    onClick={() => deleteSkill(categoryIndex, skillIndex)}
-                                    variant="outline"
-                                    size="sm"
-                                    className="h-6 w-6 p-0 text-red-400 hover:bg-red-500/20"
-                                  >
-                                    ×
-                                  </Button>
-                                )}
-                              </div>
-                            </div>
-                            {editingSkills && isAdmin ? (
-                              <Slider
-                                value={[skill.level]}
-                                onValueChange={(value) => updateSkillLevel(categoryIndex, skillIndex, value)}
-                                max={100}
-                                step={1}
-                                className={`${isDark ? "accent-purple-500" : "accent-cyan-500"}`}
+                  <div className="space-y-12">
+                    {skills.map((category, categoryIndex) => (
+                      <FadeInOnScroll key={categoryIndex} delay={categoryIndex * 100}>
+                        <div>
+                          <h3 className={`text-2xl font-rajdhani mb-6 text-left ${isDark ? "text-purple-300" : "text-cyan-600"}`}>
+                            {category.category}
+                          </h3>
+                          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {category.skills.map((skill, skillIndex) => (
+                              <SkillBadge
+                                key={skillIndex}
+                                name={skill.name}
+                                level={skill.level}
+                                category={category.category}
                               />
-                            ) : (
-                              <Progress
-                                value={skill.level}
-                                className={`h-2 ${isDark ? "bg-purple-900/30" : "bg-cyan-900/30"}`}
-                              />
-                            )}
+                            ))}
                           </div>
-                        ))}
-
-                        {/* Add New Skill Form */}
-                        {isAdmin && editingSkills && (
-                          <div className="mt-4 p-3 border-t border-gray-600 space-y-2">
-                            <Input
-                              placeholder="New skill name"
-                              value={newSkillName}
-                              onChange={(e) => setNewSkillName(e.target.value)}
-                              className="text-sm"
-                            />
-                            <div className="flex items-center gap-2">
-                              <Slider
-                                value={[newSkillLevel]}
-                                onValueChange={(value) => setNewSkillLevel(value[0])}
-                                max={100}
-                                step={1}
-                                className="flex-1"
-                              />
-                              <span className="text-xs text-gray-400 w-8">{newSkillLevel}%</span>
-                            </div>
-                            <Button
-                              onClick={() => {
-                                setSelectedCategory(categoryIndex)
-                                addSkill()
-                              }}
-                              size="sm"
-                              className={`w-full text-xs ${isDark ? "bg-purple-500 hover:bg-purple-600" : "bg-cyan-500 hover:bg-cyan-600"}`}
-                            >
-                              Add Skill
-                            </Button>
-                          </div>
-                        )}
-                      </CardContent>
-                    </Card>
-                  ))}
+                        </div>
+                      </FadeInOnScroll>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              </FadeInOnScroll>
             </TabsContent>
 
             {/* Projects Tab */}
             <TabsContent value="projects" className="space-y-8">
-              <div className="text-center">
-                <h2
-                  className={`text-4xl md:text-5xl font-bold mb-16 font-orbitron ${isDark ? "text-purple-400" : "text-cyan-500"}`}
-                >
-                  My Projects
-                </h2>
-                <div className="grid md:grid-cols-2 gap-8">
-                  {projects.map((project) => (
-                    <Card
-                      key={project.id}
-                      className={`group cursor-pointer transition-all duration-500 hover:scale-105 tilt-card ${isDark ? "bg-black/50 border-purple-500/30 hover:border-purple-500 hover:shadow-[0_0_40px_rgba(155,89,182,0.4)]" : "bg-white/50 border-cyan-500/30 hover:border-cyan-500 hover:shadow-[0_0_40px_rgba(0,255,255,0.4)]"}`}
-                    >
-                      <CardContent className="p-0">
-                        <div className="relative overflow-hidden rounded-t-lg">
-                          <Image
-                            src={project.image || "/placeholder.svg"}
-                            alt={project.title}
-                            width={300}
-                            height={200}
-                            className="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-110"
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <div className="absolute bottom-4 right-4">
-                              <ExternalLink className={`h-6 w-6 ${isDark ? "text-purple-400" : "text-cyan-500"}`} />
-                            </div>
-                          </div>
-                          <div
-                            className={`absolute top-4 left-4 px-3 py-1 rounded-full text-sm font-semibold ${project.status === "completed" ? "bg-green-500/80 text-white" : project.status === "in-progress" ? "bg-yellow-500/80 text-white" : "bg-blue-500/80 text-white"}`}
-                          >
-                            {project.status}
-                          </div>
-                        </div>
-                        <div className="p-6">
-                          <h3
-                            className={`text-xl font-bold mb-3 font-rajdhani ${isDark ? "text-purple-300" : "text-cyan-600"}`}
-                          >
-                            {project.title}
-                          </h3>
-                          <p className="text-gray-400 mb-4 font-exo">{project.description}</p>
-
-                          {/* Project Stats */}
-                          <div className="flex items-center gap-4 mb-4 text-sm text-gray-400">
-                            <div className="flex items-center gap-1">
-                              <Star className="h-4 w-4" />
-                              {project.stars}
-                            </div>
-                            <div className="flex items-center gap-1">
-                              <Share2 className="h-4 w-4" />
-                              {project.forks}
-                            </div>
-                            <div className="flex items-center gap-1">
-                              <Eye className="h-4 w-4" />
-                              {project.views}
-                            </div>
-                          </div>
-
-                          <div className="flex flex-wrap gap-2">
-                            {project.tech.map((tech, techIndex) => (
-                              <span
-                                key={techIndex}
-                                className={`px-3 py-1 rounded-full text-sm font-semibold ${isDark ? "bg-purple-500/20 text-purple-300 border border-purple-500/30" : "bg-cyan-500/20 text-cyan-600 border border-cyan-500/30"}`}
-                              >
-                                {tech}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
+              <FadeInOnScroll>
+                <div className="text-center">
+                  <h2
+                    className={`text-4xl md:text-5xl font-bold mb-16 font-orbitron ${isDark ? "text-purple-400" : "text-cyan-500"}`}
+                  >
+                    My Projects
+                  </h2>
+                  <div className="grid md:grid-cols-2 gap-8">
+                    {projects.map((project, index) => (
+                      <FadeInOnScroll key={project.id} delay={index * 100}>
+                        <ProjectCard
+                          name={project.title}
+                          description={project.description}
+                          techStack={project.tech}
+                          githubLink={project.githubLink}
+                          liveLink={project.liveLink}
+                        />
+                      </FadeInOnScroll>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              </FadeInOnScroll>
             </TabsContent>
 
             {/* Design & Video Tab */}
