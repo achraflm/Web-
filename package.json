@@ -9,6 +9,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@emotion/is-prop-valid": "latest",
     "@radix-ui/react-accordion": "latest",
     "@radix-ui/react-alert-dialog": "latest",
     "@radix-ui/react-aspect-ratio": "latest",
@@ -37,48 +38,32 @@
     "@radix-ui/react-toggle": "latest",
     "@radix-ui/react-toggle-group": "latest",
     "@radix-ui/react-tooltip": "latest",
-<<<<<<< HEAD
-    "chess.js": "latest",
-    "child_process": "latest",
-=======
     "chess.js": "^1.4.0",
->>>>>>> 6a7a7de (Updated the website content and design)
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "latest",
     "embla-carousel-react": "latest",
+    "framer-motion": "12.23.24",
     "input-otp": "latest",
-<<<<<<< HEAD
-    "lucide-react": "^0.454.0",
-    "next": "15.2.4",
-    "next-themes": "latest",
-    "path": "latest",
-=======
     "konva": "^10.0.2",
     "lucide-react": "^0.454.0",
     "mathjs": "^14.7.0",
+    "motion": "12.23.24",
     "next": "15.2.4",
     "next-themes": "latest",
->>>>>>> 6a7a7de (Updated the website content and design)
     "react": "^19",
     "react-day-picker": "latest",
     "react-dom": "^19",
     "react-hook-form": "latest",
-<<<<<<< HEAD
-    "react-resizable-panels": "latest",
-    "recharts": "latest",
-    "sonner": "latest",
-    "stockfish": "latest",
-=======
     "react-konva": "^19.0.10",
     "react-resizable-panels": "latest",
     "reactflow": "^11.11.4",
     "recharts": "latest",
     "sonner": "latest",
     "stockfish": "^16.0.0",
->>>>>>> 6a7a7de (Updated the website content and design)
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7",
+    "usehooks-ts": "3.1.1",
     "vaul": "latest"
   },
   "devDependencies": {
@@ -92,8 +77,4 @@
     "tailwindcss": "^3.4.17",
     "typescript": "^5"
   }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 6a7a7de (Updated the website content and design)

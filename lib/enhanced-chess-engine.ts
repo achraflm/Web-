@@ -334,6 +334,3 @@ export class EnhancedChessEngine {
     this.stockfish.destroy()
   }
 }
-
-
-
