@@ -62,6 +62,10 @@ import ProjectCard from "@/components/project-card"
 import Timeline from "@/components/timeline"
 import SkillBadge from "@/components/skill-badge"
 import CVFlatCard from "@/components/cv-flat-card"
+import CursorSpotlight from "@/components/cursor-spotlight"
+import KonamiEasterEgg from "@/components/konami-easter-egg"
+import NowPlayingWidget from "@/components/now-playing-widget"
+import DownloadCVButton from "@/components/download-cv-button"
 
 export default function Portfolio() {
   const [isDark, setIsDark] = useState(true)
@@ -381,6 +385,9 @@ export default function Portfolio() {
     >
       <ScrollProgressBar />
       <ParticleBackground />
+      <CursorSpotlight />
+      <KonamiEasterEgg />
+      <NowPlayingWidget />
       
       {/* Hidden file input for CV upload */}
       <input type="file" ref={fileInputRef} onChange={handleFileChange} accept=".pdf" style={{ display: "none" }} />
@@ -414,7 +421,7 @@ export default function Portfolio() {
       )}
 
       {/* Top Navigation */}
-      <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 flex gap-2">
+      <div className="fixed top-6 right-6 z-50 flex gap-2">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
@@ -671,34 +678,34 @@ export default function Portfolio() {
         <div className="max-w-6xl mx-auto">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <TabsList
-              className={`flex justify-center gap-6 mb-12 w-fit mx-auto px-8 py-3 rounded-full ${
-                isDark ? "bg-black/50 border border-purple-500/30" : "bg-white/50 border border-cyan-500/30"
+              className={`w-full flex mb-12 rounded-none ${
+                isDark ? "bg-black/70 border-b border-purple-500/30" : "bg-white/70 border-b border-cyan-500/30"
               }`}
             >
               <TabsTrigger
                 value="about"
-                className={`flex items-center gap-2 font-rajdhani ${isDark ? "data-[state=active]:bg-purple-500/20 data-[state=active]:text-purple-300" : "data-[state=active]:bg-cyan-500/20 data-[state=active]:text-cyan-600"}`}
+                className={`flex-1 flex items-center justify-center gap-2 font-rajdhani rounded-none border-b-2 transition-all ${isDark ? "border-b-purple-500/0 data-[state=active]:border-b-purple-500 data-[state=active]:bg-purple-500/10 data-[state=active]:text-purple-300 text-gray-400 hover:text-gray-200" : "border-b-cyan-500/0 data-[state=active]:border-b-cyan-500 data-[state=active]:bg-cyan-500/10 data-[state=active]:text-cyan-600"}`}
               >
                 <User className="h-4 w-4" />
                 About
               </TabsTrigger>
               <TabsTrigger
                 value="skills"
-                className={`flex items-center gap-2 font-rajdhani ${isDark ? "data-[state=active]:bg-purple-500/20 data-[state=active]:text-purple-300" : "data-[state=active]:bg-cyan-500/20 data-[state=active]:text-cyan-600"}`}
+                className={`flex-1 flex items-center justify-center gap-2 font-rajdhani rounded-none border-b-2 transition-all ${isDark ? "border-b-purple-500/0 data-[state=active]:border-b-purple-500 data-[state=active]:bg-purple-500/10 data-[state=active]:text-purple-300 text-gray-400 hover:text-gray-200" : "border-b-cyan-500/0 data-[state=active]:border-b-cyan-500 data-[state=active]:bg-cyan-500/10 data-[state=active]:text-cyan-600"}`}
               >
                 <Target className="h-4 w-4" />
                 Skills
               </TabsTrigger>
               <TabsTrigger
                 value="projects"
-                className={`flex items-center gap-2 font-rajdhani ${isDark ? "data-[state=active]:bg-purple-500/20 data-[state=active]:text-purple-300" : "data-[state=active]:bg-cyan-500/20 data-[state=active]:text-cyan-600"}`}
+                className={`flex-1 flex items-center justify-center gap-2 font-rajdhani rounded-none border-b-2 transition-all ${isDark ? "border-b-purple-500/0 data-[state=active]:border-b-purple-500 data-[state=active]:bg-purple-500/10 data-[state=active]:text-purple-300 text-gray-400 hover:text-gray-200" : "border-b-cyan-500/0 data-[state=active]:border-b-cyan-500 data-[state=active]:bg-cyan-500/10 data-[state=active]:text-cyan-600"}`}
               >
                 <Briefcase className="h-4 w-4" />
                 Projects
               </TabsTrigger>
               <TabsTrigger
                 value="media"
-                className={`flex items-center gap-2 font-rajdhani ${isDark ? "data-[state=active]:bg-purple-500/20 data-[state=active]:text-purple-300" : "data-[state=active]:bg-cyan-500/20 data-[state=active]:text-cyan-600"}`}
+                className={`flex-1 flex items-center justify-center gap-2 font-rajdhani rounded-none border-b-2 transition-all ${isDark ? "border-b-purple-500/0 data-[state=active]:border-b-purple-500 data-[state=active]:bg-purple-500/10 data-[state=active]:text-purple-300 text-gray-400 hover:text-gray-200" : "border-b-cyan-500/0 data-[state=active]:border-b-cyan-500 data-[state=active]:bg-cyan-500/10 data-[state=active]:text-cyan-600"}`}
               >
                 <Video className="h-4 w-4" />
                 Design & Video
@@ -706,7 +713,7 @@ export default function Portfolio() {
               {isAdmin && (
                 <TabsTrigger
                   value="admin"
-                  className={`flex items-center gap-2 font-rajdhani ${isDark ? "data-[state=active]:bg-purple-500/20 data-[state=active]:text-purple-300" : "data-[state=active]:bg-cyan-500/20 data-[state=active]:text-cyan-600"}`}
+                  className={`flex-1 flex items-center justify-center gap-2 font-rajdhani rounded-none border-b-2 transition-all ${isDark ? "border-b-purple-500/0 data-[state=active]:border-b-purple-500 data-[state=active]:bg-purple-500/10 data-[state=active]:text-purple-300 text-gray-400 hover:text-gray-200" : "border-b-cyan-500/0 data-[state=active]:border-b-cyan-500 data-[state=active]:bg-cyan-500/10 data-[state=active]:text-cyan-600"}`}
                 >
                   <Settings className="h-4 w-4" />
                   Admin
@@ -724,9 +731,9 @@ export default function Portfolio() {
                     About N1cht
                   </h2>
                   
-                  {/* Flat CV Card */}
+                  {/* Download CV Button */}
                   <div className="mb-16">
-                    <CVFlatCard isDark={isDark} />
+                    <DownloadCVButton />
                   </div>
 
                   {/* Education & Experience Timeline */}
