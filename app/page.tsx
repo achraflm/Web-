@@ -54,6 +54,7 @@ import Image from "next/image"
 import ChessGame from "@/components/chess-game"
 import Chatbot from "@/components/chatbot"
 import DigitalClock from "@/components/digital-clock"
+import CV3DVisualization from "@/components/cv-3d-visualization"
 
 export default function Portfolio() {
   const [isDark, setIsDark] = useState(true)
@@ -403,7 +404,7 @@ export default function Portfolio() {
       )}
 
       {/* Top Navigation */}
-      <div className="fixed top-6 right-6 z-50 flex gap-2">
+      <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 flex gap-2">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
@@ -702,6 +703,12 @@ export default function Portfolio() {
                 >
                   About N1cht
                 </h2>
+                
+                {/* 3D CV Visualization */}
+                <div className="relative w-full h-screen mb-16 rounded-lg overflow-hidden border-2" style={{ borderColor: isDark ? 'rgba(168, 85, 247, 0.3)' : 'rgba(6, 182, 212, 0.3)' }}>
+                  <CV3DVisualization isDark={isDark} />
+                </div>
+
                 <div className="max-w-4xl mx-auto space-y-6">
                   <Card
                     className={`p-8 ${isDark ? "bg-black/50 border-purple-500/30 hover:border-purple-500 hover:shadow-[0_0_30px_rgba(155,89,182,0.3)]" : "bg-white/50 border-cyan-500/30 hover:border-cyan-500 hover:shadow-[0_0_30px_rgba(0,255,255,0.3)]"}`}
