@@ -208,6 +208,8 @@ export default function Portfolio() {
       stars: 234,
       forks: 45,
       views: 1250,
+      githubLink: "https://github.com",
+      liveLink: "https://example.com",
     },
     {
       id: 2,
@@ -219,6 +221,8 @@ export default function Portfolio() {
       stars: 189,
       forks: 32,
       views: 890,
+      githubLink: "https://github.com",
+      liveLink: "https://example.com",
     },
     {
       id: 3,
@@ -230,6 +234,8 @@ export default function Portfolio() {
       stars: 156,
       forks: 28,
       views: 675,
+      githubLink: "https://github.com",
+      liveLink: "https://example.com",
     },
     {
       id: 4,
@@ -241,6 +247,8 @@ export default function Portfolio() {
       stars: 98,
       forks: 15,
       views: 432,
+      githubLink: "https://github.com",
+      liveLink: "https://example.com",
     },
   ]
 
@@ -684,28 +692,28 @@ export default function Portfolio() {
             >
               <TabsTrigger
                 value="about"
-                className={`flex-1 flex items-center justify-center gap-2 font-rajdhani rounded-none border-b-2 transition-all ${isDark ? "border-b-purple-500/0 data-[state=active]:border-b-purple-500 data-[state=active]:bg-purple-500/10 data-[state=active]:text-purple-300 text-gray-400 hover:text-gray-200" : "border-b-cyan-500/0 data-[state=active]:border-b-cyan-500 data-[state=active]:bg-cyan-500/10 data-[state=active]:text-cyan-600"}`}
+                className={`flex-1 flex items-center justify-center gap-2 font-rajdhani rounded-none border-b-2 transition-all ${isDark ? "border-b-purple-500/0 data-[state=active]:border-b-purple-500 data-[state=active]:bg-purple-500/10 data-[state=active]:text-purple-300 data-[state=active]:shadow-[0_2px_20px_rgba(147,51,234,0.5)] text-gray-400 hover:text-gray-200" : "border-b-cyan-500/0 data-[state=active]:border-b-cyan-500 data-[state=active]:bg-cyan-500/10 data-[state=active]:text-cyan-600 data-[state=active]:shadow-[0_2px_20px_rgba(6,182,212,0.5)]"}`}
               >
                 <User className="h-4 w-4" />
                 About
               </TabsTrigger>
               <TabsTrigger
                 value="skills"
-                className={`flex-1 flex items-center justify-center gap-2 font-rajdhani rounded-none border-b-2 transition-all ${isDark ? "border-b-purple-500/0 data-[state=active]:border-b-purple-500 data-[state=active]:bg-purple-500/10 data-[state=active]:text-purple-300 text-gray-400 hover:text-gray-200" : "border-b-cyan-500/0 data-[state=active]:border-b-cyan-500 data-[state=active]:bg-cyan-500/10 data-[state=active]:text-cyan-600"}`}
+                className={`flex-1 flex items-center justify-center gap-2 font-rajdhani rounded-none border-b-2 transition-all ${isDark ? "border-b-purple-500/0 data-[state=active]:border-b-purple-500 data-[state=active]:bg-purple-500/10 data-[state=active]:text-purple-300 data-[state=active]:shadow-[0_2px_20px_rgba(147,51,234,0.5)] text-gray-400 hover:text-gray-200" : "border-b-cyan-500/0 data-[state=active]:border-b-cyan-500 data-[state=active]:bg-cyan-500/10 data-[state=active]:text-cyan-600 data-[state=active]:shadow-[0_2px_20px_rgba(6,182,212,0.5)]"}`}
               >
                 <Target className="h-4 w-4" />
                 Skills
               </TabsTrigger>
               <TabsTrigger
                 value="projects"
-                className={`flex-1 flex items-center justify-center gap-2 font-rajdhani rounded-none border-b-2 transition-all ${isDark ? "border-b-purple-500/0 data-[state=active]:border-b-purple-500 data-[state=active]:bg-purple-500/10 data-[state=active]:text-purple-300 text-gray-400 hover:text-gray-200" : "border-b-cyan-500/0 data-[state=active]:border-b-cyan-500 data-[state=active]:bg-cyan-500/10 data-[state=active]:text-cyan-600"}`}
+                className={`flex-1 flex items-center justify-center gap-2 font-rajdhani rounded-none border-b-2 transition-all ${isDark ? "border-b-purple-500/0 data-[state=active]:border-b-purple-500 data-[state=active]:bg-purple-500/10 data-[state=active]:text-purple-300 data-[state=active]:shadow-[0_2px_20px_rgba(147,51,234,0.5)] text-gray-400 hover:text-gray-200" : "border-b-cyan-500/0 data-[state=active]:border-b-cyan-500 data-[state=active]:bg-cyan-500/10 data-[state=active]:text-cyan-600 data-[state=active]:shadow-[0_2px_20px_rgba(6,182,212,0.5)]"}`}
               >
                 <Briefcase className="h-4 w-4" />
                 Projects
               </TabsTrigger>
               <TabsTrigger
                 value="media"
-                className={`flex-1 flex items-center justify-center gap-2 font-rajdhani rounded-none border-b-2 transition-all ${isDark ? "border-b-purple-500/0 data-[state=active]:border-b-purple-500 data-[state=active]:bg-purple-500/10 data-[state=active]:text-purple-300 text-gray-400 hover:text-gray-200" : "border-b-cyan-500/0 data-[state=active]:border-b-cyan-500 data-[state=active]:bg-cyan-500/10 data-[state=active]:text-cyan-600"}`}
+                className={`flex-1 flex items-center justify-center gap-2 font-rajdhani rounded-none border-b-2 transition-all ${isDark ? "border-b-purple-500/0 data-[state=active]:border-b-purple-500 data-[state=active]:bg-purple-500/10 data-[state=active]:text-purple-300 data-[state=active]:shadow-[0_2px_20px_rgba(147,51,234,0.5)] text-gray-400 hover:text-gray-200" : "border-b-cyan-500/0 data-[state=active]:border-b-cyan-500 data-[state=active]:bg-cyan-500/10 data-[state=active]:text-cyan-600 data-[state=active]:shadow-[0_2px_20px_rgba(6,182,212,0.5)]"}`}
               >
                 <Video className="h-4 w-4" />
                 Design & Video
@@ -713,7 +721,7 @@ export default function Portfolio() {
               {isAdmin && (
                 <TabsTrigger
                   value="admin"
-                  className={`flex-1 flex items-center justify-center gap-2 font-rajdhani rounded-none border-b-2 transition-all ${isDark ? "border-b-purple-500/0 data-[state=active]:border-b-purple-500 data-[state=active]:bg-purple-500/10 data-[state=active]:text-purple-300 text-gray-400 hover:text-gray-200" : "border-b-cyan-500/0 data-[state=active]:border-b-cyan-500 data-[state=active]:bg-cyan-500/10 data-[state=active]:text-cyan-600"}`}
+                  className={`flex-1 flex items-center justify-center gap-2 font-rajdhani rounded-none border-b-2 transition-all ${isDark ? "border-b-purple-500/0 data-[state=active]:border-b-purple-500 data-[state=active]:bg-purple-500/10 data-[state=active]:text-purple-300 data-[state=active]:shadow-[0_2px_20px_rgba(147,51,234,0.5)] text-gray-400 hover:text-gray-200" : "border-b-cyan-500/0 data-[state=active]:border-b-cyan-500 data-[state=active]:bg-cyan-500/10 data-[state=active]:text-cyan-600 data-[state=active]:shadow-[0_2px_20px_rgba(6,182,212,0.5)]"}`}
                 >
                   <Settings className="h-4 w-4" />
                   Admin

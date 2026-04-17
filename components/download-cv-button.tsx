@@ -11,15 +11,17 @@ export default function DownloadCVButton() {
     setIsDownloading(true)
     
     try {
-      // Create a link to download the CV
+      // Try to download the CV file
       const link = document.createElement('a')
       link.href = '/cv_Achraf_Lemrani.pdf'
       link.download = 'Achraf_Lemrani_CV.pdf'
+      link.target = '_blank'
       document.body.appendChild(link)
       link.click()
       document.body.removeChild(link)
     } catch (error) {
       console.log('[v0] Download failed:', error)
+      alert('CV file not available. Please try again later.')
     } finally {
       setIsDownloading(false)
     }
