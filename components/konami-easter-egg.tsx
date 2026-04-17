@@ -17,33 +17,36 @@ const keyframeStyles = `
   }
 `
 
-if (typeof document !== 'undefined' && !document.getElementById('konami-styles')) {
-  const style = document.createElement('style')
-  style.id = 'konami-styles'
-  style.textContent = keyframeStyles
-  document.head.appendChild(style)
-}
-
 export default function KonamiEasterEgg() {
   const [keySequence, setKeySequence] = useState<string[]>([])
   const [showRain, setShowRain] = useState(false)
 
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      const newSequence = [...keySequence, e.key]
-      const lastTen = newSequence.slice(-10)
-      setKeySequence(lastTen)
+    // Inject keyframe styles on mount
+    if (typeof document !== 'undefined' && !document.getElementById('konami-styles')) {
+      const style = document.createElement('style')
+      style.id = 'konami-styles'
+      style.textContent = keyframeStyles
+      document.head.appendChild(style)
+    }
 
-      if (lastTen.join('') === KONAMI_CODE.join('')) {
-        setShowRain(true)
-        setTimeout(() => setShowRain(false), 3000)
-        setKeySequence([])
-      }
+    const handleKeyDown = (e: KeyboardEvent) => {
+      setKeySequence((prevSequence) => {
+        const newSequence = [...prevSequence, e.key]
+        const lastTen = newSequence.slice(-10)
+
+        if (lastTen.join('') === KONAMI_CODE.join('')) {
+          setShowRain(true)
+          setTimeout(() => setShowRain(false), 3000)
+          return []
+        }
+        return lastTen
+      })
     }
 
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [keySequence])
+  }, [])
 
   if (!showRain) return null
 
